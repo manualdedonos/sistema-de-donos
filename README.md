@@ -6,14 +6,14 @@ Skills do Manual de Donos para o empresário usar no Claude (app, claude.ai, Cow
 
 1. Abra o Claude e vá em **Customize › Plugins**.
 2. Clique em **Add › Add marketplace › Add from a repository**.
-3. Cole `manualdedonos/kit-do-dono`.
+3. Cole `manualdedonos/sistema-de-donos`.
 4. Em **Plugins**, clique em **Add** no **Kit do Dono**.
 5. Teste: escreva "testar o kit do dono".
 
 ## Instalar no Claude Code
 
 ```
-claude plugin marketplace add manualdedonos/kit-do-dono
+claude plugin marketplace add manualdedonos/sistema-de-donos
 claude plugin install kit-do-dono@kit-do-dono
 ```
 
