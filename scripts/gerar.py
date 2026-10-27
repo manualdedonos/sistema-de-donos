@@ -3,7 +3,7 @@ Uso: python3 scripts/gerar.py   (na raiz do repositório)"""
 import json, os, sys
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 cat = json.load(open(os.path.join(RAIZ, "catalogo.json"), encoding="utf-8"))
-pasta_skills = os.path.join(RAIZ, "plugins", "kit-do-dono", "skills")
+pasta_skills = os.path.join(RAIZ, "plugins", "sistema-de-donos", "skills")
 
 # Toda skill do catálogo tem que existir no plugin, e vice-versa: o catálogo não pode mentir.
 no_plugin = {d for d in os.listdir(pasta_skills) if os.path.isfile(os.path.join(pasta_skills, d, "SKILL.md"))} - {"boas-vindas"}
@@ -26,7 +26,7 @@ for s in cat["skills"]:
         os.makedirs(destino, exist_ok=True)
         shutil.copyfile(origem, os.path.join(destino, ref))
 
-versao = json.load(open(os.path.join(RAIZ, "plugins", "kit-do-dono", ".claude-plugin", "plugin.json")))["version"]
+versao = json.load(open(os.path.join(RAIZ, "plugins", "sistema-de-donos", ".claude-plugin", "plugin.json")))["version"]
 linhas = []
 for area in cat["areas"]:
     itens = [s for s in cat["skills"] if s["area"] == area]
@@ -36,12 +36,12 @@ for area in cat["areas"]:
     linhas += [f"   - **{s['nome']}**: {s['paraQue']}" + (f" (só no {s['onde']} no computador)" if s.get("onde") else "") for s in itens]
 boas_vindas = f"""---
 name: boas-vindas
-description: Confirma que o Kit do Dono está instalado e mostra as skills do Manual de Donos que vêm nele. Use quando o usuário disser "kit do dono", "testar o kit", "o kit está funcionando?" ou pedir para ver as skills do Manual de Donos.
+description: Confirma que o Sistema de Donos está instalado e mostra as skills do Manual de Donos que vêm nele. Use quando o usuário disser "sistema de donos", "testar o sistema", "o sistema está funcionando?" ou pedir para ver as skills do Manual de Donos.
 ---
 
 Responda em português, em tom direto e acolhedor:
 
-1. Confirme: "O Kit do Dono está instalado e funcionando (versão {versao}), com {len(cat['skills'])} skills do Manual de Donos."
+1. Confirme: "O Sistema de Donos está instalado e funcionando (versão {versao}), com {len(cat['skills'])} skills do Manual de Donos."
 2. Liste as skills por área, uma linha cada:
 {chr(10).join(linhas)}
 3. Termine com um exemplo de pedido que ele pode fazer agora: "{cat['skills'][0]['exemplo']}"

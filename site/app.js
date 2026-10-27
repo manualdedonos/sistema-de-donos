@@ -84,7 +84,7 @@ function corpoDoPlano() {
   ).join("");
   const bloqueio =
     estado.plano && !planoAceitaPlugins(estado.plano)
-      ? `<p class="alerta"><strong>No plano Free não há plugins.</strong> O Kit do Dono precisa de um plano pago: Pro, Max, Team ou Enterprise.</p>`
+      ? `<p class="alerta"><strong>No plano Free não há plugins.</strong> O Sistema de Donos precisa de um plano pago: Pro, Max, Team ou Enterprise.</p>`
       : "";
   return `<div class="opcoes">${opcoes}</div>${bloqueio}`;
 }
@@ -127,7 +127,7 @@ function telaConcluida() {
   return `
     <section class="pronto" id="pronto">
       <p class="sobretitulo">Instalação concluída</p>
-      <h2>Pronto. O Kit do Dono está no seu Claude.</h2>
+      <h2>Pronto. O Sistema de Donos está no seu Claude.</h2>
       <p>Agora é só conversar normalmente. Escolha uma skill abaixo, copie o exemplo e cole num chat novo.</p>
       <a class="botao botao-escuro" href="#skills">Ver as skills ↓</a>
     </section>`;
@@ -252,7 +252,7 @@ async function copiar(botao) {
     botao.textContent = "Copiado ✓";
   } catch (erro) {
     // Sem permissão de área de transferência (ex.: página aberta como arquivo): pede cópia manual.
-    console.warn("Kit do Dono: não foi possível copiar automaticamente.", erro);
+    console.warn("Sistema de Donos: não foi possível copiar automaticamente.", erro);
     botao.textContent = "Selecione e copie";
   }
   setTimeout(() => (botao.textContent = "Copiar"), 2000);

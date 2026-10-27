@@ -3,7 +3,7 @@
 
 export const MARKETPLACE = "manualdedonos/sistema-de-donos";
 export const URL_CLAUDE = "https://claude.ai";
-export const FRASE_TESTE = "testar o kit do dono";
+export const FRASE_TESTE = "testar o sistema de donos";
 
 // Nomes dos menus como aparecem no Claude, por idioma da interface dele.
 // Conferidos em print do app em português: personalizacao, adicionarMarketplace,
@@ -50,7 +50,7 @@ export const PASSOS = [
     id: "plano",
     titulo: "Qual é o seu plano?",
     tempo: "10 s",
-    intro: "O Kit do Dono roda nos planos pagos do Claude. Marque o seu para seguir.",
+    intro: "O Sistema de Donos roda nos planos pagos do Claude. Marque o seu para seguir.",
   },
   {
     id: "execucao",
@@ -75,24 +75,24 @@ export const PASSOS = [
     acoes: [
       {
         texto: (m) => `No menu da esquerda do Claude, clique em **${m.personalizacao}**.`,
-        imagem: { arquivo: "/kit-de-dono/img/menu-personalizacao.png", alt: "Menu lateral do Claude com Personalização marcado em laranja" },
+        imagem: { arquivo: "/sistema-de-donos/img/menu-personalizacao.png", alt: "Menu lateral do Claude com Personalização marcado em laranja" },
       },
       { texto: (m) => `Abra a aba **${m.plugins}**.` },
       { texto: (m) => `Clique em **${m.adicionar}** e escolha **${m.adicionarMarketplace}**.` },
       { texto: () => "Copie o endereço abaixo e cole no campo **URL** (marcado com 1 na imagem).", copiar: MARKETPLACE },
       {
         texto: (m) => `Confira se **${m.sincronizarAuto}** está ligado, em azul (2), e clique em **${m.sincronizar}** (3).`,
-        imagem: { arquivo: "/kit-de-dono/img/janela-marketplace.png", alt: "Janela Adicionar marketplace com o campo URL, o botão Sincronizar automaticamente e o botão Sincronizar marcados" },
+        imagem: { arquivo: "/sistema-de-donos/img/janela-marketplace.png", alt: "Janela Adicionar marketplace com o campo URL, o botão Sincronizar automaticamente e o botão Sincronizar marcados" },
       },
     ],
-    aviso: (m) => `Com “${m.sincronizarAuto}” ligado, o Claude mantém o Kit atualizado quando o Manual de Donos publicar novidades.`,
+    aviso: (m) => `Com “${m.sincronizarAuto}” ligado, o Claude mantém o Sistema atualizado quando o Manual de Donos publicar novidades.`,
   },
   {
     id: "instalar",
-    titulo: "Instale o Kit do Dono",
+    titulo: "Instale o Sistema de Donos",
     tempo: "15 s",
     acoes: [
-      { texto: (m) => `Ainda em **${m.personalizacao} › ${m.plugins}**, procure **Kit do Dono** na lista.` },
+      { texto: (m) => `Ainda em **${m.personalizacao} › ${m.plugins}**, procure **Sistema de Donos** na lista.` },
       { texto: (m) => `Clique em **${m.adicionar}** ao lado dele.` },
     ],
   },
@@ -103,7 +103,7 @@ export const PASSOS = [
     acoes: [
       { texto: () => "Abra um **chat novo** no Claude." },
       { texto: () => "Copie a frase abaixo, cole no chat e envie.", copiar: FRASE_TESTE },
-      { texto: () => "O Claude deve responder que o **Kit do Dono está instalado** e listar as skills." },
+      { texto: () => "O Claude deve responder que o **Sistema de Donos está instalado** e listar as skills." },
     ],
   },
 ];
@@ -124,7 +124,7 @@ export const PROBLEMAS = [
   {
     sintoma: "Enviei a frase de teste e o Claude não reconheceu",
     solucao: (m) =>
-      `Abra um chat novo: um chat que já estava aberto não enxerga o que você acabou de instalar. Depois confira em ${m.personalizacao} › ${m.plugins} se o Kit do Dono aparece como instalado e ativado, e se a execução de código está ligada em ${m.configuracoes} › ${m.capacidades}.`,
+      `Abra um chat novo: um chat que já estava aberto não enxerga o que você acabou de instalar. Depois confira em ${m.personalizacao} › ${m.plugins} se o Sistema de Donos aparece como instalado e ativado, e se a execução de código está ligada em ${m.configuracoes} › ${m.capacidades}.`,
   },
   {
     sintoma: "Instalei pela aba de código do app desktop",

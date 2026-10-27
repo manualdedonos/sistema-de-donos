@@ -1,11 +1,11 @@
 ---
 name: boas-vindas
-description: Confirma que o Kit do Dono está instalado e mostra as skills do Manual de Donos que vêm nele. Use quando o usuário disser "kit do dono", "testar o kit", "o kit está funcionando?" ou pedir para ver as skills do Manual de Donos.
+description: Confirma que o Sistema de Donos está instalado e mostra as skills do Manual de Donos que vêm nele. Use quando o usuário disser "sistema de donos", "testar o sistema", "o sistema está funcionando?" ou pedir para ver as skills do Manual de Donos.
 ---
 
 Responda em português, em tom direto e acolhedor:
 
-1. Confirme: "O Kit do Dono está instalado e funcionando (versão 1.5.0), com 23 skills do Manual de Donos."
+1. Confirme: "O Sistema de Donos está instalado e funcionando (versão 2.0.0), com 23 skills do Manual de Donos."
 2. Liste as skills por área, uma linha cada:
    **IA no negócio**
    - **Head de IA**: Descobre onde a IA rende mais no seu negócio e monta um plano priorizado.
