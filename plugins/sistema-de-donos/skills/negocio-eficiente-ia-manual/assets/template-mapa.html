@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mapa da Operação Eficiente</title>
+<!--
+  COMO PREENCHER (leia antes):
+  0. São 15 casos (5 frentes × 3) mais as variantes do setor, se houver.
+  1. Só edite o bloco de dados no FIM do arquivo (a tag script com id "dados", logo antes do script de renderização). Não mexa no HTML nem no CSS.
+     Atenção: não cole o JSON aqui neste comentário; se a página renderizar vazia, foi isso.
+  2. É JSON: strings entre aspas duplas; dentro de uma string, use aspas simples ou aspas curvas (“ ”), nunca aspas duplas sem escape.
+     Quebra de linha dentro de string = \n. Não deixe vírgula sobrando no último item de uma lista.
+  3. "quadrante" aceita: "agora" (impacto alto, esforço baixo) | "projeto" (impacto alto, esforço maior) | "rapido" (impacto médio, esforço baixo) | "depois".
+  4. "top": 1, 2 ou 3 para o Top 3; 0 para os demais. Os chips ficam ordenados pelo rank dentro de cada quadrante.
+     Variante setorial: use "n": "V1", "V2"... (texto) para ela aparecer marcada como variante.
+  5. Tudo é inserido como texto (não como HTML), então < > & podem ir sem escape.
+-->
+<style>
+  :root{--preto:#1A1A1A;--laranja:#E85500;--creme:#FBF2DC;--cinza:#6b6b6b;--linha:#e3dccb;--branco:#fff}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--creme);color:var(--preto);font-family:Arial,Helvetica,sans-serif;line-height:1.45}
+  .wrap{max-width:980px;margin:0 auto;padding:32px 20px 56px}
+  h1,h2,h3{font-family:"Century Schoolbook",Georgia,"Times New Roman",serif;font-weight:400;margin:0}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--laranja);font-weight:700}
+  h1{font-size:34px;line-height:1.15;margin:8px 0 6px}
+  .sub{color:var(--cinza);font-size:15px;max-width:720px}
+  .fresta{width:6px;min-height:44px;background:var(--laranja);display:inline-block;margin-right:14px;align-self:stretch}
+  .head{display:flex;align-items:center;margin-bottom:28px}
+  .frase{background:var(--preto);color:var(--creme);padding:22px 26px;border-left:6px solid var(--laranja);font-family:Georgia,serif;font-size:19px;margin:0 0 32px}
+  section{margin-bottom:36px}
+  h2{font-size:24px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--linha)}
+  .matriz{display:grid;grid-template-columns:28px 1fr 1fr;grid-template-rows:auto auto 28px;gap:6px}
+  .quad{background:var(--branco);border:1px solid var(--linha);padding:10px 12px;min-height:170px}
+  .quad .rot{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--cinza);font-weight:700}
+  .quad.agora{border-color:var(--laranja);box-shadow:inset 0 0 0 2px var(--laranja)}
+  .quad.agora .rot{color:var(--laranja)}
+  .chip{display:inline-flex;align-items:center;gap:6px;margin:6px 6px 0 0;padding:6px 10px;border-radius:999px;background:var(--creme);border:1px solid var(--linha);font-size:13px}
+  .chip b{display:inline-block;min-width:20px;height:20px;padding:0 4px;border-radius:10px;background:var(--preto);color:var(--creme);font-size:11px;text-align:center;line-height:20px}
+  .chip.top b{background:var(--laranja)}
+  .eixoY{writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--cinza);grid-row:1/3}
+  .eixoX{grid-column:2/4;text-align:center;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--cinza);align-self:end}
+  table{width:100%;border-collapse:collapse;background:var(--branco);font-size:13.5px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--linha);vertical-align:top}
+  th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--cinza)}
+  td.num{white-space:nowrap;text-align:center}
+  tr.top td:first-child{border-left:4px solid var(--laranja)}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .card{background:var(--branco);border:1px solid var(--linha);border-top:6px solid var(--laranja);padding:16px}
+  .card .n{font-family:Georgia,serif;font-size:40px;line-height:1;color:var(--laranja)}
+  .card h3{font-size:18px;margin:6px 0 8px}
+  .card p{margin:6px 0;font-size:14px}
+  .card .meta{font-size:13px;margin-top:10px;padding-top:8px;border-top:1px dashed var(--linha)}
+  .lista{margin:0;padding-left:20px}
+  .lista li{margin-bottom:8px}
+  .caixa{background:var(--branco);border:1px solid var(--linha);padding:14px 18px}
+  details{margin-bottom:10px}
+  summary{cursor:pointer;font-weight:700;padding:8px 0}
+  pre{background:var(--preto);color:var(--creme);padding:18px;font-size:12.5px;white-space:pre-wrap;border-left:6px solid var(--laranja);overflow:auto;margin:0}
+  .rodape{margin-top:40px;font-size:12px;color:var(--cinza);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;border-top:1px solid var(--linha);padding-top:12px}
+  .aviso{font-size:13px;color:var(--cinza);background:var(--branco);border:1px solid var(--linha);padding:10px 14px;margin:0 0 24px}
+  .hidden{display:none}
+  @media (max-width:720px){.cards{grid-template-columns:1fr}.matriz{grid-template-columns:28px 1fr;grid-template-rows:auto auto auto auto 28px}.quad{min-height:120px}.eixoY{grid-row:1/5}.eixoX{grid-column:2/3;grid-row:5}h1{font-size:28px}.tabela-wrap{overflow-x:auto}table{font-size:12.5px}th:nth-child(6),td:nth-child(6){display:none}td{word-break:break-word}}
+  @media print{body{background:#fff}.wrap{padding:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head"><span class="fresta"></span>
+    <div>
+      <div class="eyebrow">Mapa da Operação Eficiente · Manual de Donos</div>
+      <h1 id="negocio"></h1>
+      <div class="sub" id="subtitulo"></div>
+    </div>
+  </div>
+
+  <p class="aviso">Diagnóstico feito por IA a partir do que o dono contou nesta conversa. Os ganhos são ordem de grandeza em cenário conservador, com a premissa escrita e a conta aberta: confirme com os números do negócio antes de decidir contratação ou investimento.</p>
+
+  <p class="frase" id="leitura"></p>
+
+  <section>
+    <h2>Onde a IA devolve caixa e tempo neste negócio</h2>
+    <div class="matriz">
+      <div class="eixoY">Impacto maior ↑</div>
+      <div class="quad agora" id="q-agora"><div class="rot">Faça agora · impacto alto, esforço baixo</div></div>
+      <div class="quad" id="q-projeto"><div class="rot">Vale o projeto · impacto alto, esforço maior</div></div>
+      <div class="quad" id="q-rapido"><div class="rot">Ganho rápido · impacto médio, esforço baixo</div></div>
+      <div class="quad" id="q-depois"><div class="rot">Depois</div></div>
+      <div class="eixoX">Esforço maior →</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Os casos avaliados para este negócio</h2>
+    <div class="tabela-wrap"><table>
+      <thead><tr><th>#</th><th>Caso</th><th>O que seria aqui</th><th>Esf.</th><th>Imp.</th><th>Quadrante</th></tr></thead>
+      <tbody id="tabela"></tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Top 3: por onde começar</h2>
+    <div class="cards" id="top3"></div>
+  </section>
+
+  <section id="sec-fila" class="hidden">
+    <h2>Fila seguinte</h2>
+    <div class="caixa"><ul class="lista" id="fila"></ul></div>
+  </section>
+
+  <section>
+    <h2>Para depois (e por quê)</h2>
+    <div class="caixa"><ul class="lista" id="depois"></ul></div>
+  </section>
+
+  <section>
+    <h2>Os limites</h2>
+    <div class="caixa" id="limites"></div>
+  </section>
+
+  <section>
+    <h2>Briefings de Construção</h2>
+    <p class="sub">Copie o briefing e cole numa conversa nova com a skill <b>construtor-ia-manual</b> para montar.</p>
+    <div id="briefings"></div>
+  </section>
+
+  <div class="rodape"><span>Manual de Donos · De quem fez, pra quem faz.</span><span id="rodape-data"></span></div>
+</div>
+
+<script type="application/json" id="dados">
+{
+  "negocio": "Nome da empresa",
+  "subtitulo": "O que faz, para quem, porte · Cidade · DD/MM/AAAA",
+  "leitura": "A leitura do negócio em uma frase, até 30 palavras.",
+  "casos": [
+    {"n": 1, "nome": "Fechamento e leitura do caixa", "oque": "o que seria aqui, até 12 palavras", "esforco": 1, "impacto": 3, "quadrante": "agora", "top": 1},
+    {"n": 2, "nome": "Cobrança e recuperação", "oque": "", "esforco": 1, "impacto": 3, "quadrante": "agora", "top": 2},
+    {"n": 3, "nome": "Dashboard financeiro com DRE", "oque": "", "esforco": 1, "impacto": 3, "quadrante": "agora", "top": 0},
+    {"n": 4, "nome": "Atendimento no WhatsApp", "oque": "", "esforco": 2, "impacto": 3, "quadrante": "projeto", "top": 0},
+    {"n": 5, "nome": "Proposta e follow-up", "oque": "", "esforco": 1, "impacto": 2, "quadrante": "rapido", "top": 3},
+    {"n": 6, "nome": "Briefing pré-reunião", "oque": "", "esforco": 1, "impacto": 2, "quadrante": "rapido", "top": 0},
+    {"n": 7, "nome": "Documentos, notas e contratos", "oque": "", "esforco": 1, "impacto": 2, "quadrante": "rapido", "top": 0},
+    {"n": 8, "nome": "Reuniões → ata e tarefa", "oque": "", "esforco": 1, "impacto": 2, "quadrante": "rapido", "top": 0},
+    {"n": 9, "nome": "E-mail na sua voz", "oque": "", "esforco": 1, "impacto": 2, "quadrante": "rapido", "top": 0},
+    {"n": 10, "nome": "Processos e treinamento", "oque": "", "esforco": 1, "impacto": 2, "quadrante": "rapido", "top": 0},
+    {"n": 11, "nome": "Contratação e RH", "oque": "", "esforco": 1, "impacto": 1, "quadrante": "depois", "top": 0},
+    {"n": 12, "nome": "Mapa do trabalho invisível", "oque": "", "esforco": 1, "impacto": 3, "quadrante": "agora", "top": 0},
+    {"n": 13, "nome": "Comunicação da casa", "oque": "", "esforco": 1, "impacto": 1, "quadrante": "depois", "top": 0},
+    {"n": 14, "nome": "Painel e cenários", "oque": "", "esforco": 2, "impacto": 3, "quadrante": "projeto", "top": 0},
+    {"n": 15, "nome": "Edição de vídeos com IA", "oque": "", "esforco": 1, "impacto": 1, "quadrante": "depois", "top": 0}
+  ],
+  "top3": [
+    {"nome": "", "oque": "o que vai existir no fim", "ganho": "fórmula + números do dono + 'premissa:'", "esforco": "tempo de setup · camada · próximo degrau", "metrica": "deu certo se X virar Y em 30 dias", "passo": "primeiro passo de 15 minutos, hoje"},
+    {"nome": "", "oque": "", "ganho": "", "esforco": "", "metrica": "", "passo": ""},
+    {"nome": "", "oque": "", "ganho": "", "esforco": "", "metrica": "", "passo": ""}
+  ],
+  "fila": [],
+  "depois": [
+    {"nome": "", "porque": ""}
+  ],
+  "limites": "Duas ou três frases: o que a IA não resolve aqui, o que confirmar com contador/advogado, cuidado com dado sensível.",
+  "briefings": [
+    {"titulo": "Iniciativa #1 · nome", "texto": "=== BRIEFING DE CONSTRUÇÃO · INICIATIVA #1 ===\n...\n=== FIM DO BRIEFING ==="},
+    {"titulo": "Iniciativa #2 · nome", "texto": ""},
+    {"titulo": "Iniciativa #3 · nome", "texto": ""}
+  ]
+}
+</script>
+<script>
+(function(){
+  const QUAD = {agora:"Faça agora", projeto:"Vale o projeto", rapido:"Ganho rápido", depois:"Depois"};
+  let D;
+  try { D = JSON.parse(document.getElementById("dados").textContent); }
+  catch (e) { document.body.insertAdjacentHTML("afterbegin", "<p style='background:#E85500;color:#fff;padding:12px;font-family:Arial'>Erro no bloco de dados (JSON inválido): " + e.message + "</p>"); return; }
+  const el = (tag, cls, txt) => { const x = document.createElement(tag); if (cls) x.className = cls; if (txt !== undefined) x.textContent = txt; return x; };
+  const set = (id, txt) => { document.getElementById(id).textContent = txt || ""; };
+  set("negocio", D.negocio); set("subtitulo", D.subtitulo); set("leitura", D.leitura); set("limites", D.limites);
+  set("rodape-data", (D.subtitulo || "").split("·").pop().trim());
+  document.title = "Mapa da Operação Eficiente · " + (D.negocio || "");
+  // matriz: chips ordenados por rank (top 1,2,3 primeiro), depois por número
+  const num = x => (typeof x.n === 'number') ? x.n : 100 + parseInt(String(x.n).replace(/\D/g,'') || '0', 10);
+  const casos = (D.casos || []).slice().sort((a,b) => ((a.top||99) - (b.top||99)) || (num(a) - num(b)));
+  for (const c of casos) {
+    const q = document.getElementById("q-" + c.quadrante); if (!q) continue;
+    const chip = el("span", "chip" + (c.top ? " top" : ""));
+    chip.appendChild(el("b", null, String(c.n)));
+    chip.appendChild(document.createTextNode(c.nome + (c.top ? " · Top " + c.top : "")));
+    q.appendChild(chip);
+  }
+  // tabela na ordem numérica
+  const tb = document.getElementById("tabela");
+  for (const c of (D.casos || []).slice().sort((a,b) => num(a) - num(b))) {
+    const tr = el("tr", c.top ? "top" : "");
+    tr.appendChild(el("td", "num", String(c.n)));
+    tr.appendChild(el("td", null, c.nome + (c.top ? " (Top " + c.top + ")" : "")));
+    tr.appendChild(el("td", null, c.oque || ""));
+    tr.appendChild(el("td", "num", String(c.esforco)));
+    tr.appendChild(el("td", "num", String(c.impacto)));
+    tr.appendChild(el("td", null, QUAD[c.quadrante] || c.quadrante));
+    tb.appendChild(tr);
+  }
+  // top 3
+  const t3 = document.getElementById("top3");
+  (D.top3 || []).forEach((t, i) => {
+    const card = el("div", "card");
+    card.appendChild(el("div", "n", String(i + 1)));
+    card.appendChild(el("h3", null, t.nome));
+    const linha = (rot, v) => { const p = el("p"); p.appendChild(el("b", null, rot + " ")); p.appendChild(document.createTextNode(v || "")); return p; };
+    card.appendChild(linha("O que vai existir:", t.oque));
+    card.appendChild(linha("Ganho (conservador):", t.ganho));
+    card.appendChild(linha("Esforço:", t.esforco));
+    card.appendChild(linha("Deu certo se:", t.metrica));
+    const meta = el("div", "meta"); meta.appendChild(el("b", null, "Primeiro passo, hoje: ")); meta.appendChild(document.createTextNode(t.passo || "")); card.appendChild(meta);
+    t3.appendChild(card);
+  });
+  // fila seguinte
+  if ((D.fila || []).length) {
+    document.getElementById("sec-fila").classList.remove("hidden");
+    const ul = document.getElementById("fila");
+    for (const f of D.fila) { const li = el("li"); li.appendChild(el("b", null, f.nome + " — ")); li.appendChild(document.createTextNode(f.porque || "")); ul.appendChild(li); }
+  }
+  // para depois
+  const dp = document.getElementById("depois");
+  for (const n of (D.depois || [])) { const li = el("li"); li.appendChild(el("b", null, n.nome + " — ")); li.appendChild(document.createTextNode(n.porque || "")); dp.appendChild(li); }
+  // briefings
+  const bf = document.getElementById("briefings");
+  (D.briefings || []).forEach((b, i) => {
+    if (!b.texto) return;
+    const d = el("details"); if (i === 0) d.open = true;
+    d.appendChild(el("summary", null, b.titulo || ("Iniciativa #" + (i + 1))));
+    d.appendChild(el("pre", null, b.texto));
+    bf.appendChild(d);
+  });
+})();
+</script>
+</body>
+</html>
