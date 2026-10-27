@@ -1,33 +1,33 @@
 // Gerado por scripts/gerar.py a partir de catalogo.json. Não edite à mão.
-export const AREAS = ["IA no negócio", "Estratégia", "Vendas e marketing", "Operação e clientes", "Pessoas e gestão", "Finanças e tributos"];
+export const AREAS = ["Estratégia", "Vendas e marketing", "Operações e entrega", "Pessoas e gestão", "Finanças"];
 export const SKILLS = [
   {
     "nome": "Head de IA",
-    "area": "IA no negócio",
+    "area": "Operações e entrega",
     "paraQue": "Descobre onde a IA rende mais no seu negócio e monta um plano priorizado.",
     "exemplo": "Onde a IA ajuda mais no meu negócio? Me monta um plano."
   },
   {
     "nome": "Serviços com IA",
-    "area": "IA no negócio",
+    "area": "Operações e entrega",
     "paraQue": "Aplica a tese “serviços são o novo software” e redesenha a oferta para cobrar por resultado.",
     "exemplo": "Quero aplicar a tese “serviços são o novo software” no meu negócio."
   },
   {
     "nome": "Engenheiro de Prompt",
-    "area": "IA no negócio",
+    "area": "Operações e entrega",
     "paraQue": "Entrevista você e entrega um prompt pronto, nas 5 camadas.",
     "exemplo": "Me ajuda a fazer um prompt para resumir minhas reuniões."
   },
   {
     "nome": "Negócio Eficiente com IA",
-    "area": "IA no negócio",
+    "area": "Operações e entrega",
     "paraQue": "Avalia 15 casos de uso na sua operação e entrega o Top 3 com a conta do ganho e o primeiro passo.",
     "exemplo": "Onde implementar IA para deixar minha operação mais eficiente sem contratar?"
   },
   {
     "nome": "Construtor de IA",
-    "area": "IA no negócio",
+    "area": "Operações e entrega",
     "paraQue": "Pega a iniciativa escolhida e monta com você o prompt, Project, skill ou automação, testada com dado real.",
     "exemplo": "Constrói a iniciativa #1 do meu mapa de eficiência."
   },
@@ -106,25 +106,25 @@ export const SKILLS = [
   },
   {
     "nome": "Experiência do Cliente",
-    "area": "Operação e clientes",
+    "area": "Operações e entrega",
     "paraQue": "Mapeia a jornada do cliente e monta o motor de recompra.",
     "exemplo": "Analisa a experiência do cliente no meu negócio e me ajuda a vender de novo para quem já comprou."
   },
   {
     "nome": "Processos-Chave",
-    "area": "Operação e clientes",
+    "area": "Operações e entrega",
     "paraQue": "Acha os processos que movem o ponteiro e o gargalo do negócio.",
     "exemplo": "Mapeia os processos-chave do meu negócio."
   },
   {
     "nome": "Reforma Tributária",
-    "area": "Finanças e tributos",
+    "area": "Finanças",
     "paraQue": "Explica o impacto da reforma no seu negócio e monta o plano de ação.",
     "exemplo": "Como a reforma tributária afeta o meu negócio?"
   },
   {
     "nome": "Diretor Financeiro",
-    "area": "Finanças e tributos",
+    "area": "Finanças",
     "paraQue": "DRE, fluxo de caixa, balanço, valuation e precificação, com decisão prática no fim.",
     "exemplo": "Me ajuda a montar a DRE do meu negócio."
   },
