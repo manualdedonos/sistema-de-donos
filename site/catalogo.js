@@ -20,6 +20,18 @@ export const SKILLS = [
     "exemplo": "Me ajuda a fazer um prompt para resumir minhas reuniões."
   },
   {
+    "nome": "Negócio Eficiente com IA",
+    "area": "IA no negócio",
+    "paraQue": "Avalia 15 casos de uso na sua operação e entrega o Top 3 com a conta do ganho e o primeiro passo.",
+    "exemplo": "Onde implementar IA para deixar minha operação mais eficiente sem contratar?"
+  },
+  {
+    "nome": "Construtor de IA",
+    "area": "IA no negócio",
+    "paraQue": "Pega a iniciativa escolhida e monta com você o prompt, Project, skill ou automação, testada com dado real.",
+    "exemplo": "Constrói a iniciativa #1 do meu mapa de eficiência."
+  },
+  {
     "nome": "Modelo de Negócios",
     "area": "Estratégia",
     "paraQue": "Diagnóstico completo do modelo de negócios, com plano de melhoria.",
