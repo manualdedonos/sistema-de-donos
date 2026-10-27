@@ -1,4 +1,4 @@
-/* Kit do Dono: Identidade Visual V2 do Manual de Donos (Artefato Design & Strategy, 29/09/2026)
+/* Sistema de Donos: Identidade Visual V2 do Manual de Donos (Artefato Design & Strategy, 29/09/2026)
    numa linguagem de produto de IA: bordô profundo com luz salmão vindo do topo, vidro,
    brilho e profundidade. Paleta e fontes continuam as da V2: salmão, bordô e bege; Oswald
    (manchete), Instrument Serif (chamadas) e Bricolage Grotesque (texto), as substitutas
@@ -140,7 +140,7 @@ h1, h2, h3 { margin: 0; font-family: var(--manchete); font-weight: 700; text-tra
 /* A luz da varredura só aparece sobre o desenho do chip: a própria imagem é a máscara. */
 .varredura {
   position: absolute; inset: 0; pointer-events: none; opacity: 0;
-  -webkit-mask: url("/kit-de-dono/img/chip-mdd.webp") center / contain no-repeat; mask: url("/kit-de-dono/img/chip-mdd.webp") center / contain no-repeat;
+  -webkit-mask: url("/sistema-de-donos/img/chip-mdd.webp") center / contain no-repeat; mask: url("/sistema-de-donos/img/chip-mdd.webp") center / contain no-repeat;
   background: linear-gradient(to bottom, transparent 0 46%, rgba(253, 241, 225, 0.12) 49%, rgba(254, 68, 53, 0.4) 50%, transparent 51% 100%); background-size: 100% 260%;
   mix-blend-mode: screen;
 }
@@ -154,7 +154,7 @@ h1, h2, h3 { margin: 0; font-family: var(--manchete); font-weight: 700; text-tra
 }
 .chip-logo svg { width: calc(var(--chip) * 0.07); height: calc(var(--chip) * 0.07); color: var(--bege); filter: drop-shadow(0 0 calc(var(--chip) * 0.015) rgba(254, 68, 53, 0.9)); }
 
-/* Cartões de vidro flutuando em volta do chip: só fatos do Kit. */
+/* Cartões de vidro flutuando em volta do chip: só fatos do Sistema. */
 .flutua {
   position: absolute; z-index: 2; display: grid; gap: 0.1rem; padding: 0.8rem 1.1rem; text-align: left;
   background: rgba(34, 7, 8, 0.5); border: 1px solid var(--vidro-borda); border-radius: var(--raio);
@@ -297,7 +297,7 @@ h1, h2, h3 { margin: 0; font-family: var(--manchete); font-weight: 700; text-tra
 
 .copiar { display: flex; align-items: center; gap: 0.75rem; padding: 0.45rem 0.45rem 0.45rem 1rem; background: var(--bege-claro); border: 1.5px dashed rgba(53, 13, 14, 0.5); border-radius: 12px; }
 .copiar code { flex: 1; min-width: 0; font-size: 1.02rem; font-weight: 700; color: var(--bordo); overflow-wrap: anywhere; user-select: all; }
-/* O endereço do catálogo não pode quebrar no hífen: quem copiar à mão leria "kit-do" e "-dono" como duas partes. */
+/* O endereço do catálogo não pode quebrar no hífen: quem copiar à mão leria "sistema-de" e "-donos" como duas partes. */
 .copiar-endereco code { white-space: nowrap; overflow-wrap: normal; overflow-x: auto; }
 
 .acoes { display: flex; flex-wrap: wrap; gap: 0.75rem; }

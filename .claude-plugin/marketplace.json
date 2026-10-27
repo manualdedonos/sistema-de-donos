@@ -1,13 +1,13 @@
 {
-  "name": "kit-do-dono",
-  "description": "Kit do Dono: skills do Manual de Donos para o empresário usar no Claude",
+  "name": "sistema-de-donos",
+  "description": "Sistema de Donos: skills do Manual de Donos para o empresário usar no Claude",
   "owner": {
     "name": "Manual de Donos"
   },
   "plugins": [
     {
-      "name": "kit-do-dono",
-      "source": "./plugins/kit-do-dono",
+      "name": "sistema-de-donos",
+      "source": "./plugins/sistema-de-donos",
       "description": "Skills do Manual de Donos para o empresário usar no Claude"
     }
   ]

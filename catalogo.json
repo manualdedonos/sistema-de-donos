@@ -1,5 +1,5 @@
 {
-  "_leia": "Fonte única das skills do Kit do Dono. Depois de editar, rode: python3 scripts/gerar.py (gera a skill boas-vindas e o site/catalogo.js).",
+  "_leia": "Fonte única das skills do Sistema de Donos. Depois de editar, rode: python3 scripts/gerar.py (gera a skill boas-vindas e o site/catalogo.js).",
   "areas": [
     "IA no negócio",
     "Estratégia",

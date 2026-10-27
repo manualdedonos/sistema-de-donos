@@ -21,7 +21,7 @@ Esta skill precisa de terminal, de acesso a arquivos e de instalar programas no 
 
 Estúdio na pasta `motion-studio/`, dentro da pasta aberta no Claude Code (onde fica `.claude/`). Todos os comandos rodam de dentro de `motion-studio/`.
 
-**Instalado pelo Kit do Dono:** o estúdio vem junto desta skill, na pasta `motion-studio/` ao lado deste SKILL.md. Se ainda não existir `motion-studio/` na pasta aberta no Claude Code, copie essa pasta para lá antes de qualquer outro passo (a pasta de plugins é só de leitura; os projetos são gravados na cópia).
+**Instalado pelo Sistema de Donos:** o estúdio vem junto desta skill, na pasta `motion-studio/` ao lado deste SKILL.md. Se ainda não existir `motion-studio/` na pasta aberta no Claude Code, copie essa pasta para lá antes de qualquer outro passo (a pasta de plugins é só de leitura; os projetos são gravados na cópia).
 
 ```
 config.json        preferências da pessoa (editor de vídeo, fonte dos sons) — ler SEMPRE no início
