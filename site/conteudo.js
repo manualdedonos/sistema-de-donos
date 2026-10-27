@@ -1,7 +1,7 @@
 // Tudo o que o empresário lê no guia mora aqui. A tela (app.js) só desenha;
 // mudar um texto, um passo ou uma skill é mexer só neste arquivo.
 
-export const MARKETPLACE = "manualdedonos/kit-do-dono";
+export const MARKETPLACE = "manualdedonos/sistema-de-donos";
 export const URL_CLAUDE = "https://claude.ai";
 export const FRASE_TESTE = "testar o kit do dono";
 
@@ -115,7 +115,7 @@ export const PROBLEMAS = [
   {
     sintoma: "Apareceu “Repositório inacessível”",
     solucao: () =>
-      "Confira se colou exatamente manualdedonos/kit-do-dono, sem espaço no começo ou no fim. Use o botão Copiar deste guia. Não é preciso instalar o Claude GitHub App.",
+      "Confira se colou exatamente manualdedonos/sistema-de-donos, sem espaço no começo ou no fim. Use o botão Copiar deste guia. Não é preciso instalar o Claude GitHub App.",
   },
   {
     sintoma: (m) => `Não aparece a opção ${m.plugins}`,
