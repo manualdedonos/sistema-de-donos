@@ -151,5 +151,35 @@ export const SKILLS = [
     "area": "Pessoas e gestão",
     "paraQue": "Diagnostica a fase do negócio e monta o modelo de gestão: estrutura, rituais, indicadores e governança.",
     "exemplo": "Como eu monto o modelo de gestão da minha empresa?"
+  },
+  {
+    "nome": "Máquina de Carrosséis",
+    "area": "Vendas e marketing",
+    "paraQue": "Do pedido ao post pronto: tema, gancho, carrossel de 10 a 14 slides no formato tweet e legenda, numa página sua para revisar, pôr imagem e baixar em ZIP.",
+    "exemplo": "Quero fazer um carrossel sobre o erro de preço que mais vejo no meu setor."
+  },
+  {
+    "nome": "Máquina de Carrosséis: configurar",
+    "area": "Vendas e marketing",
+    "paraQue": "Setup de uma vez: seu nome, @, foto e público, e publica a sua página da Máquina.",
+    "exemplo": "Configurar a máquina de carrosséis."
+  },
+  {
+    "nome": "Máquina de Carrosséis: temas",
+    "area": "Vendas e marketing",
+    "paraQue": "Três temas de carrossel para o seu público, com ângulo e gancho provisório.",
+    "exemplo": "Me sugere temas para postar essa semana."
+  },
+  {
+    "nome": "Máquina de Carrosséis: ganchos",
+    "area": "Vendas e marketing",
+    "paraQue": "Cinco ganchos para o primeiro slide, cada um num método diferente, com nota e recomendação.",
+    "exemplo": "Cria opções de gancho para esse post."
+  },
+  {
+    "nome": "Máquina de Carrosséis: escrever",
+    "area": "Vendas e marketing",
+    "paraQue": "Escreve o carrossel completo e a legenda e grava na sua Máquina.",
+    "exemplo": "Transforma esse artigo num carrossel."
   }
 ];
