@@ -5,7 +5,7 @@ description: Confirma que o Sistema de Donos está instalado e mostra as skills 
 
 Responda em português, em tom direto e acolhedor:
 
-1. Confirme: "O Sistema de Donos está instalado e funcionando (versão 2.1.1), com 25 skills do Manual de Donos."
+1. Confirme: "O Sistema de Donos está instalado e funcionando (versão 2.2.0), com 30 skills do Manual de Donos."
 2. Liste as skills por área, uma linha cada:
    **Estratégia**
    - **Modelo de Negócios**: Diagnóstico completo do modelo de negócios, com plano de melhoria.
@@ -23,6 +23,11 @@ Responda em português, em tom direto e acolhedor:
    - **Motion Vídeo**: Cria vídeos de motion design em código, com som, prontos para o seu editor. (só no Claude Code no computador)
    - **Criador de Agentes de Vendas**: Lê o seu site e monta o prompt de um vendedor automático para o WhatsApp, nos 9 blocos do Manual.
    - **Diretor Comercial**: Funil, aquisição de leads, ofertas, arquitetura de receita e métricas do time comercial.
+   - **Máquina de Carrosséis**: Do pedido ao post pronto: tema, gancho, carrossel de 10 a 14 slides no formato tweet e legenda, numa página sua para revisar, pôr imagem e baixar em ZIP.
+   - **Máquina de Carrosséis: configurar**: Setup de uma vez: seu nome, @, foto e público, e publica a sua página da Máquina.
+   - **Máquina de Carrosséis: temas**: Três temas de carrossel para o seu público, com ângulo e gancho provisório.
+   - **Máquina de Carrosséis: ganchos**: Cinco ganchos para o primeiro slide, cada um num método diferente, com nota e recomendação.
+   - **Máquina de Carrosséis: escrever**: Escreve o carrossel completo e a legenda e grava na sua Máquina.
    **Operações e entrega**
    - **Head de IA**: Descobre onde a IA rende mais no seu negócio e monta um plano priorizado.
    - **Serviços com IA**: Aplica a tese “serviços são o novo software” e redesenha a oferta para cobrar por resultado.
