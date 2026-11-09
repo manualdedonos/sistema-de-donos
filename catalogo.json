@@ -149,6 +149,13 @@
       "exemplo": "Mapeia os processos-chave do meu negócio."
     },
     {
+      "id": "agente-qualidade-manualdedonos",
+      "nome": "Agente de Qualidade",
+      "area": "Operações e entrega",
+      "paraQue": "Monta com você, em 6 etapas, um agente que confere a entrega antes de chegar ao cliente, dá nota de 0 a 10 por critério do seu padrão e escreve a correção pronta.",
+      "exemplo": "Quero criar um agente que revise minhas propostas comerciais antes de mandar pro cliente."
+    },
+    {
       "id": "consultor-reforma-tributaria-manual",
       "nome": "Reforma Tributária",
       "area": "Finanças",

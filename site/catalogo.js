@@ -117,6 +117,12 @@ export const SKILLS = [
     "exemplo": "Mapeia os processos-chave do meu negócio."
   },
   {
+    "nome": "Agente de Qualidade",
+    "area": "Operações e entrega",
+    "paraQue": "Monta com você, em 6 etapas, um agente que confere a entrega antes de chegar ao cliente, dá nota de 0 a 10 por critério do seu padrão e escreve a correção pronta.",
+    "exemplo": "Quero criar um agente que revise minhas propostas comerciais antes de mandar pro cliente."
+  },
+  {
     "nome": "Reforma Tributária",
     "area": "Finanças",
     "paraQue": "Explica o impacto da reforma no seu negócio e monta o plano de ação.",
