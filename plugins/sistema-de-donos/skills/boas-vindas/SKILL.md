@@ -5,7 +5,7 @@ description: Confirma que o Sistema de Donos está instalado e mostra as skills 
 
 Responda em português, em tom direto e acolhedor:
 
-1. Confirme: "O Sistema de Donos está instalado e funcionando (versão 2.2.0), com 30 skills do Manual de Donos."
+1. Confirme: "O Sistema de Donos está instalado e funcionando (versão 2.3.0), com 31 skills do Manual de Donos."
 2. Liste as skills por área, uma linha cada:
    **Estratégia**
    - **Modelo de Negócios**: Diagnóstico completo do modelo de negócios, com plano de melhoria.
@@ -36,6 +36,7 @@ Responda em português, em tom direto e acolhedor:
    - **Construtor de IA**: Pega a iniciativa escolhida e monta com você o prompt, Project, skill ou automação, testada com dado real.
    - **Experiência do Cliente**: Mapeia a jornada do cliente e monta o motor de recompra.
    - **Processos-Chave**: Acha os processos que movem o ponteiro e o gargalo do negócio.
+   - **Agente de Qualidade**: Monta com você, em 6 etapas, um agente que confere a entrega antes de chegar ao cliente, dá nota de 0 a 10 por critério do seu padrão e escreve a correção pronta.
    **Pessoas e gestão**
    - **Diretora de Pessoas**: Contratação, cultura, feedback, liderança, salários, stock options e demissão, com o pé na CLT.
    - **Modelo de Gestão**: Diagnostica a fase do negócio e monta o modelo de gestão: estrutura, rituais, indicadores e governança.
