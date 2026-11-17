@@ -1,0 +1,146 @@
+{
+ "negocio": "Ateliê Marê",
+ "subtitulo": "Loja de moda feminina · 3 pessoas · Simples Nacional · Recife/PE",
+ "segmento": "varejo-moda",
+ "segmentoNome": "lojas de moda",
+ "estagio": 1,
+ "regime": "simples",
+ "mesAtual": "2026-10",
+ "rotulos": {
+  "custo_direto": "CMV (custo das peças vendidas)"
+ },
+ "ajudas": {
+  "custo_direto": "Quanto você pagou ao fornecedor pelas peças que saíram da loja em outubro. Não é o que você comprou no mês: peça que ficou no estoque ainda não é custo. Conta: estoque do início + compras do mês − estoque do fim."
+ },
+ "meses": {
+  "2026-10": {
+   "valores": {
+    "receita_bruta": 68000,
+    "impostos_vendas": 4200,
+    "custo_direto": 34000,
+    "despesas_variaveis": 2400,
+    "pessoal": 10100,
+    "ocupacao": 8700,
+    "marketing": 1200,
+    "outras_fixas": 2100
+   },
+   "estimados": {
+    "custo_direto": "50% da receita bruta, porque você marca o preço em 2 vezes o custo. Sem contagem de estoque, é a melhor aproximação."
+   },
+   "extras": {
+    "funcionarios": 3,
+    "clientes_novos": 85,
+    "num_vendas": 410,
+    "caixa_final": null
+   }
+  }
+ },
+ "benchmarks": {
+  "margem_bruta": {
+   "min": 45,
+   "max": 55,
+   "fonte": "lojas de moda de pequeno porte"
+  },
+  "margem_contribuicao": {
+   "min": 40,
+   "max": 50,
+   "fonte": "lojas de moda de pequeno porte"
+  },
+  "margem_liquida": {
+   "min": 6,
+   "max": 12,
+   "fonte": "varejo de moda no Simples"
+  },
+  "custo_direto": {
+   "min": 45,
+   "max": 55,
+   "fonte": "markup de 1,8 a 2,2 vezes"
+  },
+  "folha": {
+   "min": 12,
+   "max": 18,
+   "fonte": "varejo de moda, com retirada do dono"
+  },
+  "ocupacao": {
+   "min": 8,
+   "max": 12,
+   "fonte": "loja de rua e galeria"
+  },
+  "marketing": {
+   "min": 2,
+   "max": 5,
+   "fonte": "varejo de moda"
+  }
+ },
+ "leitura": "Em outubro o Ateliê Marê vendeu R$ 68 mil e ficou com R$ 5,3 mil de lucro, 8,3% da receita líquida. O que aperta é o ponto: aluguel e estrutura levam 13,6%, acima do teto de 12% das lojas de moda.",
+ "achados": [
+  {
+   "tom": "atencao",
+   "titulo": "O ponto custa mais do que a loja aguenta",
+   "texto": "Aluguel e estrutura somam R$ 8.700, ou 13,6% da receita líquida. A faixa das lojas de moda vai de 8% a 12%. O que passa do teto vale R$ 1.044 por mês."
+  },
+  {
+   "tom": "atencao",
+   "titulo": "O custo das peças ainda é um chute",
+   "texto": "O CMV entrou como 50% da venda, pelo seu markup de 2 vezes. Sem contar o estoque, a margem bruta de 46,7% pode estar errada em vários pontos. Cada ponto vale R$ 638 por mês."
+  },
+  {
+   "tom": "bom",
+   "titulo": "A loja tem folga para respirar",
+   "texto": "Você vendeu 19% acima do ponto de equilíbrio de R$ 51,5 mil. E já se paga: a sua retirada de R$ 5 mil está dentro da conta, então o lucro é lucro de verdade."
+  }
+ ],
+ "acoes": [
+  {
+   "titulo": "Venda o segundo item para quem já está no caixa",
+   "oque": "Monte um expositor de acessórios de até R$ 40 ao lado do caixa e treine as duas vendedoras a oferecer um item por atendimento.",
+   "porque": "São 410 vendas por mês com ticket de R$ 166. Subir o ticket não aumenta aluguel nem folha: quase tudo vira margem.",
+   "ganho": "R$ 1,4 mil por mês. Conta: 1 em cada 5 clientes (82) × R$ 40 = R$ 3.280 de venda × 43% de margem de contribuição.",
+   "ganhoMensal": 1400,
+   "esforco": "baixo",
+   "prazo": "15 dias",
+   "metrica": "ticket médio de R$ 166 virar R$ 174 em novembro",
+   "passo": "Separe hoje 10 acessórios do estoque que custam até R$ 40 e coloque ao lado do caixa."
+  },
+  {
+   "titulo": "Renegocie o aluguel antes do reajuste",
+   "oque": "Leve ao proprietário a conta do ponto e peça desconto de R$ 1.000 por 12 meses, ou troque reajuste por prazo maior de contrato.",
+   "porque": "O ponto leva 13,6% da receita líquida; o teto saudável é 12%. Enquanto a venda não cresce, a única saída é baixar o custo.",
+   "ganho": "R$ 1.044 por mês. Conta: 1,6 ponto acima do teto × R$ 63.800 de receita líquida.",
+   "ganhoMensal": 1040,
+   "esforco": "médio",
+   "prazo": "30 dias",
+   "metrica": "aluguel e estrutura abaixo de 12% da receita líquida até dezembro",
+   "passo": "Ache o contrato e veja a data do próximo reajuste e o índice."
+  },
+  {
+   "titulo": "Conte o estoque no último dia de cada mês",
+   "oque": "Lista simples: peça, quantidade, custo. Com o estoque do início e do fim, o CMV deixa de ser estimativa.",
+   "porque": "Hoje a margem bruta do painel depende de um chute. Sem o número real, você não sabe qual peça dá lucro e qual só ocupa arara.",
+   "ganho": "Cada ponto de margem bruta descoberto vale R$ 638 por mês. Conta: 1% × R$ 63.800.",
+   "ganhoMensal": 640,
+   "esforco": "médio",
+   "prazo": "até 30/11",
+   "metrica": "CMV de novembro calculado com contagem, sem estimativa",
+   "passo": "Marque na agenda 30 minutos no dia 30/11, depois de fechar a loja."
+  }
+ ],
+ "depois": [
+  {
+   "titulo": "Investir mais em anúncio",
+   "porque": "O marketing está em 1,9% da receita, abaixo da faixa de 2% a 5%. Mas só faz sentido acelerar depois de saber a margem real por peça."
+  },
+  {
+   "titulo": "Separar a sua retirada da folha",
+   "porque": "Hoje ela está dentro de Pessoal. Quando a loja passar de R$ 100 mil por mês, vale abrir a DRE com pró-labore em linha própria."
+  }
+ ],
+ "premissas": [
+  "A sua retirada de R$ 5.000 está somada em Pessoal, junto com as duas vendedoras.",
+  "Receita bruta tirada do relatório da maquininha mais o Pix de outubro."
+ ],
+ "contador": [
+  "Qual foi a alíquota efetiva do DAS em outubro e em que faixa do Anexo I a loja está?",
+  "O estoque de 31/10 foi registrado? Sem ele, o custo da mercadoria na contabilidade também é estimativa."
+ ]
+}

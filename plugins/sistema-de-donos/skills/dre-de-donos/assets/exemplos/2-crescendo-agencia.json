@@ -1,0 +1,236 @@
+{
+ "negocio": "Rota Digital",
+ "subtitulo": "Agência de marketing B2B · 14 pessoas · Lucro Presumido · Curitiba/PR",
+ "segmento": "servicos-agencia",
+ "segmentoNome": "agências e serviços B2B",
+ "estagio": 2,
+ "regime": "presumido",
+ "mesAtual": "2026-10",
+ "rotulos": {
+  "custo_direto": "CSP (custo de entregar o serviço)"
+ },
+ "ajudas": {
+  "custo_direto": "Tudo o que você gasta para entregar o que o cliente contratou: salários e encargos do time de atendimento, criação e mídia, mais freelancers e ferramentas usadas na entrega. Quem cuida do administrativo e do comercial fica em Pessoal."
+ },
+ "meses": {
+  "2026-08": {
+   "valores": {
+    "receita_bruta": 196000,
+    "impostos_vendas": 16950,
+    "devolucoes": 1200,
+    "custo_direto": 75500,
+    "despesas_variaveis": 7800,
+    "pessoal": 29800,
+    "pro_labore": 16000,
+    "ocupacao": 6800,
+    "marketing": 5500,
+    "administrativas": 8900,
+    "outras_fixas": 3600,
+    "depreciacao": 1800,
+    "despesas_financeiras": 2600,
+    "ir_csll": 15050
+   },
+   "estimados": {
+    "ir_csll": "IRPJ e CSLL do trimestre divididos por três: 7,68% da receita bruta, pela base presumida de 32%.",
+    "depreciacao": "R$ 108 mil em computadores e móveis divididos por 60 meses."
+   },
+   "extras": {
+    "funcionarios": 13,
+    "clientes_novos": 4,
+    "num_vendas": 24,
+    "caixa_final": 83000
+   }
+  },
+  "2026-09": {
+   "valores": {
+    "receita_bruta": 205000,
+    "impostos_vendas": 17730,
+    "devolucoes": 1500,
+    "custo_direto": 80000,
+    "despesas_variaveis": 8200,
+    "pessoal": 30500,
+    "pro_labore": 16000,
+    "ocupacao": 6800,
+    "marketing": 6000,
+    "administrativas": 9000,
+    "outras_fixas": 3800,
+    "depreciacao": 1800,
+    "despesas_financeiras": 3200,
+    "ir_csll": 15740
+   },
+   "estimados": {
+    "ir_csll": "IRPJ e CSLL do trimestre divididos por três: 7,68% da receita bruta, pela base presumida de 32%.",
+    "depreciacao": "R$ 108 mil em computadores e móveis divididos por 60 meses."
+   },
+   "extras": {
+    "funcionarios": 14,
+    "clientes_novos": 2,
+    "num_vendas": 25,
+    "caixa_final": 71000
+   }
+  },
+  "2026-10": {
+   "valores": {
+    "receita_bruta": 212000,
+    "impostos_vendas": 18340,
+    "devolucoes": 2000,
+    "custo_direto": 84000,
+    "despesas_variaveis": 8500,
+    "pessoal": 31000,
+    "pro_labore": 16000,
+    "ocupacao": 6800,
+    "marketing": 7500,
+    "administrativas": 9200,
+    "outras_fixas": 4100,
+    "depreciacao": 1800,
+    "despesas_financeiras": 3900,
+    "ir_csll": 16280
+   },
+   "estimados": {
+    "ir_csll": "IRPJ e CSLL do trimestre divididos por três: 7,68% da receita bruta, pela base presumida de 32%.",
+    "depreciacao": "R$ 108 mil em computadores e móveis divididos por 60 meses."
+   },
+   "extras": {
+    "funcionarios": 14,
+    "clientes_novos": 3,
+    "num_vendas": 26,
+    "caixa_final": 58000
+   }
+  }
+ },
+ "benchmarks": {
+  "margem_bruta": {
+   "min": 45,
+   "max": 60,
+   "fonte": "agências e consultorias"
+  },
+  "margem_contribuicao": {
+   "min": 40,
+   "max": 55,
+   "fonte": "agências e consultorias"
+  },
+  "margem_ebitda": {
+   "min": 12,
+   "max": 20,
+   "fonte": "serviços B2B de médio porte"
+  },
+  "margem_liquida": {
+   "min": 8,
+   "max": 15,
+   "fonte": "serviços B2B de médio porte"
+  },
+  "custo_direto": {
+   "min": 40,
+   "max": 55,
+   "fonte": "agências: time de entrega e freelancers"
+  },
+  "folha": {
+   "min": 15,
+   "max": 22,
+   "fonte": "administrativo, comercial e sócios"
+  },
+  "ocupacao": {
+   "min": 2,
+   "max": 5,
+   "fonte": "serviços com escritório"
+  },
+  "marketing": {
+   "min": 2,
+   "max": 5,
+   "fonte": "serviços B2B"
+  },
+  "impostos": {
+   "min": 11,
+   "max": 17,
+   "fonte": "serviços no Presumido ou no Simples"
+  },
+  "receita_por_pessoa": {
+   "min": 12000,
+   "max": 20000,
+   "fonte": "agências"
+  }
+ },
+ "leitura": "Em outubro a Rota Digital faturou R$ 212 mil, o maior valor em três meses, e lucrou R$ 2,6 mil. A receita subiu 8% desde agosto; o custo de entrega subiu 11% e os juros, 50%. Crescer assim dá trabalho e não dá lucro.",
+ "achados": [
+  {
+   "tom": "critico",
+   "titulo": "O lucro encolheu enquanto a receita crescia",
+   "texto": "De agosto a outubro o lucro líquido foi de R$ 4,5 mil para R$ 2,6 mil. A margem líquida está em 1,3%; a faixa do setor começa em 8%. Chegar ao piso significa R$ 12,7 mil a mais por mês."
+  },
+  {
+   "tom": "critico",
+   "titulo": "O caixa cobre 8 dias de operação",
+   "texto": "São R$ 58 mil em caixa contra R$ 6,9 mil de saída por dia. Em agosto eram R$ 83 mil. A antecipação de recebíveis tapa o buraco e explica os juros de R$ 2,6 mil virarem R$ 3,9 mil."
+  },
+  {
+   "tom": "atencao",
+   "titulo": "O imposto sobre o lucro é quase todo o lucro",
+   "texto": "No Presumido, IR e CSLL saem de uma base de 32% da receita. O lucro real antes do IR foi 9,8% da receita líquida. Resultado: R$ 16,3 mil de imposto sobre R$ 18,9 mil de lucro."
+  }
+ ],
+ "acoes": [
+  {
+   "titulo": "Peça ao contador a simulação de regime para 2027",
+   "oque": "Simples Nacional (Anexo III), Lucro Presumido e Lucro Real, com a receita e a folha dos últimos 12 meses.",
+   "porque": "A agência fatura cerca de R$ 2,5 milhões por ano, dentro do limite do Simples, e a folha é alta, o que favorece o Anexo III. Hoje a carga total é de 16,3% da receita bruta, mais a contribuição patronal sobre a folha.",
+   "ganho": "Ordem de R$ 10 mil por mês, a confirmar. No Simples, a contribuição patronal de 20% sobre a folha já entra na guia única. Quem fecha essa conta é o contador.",
+   "ganhoMensal": 10000,
+   "esforco": "baixo",
+   "prazo": "até 15/12",
+   "metrica": "simulação dos três regimes na sua mão antes de janeiro",
+   "passo": "Mande hoje ao contador: \"preciso da simulação de regime para 2027 até 15/12\"."
+  },
+  {
+   "titulo": "Reajuste os 8 contratos mais antigos em 6%",
+   "oque": "Liste os contratos sem reajuste há mais de 12 meses e aplique o índice previsto, com aviso de 30 dias.",
+   "porque": "O custo de entrega subiu 11% em dois meses e o preço ficou parado. Reajuste é o único ganho que não exige vender mais nem cortar gente.",
+   "ganho": "R$ 3,3 mil por mês. Conta: 8 contratos × R$ 8.150 de ticket × 6% = R$ 3.912, menos 16% de impostos.",
+   "ganhoMensal": 3300,
+   "esforco": "baixo",
+   "prazo": "30 dias",
+   "metrica": "ticket médio de R$ 8.150 virar R$ 8.300 em dezembro",
+   "passo": "Abra a planilha de contratos e ordene pela data do último reajuste."
+  },
+  {
+   "titulo": "Traga o custo de entrega de volta a 42,5% da receita",
+   "oque": "Reveja freelancers por cliente: quem consome mais horas do que o contrato paga entra em renegociação de escopo.",
+   "porque": "O CSP foi de 42,5% para 43,8% da receita líquida desde agosto. Em agência, esse desvio quase sempre é escopo que cresceu sem cobrar.",
+   "ganho": "R$ 2,6 mil por mês. Conta: 1,4 ponto × R$ 191.660 de receita líquida.",
+   "ganhoMensal": 2600,
+   "esforco": "médio",
+   "prazo": "45 dias",
+   "metrica": "CSP abaixo de 42,5% da receita líquida em dezembro",
+   "passo": "Peça ao financeiro o gasto com freelancer por cliente em outubro."
+  },
+  {
+   "titulo": "Troque a antecipação por cobrança no início do mês",
+   "oque": "Mude o vencimento dos contratos novos e das renovações para o dia 5, com boleto recorrente.",
+   "porque": "Você paga a equipe no dia 5 e recebe dos clientes no dia 25 ou depois. Esse intervalo é o que a antecipação financia.",
+   "ganho": "R$ 1,3 mil por mês. Conta: juros de R$ 3,9 mil voltando ao nível de agosto, R$ 2,6 mil.",
+   "ganhoMensal": 1300,
+   "esforco": "médio",
+   "prazo": "60 dias",
+   "metrica": "despesa financeira abaixo de R$ 2,6 mil em janeiro",
+   "passo": "Liste os 5 maiores clientes e a data em que cada um paga."
+  }
+ ],
+ "depois": [
+  {
+   "titulo": "Contratar mais gente para a entrega",
+   "porque": "A receita por funcionário está em R$ 13,7 mil, na parte de baixo da faixa de R$ 12 mil a R$ 20 mil. Antes de contratar, suba o preço e ajuste o escopo."
+  },
+  {
+   "titulo": "Acelerar o marketing",
+   "porque": "O CAC de R$ 2.500 se paga em menos de um mês de margem de um contrato. Vale acelerar, mas só depois que o caixa passar de 30 dias."
+  }
+ ],
+ "premissas": [
+  "O time de entrega (9 pessoas) e os freelancers estão no CSP. Pessoal traz só administrativo e comercial.",
+  "Número de vendas é o total de contratos ativos no mês."
+ ],
+ "contador": [
+  "Simulação de Simples (Anexo III), Presumido e Real para 2027, com o Fator R calculado pela folha dos últimos 12 meses.",
+  "Qual é a data limite para optar pelo Simples em 2027?",
+  "Valor exato de IRPJ e CSLL do trimestre, com o adicional de 10% do IRPJ."
+ ]
+}

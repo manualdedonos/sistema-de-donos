@@ -1,0 +1,1069 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DRE de Donos</title>
+<!--
+  DRE DE DONOS · Manual de Donos · template do painel (ID V2)
+  COMO USAR: só troque o bloco de dados (a tag script com id "dados", no fim do arquivo).
+  Use scripts/montar_dre.py para validar o JSON e gerar o arquivo final. Não altere HTML, CSS ou JS.
+  A página recalcula tudo sozinha a partir dos números de entrada: subtotais, margens, indicadores, gráficos e alertas.
+-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Instrument+Serif:ital@0;1&family=Big+Shoulders+Display:wght@700;800&display=swap">
+<style>
+:root{
+  --ast:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 892 911'%3E%3Cpath fill-rule='evenodd' d='M344 0 344 10 358 83 366 141 370 154 380 223 384 236 392 293 402 342 402 357 397 365 388 369 376 365 104 140 97 148 0 316 1 318 33 328 326 437 338 443 344 453 340 466 310 480 294 484 33 582 1 592 0 596 33 649 99 767 104 771 368 551 385 541 394 543 402 553 402 568 343 909 547 910 537 840 533 827 521 746 517 732 517 721 513 708 511 687 503 650 503 639 489 568 489 553 494 545 506 541 523 551 787 771 794 763 814 725 891 596 890 592 820 568 575 476 565 474 553 468 547 458 551 445 582 430 890 318 891 314 794 148 787 140 515 365 506 369 497 367 489 357 489 342 501 281 509 224 513 211 523 142 527 129 527 119 539 58 547 1Z'/%3E%3C/svg%3E");
+  --salmao:#FE4435; --chumbo:#212121; --print:#3F3F3F; --bordo:#350D0E; --bege:#FDF1E1;
+  --salmao-texto:#D42A1C; --bege-fundo:#F5E8D8; --bege-escuro:#E9D7C1; --papel:#FFFFFF; --bordo-claro:#4A1517;
+  --linha:color-mix(in srgb,#3F3F3F 20%,transparent); --linha-forte:color-mix(in srgb,#3F3F3F 40%,transparent);
+  --mudo:#6B625B;
+  --positivo:#1E7A4A; --atencao:#96690A; --negativo:var(--salmao-texto);
+  --positivo-escuro:#6FD6A0; --atencao-escuro:#F2A93B;
+  --font-serif:"Instrument Serif","Times New Roman",serif;
+  --font-sans:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --font-display:"Big Shoulders Display","Arial Narrow",sans-serif;
+  --r-s:6px; --r-m:12px; --r-l:20px; --pill:999px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bege);color:var(--chumbo);font-family:var(--font-sans);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;caret-color:var(--salmao);accent-color:var(--salmao)}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+::selection{background:var(--salmao);color:var(--bege)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--chumbo);outline-offset:2px;border-radius:4px}
+[hidden]{display:none!important}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-right,0px)) 72px max(16px,env(safe-area-inset-left,0px))}
+
+/* topo */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0 12px;flex-wrap:wrap}
+.logo{height:15px;width:auto;color:var(--bordo);display:block;flex:none}
+.top-acoes{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.salvo{font-size:12px;color:var(--mudo);display:inline-flex;align-items:center;gap:6px;margin-right:4px}
+.salvo i{width:7px;height:7px;border-radius:50%;background:var(--mudo);display:inline-block}
+.salvo.ok i{background:var(--positivo)} .salvo.warn i{background:var(--atencao)}
+.head{display:flex;align-items:stretch;margin:10px 0 18px}
+.fresta{width:6px;background:var(--salmao);margin-right:14px;flex:none}
+.eyebrow,.label{font-stretch:118%;font-weight:800;font-size:11px;line-height:1.3;letter-spacing:.14em;text-transform:uppercase}
+.eyebrow{color:var(--salmao-texto)}
+h1{font-family:var(--font-serif);font-weight:400;font-size:clamp(28px,4.4vw,40px);letter-spacing:-.025em;line-height:1.04;margin:6px 0 4px;text-wrap:balance}
+h2{font-family:var(--font-serif);font-weight:400;font-size:24px;letter-spacing:-.02em;line-height:1.15;margin:0 0 4px;text-wrap:balance}
+h3{font-size:14px;font-weight:700;margin:0 0 4px}
+.sub{color:var(--print);font-size:14px}
+.sec-sub{color:var(--mudo);font-size:13.5px;margin:0 0 14px;max-width:70ch}
+.ast{display:inline-block;width:.7em;aspect-ratio:892/911;vertical-align:.05em;background:currentColor;-webkit-mask:var(--ast) center/contain no-repeat;mask:var(--ast) center/contain no-repeat}
+
+/* barra de navegação */
+.nav{position:sticky;top:0;z-index:20;background:var(--bege);display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--linha);margin-bottom:22px}
+.tabs{display:inline-flex;background:var(--bege-fundo);border-radius:var(--pill);padding:3px;gap:2px}
+.tab{border:0;background:transparent;border-radius:var(--pill);min-height:38px;padding:0 18px;font-stretch:118%;font-weight:800;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--print);white-space:nowrap}
+.tab[aria-selected="true"]{background:var(--bordo);color:var(--bege)}
+.meses{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.mes{border:1px solid var(--linha-forte);background:transparent;border-radius:var(--pill);min-height:34px;padding:0 13px;font-size:13px;font-weight:600;color:var(--print);white-space:nowrap}
+.mes[aria-pressed="true"]{background:var(--salmao);border-color:var(--salmao);color:var(--bordo)}
+.mes.add{border-style:dashed;color:var(--mudo)}
+.menu{position:relative}
+.menu-pop{position:absolute;right:0;top:calc(100% + 6px);background:var(--papel);border:1px solid var(--linha-forte);border-radius:var(--r-m);padding:6px;display:grid;gap:2px;min-width:230px;z-index:30}
+.menu-pop button{border:0;background:transparent;text-align:left;padding:9px 10px;border-radius:var(--r-s);font-size:13.5px}
+.menu-pop button:hover{background:var(--bege-fundo)}
+
+/* botões e chips */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:36px;padding:0 16px;border:1.5px solid transparent;border-radius:var(--pill);background:var(--salmao);color:var(--bordo);font-stretch:118%;font-weight:800;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:background-color .12s}
+.btn:hover{background:var(--bordo);color:var(--bege)}
+.btn.contorno{background:transparent;color:var(--chumbo);border-color:var(--linha-forte)}
+.btn.contorno:hover{background:var(--bege-fundo);color:var(--chumbo)}
+.btn.sm{min-height:32px;padding:0 13px;font-size:10px}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:var(--r-s);font-stretch:118%;font-weight:800;font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;border:1px solid currentColor;white-space:nowrap;line-height:1.5}
+.chip.ok{color:var(--positivo)} .chip.warn{color:var(--atencao)} .chip.bad{color:var(--negativo)} .chip.neutro{color:var(--mudo)}
+.pos{color:var(--positivo)} .neg{color:var(--negativo)} .mudo{color:var(--mudo)}
+
+/* blocos */
+.sec{margin:0 0 34px}
+.card{background:var(--papel);border:1px solid var(--linha);border-radius:var(--r-m);padding:16px 18px}
+.frase{background:var(--bordo);color:var(--bege);padding:18px 22px 20px;border-left:6px solid var(--salmao);border-radius:0 var(--r-m) var(--r-m) 0;margin:0 0 26px}
+.frase .label{color:var(--salmao);display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.frase p{font-family:var(--font-serif);font-size:clamp(19px,2.4vw,24px);line-height:1.25;margin:0;letter-spacing:-.01em;max-width:80ch;text-wrap:pretty}
+.frase small{display:block;font-family:var(--font-sans);font-size:12.5px;color:color-mix(in srgb,var(--bege) 72%,transparent);margin-top:10px;max-width:70ch}
+.aviso{border:1px dashed var(--linha-forte);border-radius:var(--r-m);padding:12px 16px;font-size:13.5px;color:var(--print);display:flex;gap:10px 16px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:0 0 22px;background:color-mix(in srgb,var(--papel) 55%,transparent)}
+
+/* indicadores */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.kpi{background:var(--papel);border:1px solid var(--linha);border-radius:var(--r-m);padding:14px 16px 13px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.kpi.destaque{background:var(--bordo);color:var(--bege);border-color:var(--bordo)}
+.kpi-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.kpi .label{color:var(--print)} .kpi.destaque .label{color:var(--salmao)}
+.kpi-num{font-family:var(--font-display);font-weight:800;font-size:38px;line-height:.95;font-variant-numeric:tabular-nums;letter-spacing:.005em;white-space:nowrap}
+.kpi-num small{font-size:.5em;font-weight:700;margin-left:3px}
+.kpi-sec{font-size:13px;color:var(--print);font-variant-numeric:tabular-nums} .kpi.destaque .kpi-sec{color:color-mix(in srgb,var(--bege) 80%,transparent)}
+.kpi-pe{font-size:12px;color:var(--mudo);margin-top:auto;padding-top:4px;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center;font-variant-numeric:tabular-nums}
+.kpi.destaque .kpi-pe{color:color-mix(in srgb,var(--bege) 70%,transparent)}
+.kpi.destaque .chip.ok{color:var(--positivo-escuro)} .kpi.destaque .chip.warn{color:var(--atencao-escuro)} .kpi.destaque .chip.bad{color:var(--salmao)}
+.kpi.destaque .pos{color:var(--positivo-escuro)} .kpi.destaque .neg{color:var(--salmao)}
+.q{flex:none;width:22px;height:22px;border-radius:50%;border:1px solid var(--linha-forte);background:transparent;font-size:12px;font-weight:700;color:var(--mudo);line-height:1;padding:0}
+.q:hover,.q[aria-expanded="true"]{background:var(--bordo);color:var(--bege);border-color:var(--bordo)}
+.kpi.destaque .q{border-color:color-mix(in srgb,var(--bege) 45%,transparent);color:var(--bege)}
+.ajuda{font-size:13px;line-height:1.45;color:var(--print);background:var(--bege-fundo);border-radius:var(--r-s);padding:9px 11px;margin-top:6px;font-weight:400;text-transform:none;letter-spacing:0;max-width:64ch;white-space:normal}
+.kpi.destaque .ajuda{background:var(--bordo-claro);color:var(--bege)}
+.faixa{position:relative;height:6px;border-radius:3px;background:var(--bege-fundo);margin:4px 0 2px}
+.faixa b{position:absolute;top:0;bottom:0;background:var(--bege-escuro);border-radius:3px}
+.faixa i{position:absolute;top:50%;width:12px;height:12px;border-radius:50%;transform:translate(-50%,-50%);border:2px solid var(--papel);background:var(--mudo)}
+.faixa i.ok{background:var(--positivo)} .faixa i.warn{background:var(--atencao)} .faixa i.bad{background:var(--negativo)}
+.kpi.destaque .faixa{background:var(--bordo-claro)} .kpi.destaque .faixa b{background:color-mix(in srgb,var(--bege) 30%,transparent)} .kpi.destaque .faixa i{border-color:var(--bordo)}
+
+/* tabela DRE */
+.tabela{background:var(--papel);border:1px solid var(--linha);border-radius:var(--r-m);overflow:hidden}
+.tabela-topo{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--linha);font-size:13px;color:var(--mudo)}
+table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+thead th{font-size:10.5px;font-weight:800;font-stretch:118%;letter-spacing:.1em;text-transform:uppercase;color:var(--print);background:var(--bege-fundo);text-align:right;padding:9px 12px;white-space:nowrap}
+thead th:first-child{text-align:left;padding-left:16px}
+tbody th{text-align:left;font-weight:400;padding:7px 12px 7px 16px;vertical-align:top}
+tbody td{text-align:right;padding:7px 12px;vertical-align:top;white-space:nowrap;line-height:30px}
+tbody tr{border-bottom:1px solid var(--linha)}
+tbody tr:last-child{border-bottom:0}
+.nome{display:flex;align-items:flex-start;gap:8px;min-height:30px;padding-top:4px;line-height:1.35}
+.nome>span:nth-child(2){min-width:0}
+.nome .q{margin-top:-1px}
+.nome .chip{margin-left:4px;vertical-align:1px}
+.op{color:var(--mudo);font-size:12px;width:20px;flex:none;display:inline-block;line-height:1.6}
+tr.sub th,tr.sub td{background:var(--bege-fundo);font-weight:700;padding-top:9px;padding-bottom:9px}
+tr.total th,tr.total td{background:var(--bordo);color:var(--bege);font-weight:700;padding-top:12px;padding-bottom:12px;font-size:15px}
+tr.total .op,tr.total .mudo{color:color-mix(in srgb,var(--bege) 65%,transparent)}
+tr.total .neg{color:var(--salmao)} tr.total .pos{color:var(--positivo-escuro)}
+tr.total .q{border-color:color-mix(in srgb,var(--bege) 45%,transparent);color:var(--bege)}
+tr.total .ajuda{background:var(--bordo-claro);color:var(--bege)}
+td.cur{width:150px} td.av{width:84px;color:var(--print)} td.prev{width:124px;color:var(--mudo)} td.ah{width:96px;color:var(--print)}
+tr.sub td.cur>span,tr.total td.cur>span{display:inline-block;padding-right:9px}
+.vin{display:block;margin-left:auto;line-height:1.3;width:100%;max-width:138px;text-align:right;font-variant-numeric:tabular-nums;border:1px solid transparent;border-bottom-color:var(--linha-forte);background:transparent;border-radius:var(--r-s) var(--r-s) 0 0;padding:4px 8px;min-height:30px;font-size:14px}
+.vin:hover{border-color:var(--linha-forte);border-radius:var(--r-s);background:var(--bege)}
+.vin:focus{outline:0;border-color:var(--salmao);border-radius:var(--r-s);background:var(--bege);box-shadow:inset 0 0 0 1px var(--salmao)}
+.vin::placeholder{color:var(--atencao);opacity:1;font-size:12px}
+.vin:disabled{border-color:transparent;color:inherit;opacity:1;-webkit-text-fill-color:currentColor}
+.vin.est{color:var(--atencao);font-style:italic}
+.apoio{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:12px}
+.apoio label{display:flex;flex-direction:column;gap:6px;background:var(--papel);border:1px solid var(--linha);border-radius:var(--r-m);padding:12px 14px;font-size:13px;color:var(--print)}
+.apoio .vin{max-width:none;text-align:left;font-size:16px;font-weight:600;color:var(--chumbo);padding-left:0}
+.apoio small{font-size:12px;color:var(--mudo)}
+
+/* dashboard */
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.achado{border-top:5px solid var(--mudo)} .achado.bom{border-top-color:var(--positivo)} .achado.atencao{border-top-color:var(--atencao)} .achado.critico{border-top-color:var(--salmao)}
+.achado h3{font-family:var(--font-serif);font-weight:400;font-size:19px;line-height:1.2;margin:8px 0 6px}
+.achado p{margin:0;font-size:14px;color:var(--print)}
+.wf{display:grid;gap:3px}
+.wf-row{display:grid;grid-template-columns:minmax(118px,210px) minmax(0,1fr) minmax(98px,auto);align-items:center;gap:12px;min-height:30px;font-size:13.5px}
+.wf-row.tot{font-weight:700}
+.wf-row.tot + .wf-row.sub,.wf-row.sub + .wf-row.tot{margin-top:0}
+.wf-track{position:relative;height:20px}
+.wf-zero{position:absolute;top:-6px;bottom:-6px;width:1px;background:var(--linha-forte)}
+.wf-bar{position:absolute;top:0;bottom:0;min-width:2px}
+.wf-bar.tot{background:var(--bordo);border-radius:0 4px 4px 0}
+.wf-bar.sub{background:var(--salmao);border-radius:4px}
+.wf-bar.negat{background:var(--salmao-texto);border-radius:4px 0 0 4px}
+.wf-val{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.wf-val small{color:var(--mudo);font-weight:400;margin-left:6px;font-size:12px}
+.legenda{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--print);margin-top:12px}
+.legenda span{display:inline-flex;align-items:center;gap:6px}
+.legenda i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.cem{display:grid;gap:9px}
+.cem-row{display:grid;grid-template-columns:minmax(110px,190px) minmax(0,1fr) 74px;gap:10px;align-items:center;font-size:13.5px}
+.cem-track{height:14px;position:relative}
+.cem-bar{position:absolute;left:0;top:0;bottom:0;background:var(--bordo);border-radius:0 4px 4px 0;min-width:2px}
+.cem-row.lucro .cem-bar{background:var(--positivo)} .cem-row.preju .cem-bar{background:var(--salmao-texto)}
+.cem-row.lucro,.cem-row.preju{font-weight:700;border-top:1px solid var(--linha);padding-top:9px;margin-top:2px}
+.cem-val{text-align:right;font-variant-numeric:tabular-nums}
+.ref{display:grid;gap:14px}
+.ref-top{display:flex;justify-content:space-between;gap:8px;align-items:baseline;font-size:13.5px;flex-wrap:wrap}
+.ref-top b{font-variant-numeric:tabular-nums}
+.ref .faixa{height:8px;margin:7px 0 5px}
+.ref small{font-size:12px;color:var(--mudo);font-variant-numeric:tabular-nums}
+.pe-track{position:relative;height:24px;background:var(--bege-fundo);border-radius:4px;margin:26px 0 30px}
+.pe-bar{position:absolute;left:0;top:0;bottom:0;background:var(--bordo);border-radius:0 4px 4px 0}
+.pe-mark{position:absolute;top:-8px;bottom:-8px;width:2px;background:var(--salmao)}
+.pe-mark span{position:absolute;bottom:100%;transform:translateX(-50%);font-size:11px;font-weight:700;white-space:nowrap;color:var(--print);padding-bottom:2px}
+.pe-mark.fim span{transform:translateX(-100%)} .pe-mark.ini span{transform:none}
+.pe-leg{position:absolute;top:calc(100% + 8px);font-size:11px;color:var(--mudo);white-space:nowrap}
+.big{font-family:var(--font-display);font-weight:800;font-size:34px;line-height:1;font-variant-numeric:tabular-nums}
+.sim-row{display:grid;grid-template-columns:minmax(96px,150px) minmax(0,1fr) 58px;gap:10px;align-items:center;font-size:13.5px;margin-bottom:8px}
+.sim-row output{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;height:28px;margin:0}
+.sim-out{border-top:1px solid var(--linha);margin-top:12px;padding-top:12px;display:flex;gap:10px 22px;flex-wrap:wrap;align-items:flex-end}
+.sim-out div{font-size:12.5px;color:var(--mudo)} .sim-out b,.sim-out .label,.sim-out .big{display:block} .sim-out b{color:var(--chumbo)} .sim-out .label{margin-bottom:6px}
+.mini h3{font-size:13px;color:var(--print);font-weight:600;margin-bottom:8px}
+.mini svg{width:100%;height:auto;display:block;overflow:visible}
+svg text{font-family:var(--font-sans);font-size:11px;fill:var(--mudo);font-variant-numeric:tabular-nums}
+svg text.v{fill:var(--chumbo);font-weight:600}
+.alerta{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;padding:12px 0;border-bottom:1px solid var(--linha);font-size:14px}
+.alerta:last-child{border-bottom:0;padding-bottom:0} .alerta:first-child{padding-top:0}
+.alerta p{margin:0;color:var(--print);grid-column:2}
+.alerta b{grid-column:2}
+.acao{display:grid;grid-template-columns:54px minmax(0,1fr);gap:0 16px;background:var(--papel);border:1px solid var(--linha);border-radius:var(--r-m);padding:18px 20px;margin-bottom:12px}
+.acao.top{border-left:6px solid var(--salmao);border-radius:0 var(--r-m) var(--r-m) 0}
+.acao-n{font-family:var(--font-display);font-weight:800;font-size:44px;line-height:.9;color:var(--salmao)}
+.acao h3{font-family:var(--font-serif);font-weight:400;font-size:21px;line-height:1.2;margin:0 0 6px}
+.acao p{margin:0 0 8px;font-size:14px;color:var(--print);max-width:78ch}
+.acao-meta{display:flex;gap:6px 18px;flex-wrap:wrap;font-size:13px;color:var(--print);margin:10px 0}
+.acao-meta span b{font-weight:800;font-stretch:118%;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mudo);display:block}
+.impacto{display:flex;align-items:center;gap:10px;margin:2px 0 10px;font-size:13px;font-variant-numeric:tabular-nums}
+.impacto-track{flex:1;max-width:260px;height:8px;background:var(--bege-fundo);border-radius:4px;position:relative}
+.impacto-track i{position:absolute;left:0;top:0;bottom:0;background:var(--salmao);border-radius:4px}
+.passo{background:var(--bege-fundo);border-radius:var(--r-s);padding:10px 12px;font-size:14px}
+.passo b{font-weight:800;font-stretch:118%;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--salmao-texto);display:block;margin-bottom:2px}
+.lista{margin:0;padding:0;list-style:none;display:grid;gap:10px;font-size:14px;color:var(--print)}
+.lista li{padding-left:16px;position:relative} .lista li::before{content:"·";position:absolute;left:3px;font-weight:900;color:var(--salmao-texto)}
+.lista li b{color:var(--chumbo)}
+table.var tbody td,table.var tbody th{padding:8px 12px;font-size:13.5px;line-height:1.45} table.var tbody th{padding-left:16px}
+.rodape{margin-top:40px;padding-top:16px;border-top:1px solid var(--linha);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:12.5px;color:var(--mudo)}
+.modal{position:fixed;inset:0;z-index:50;background:color-mix(in srgb,var(--bordo) 55%,transparent);display:grid;place-items:center;padding:16px}
+.modal-box{background:var(--papel);border-radius:var(--r-l);padding:22px;max-width:620px;width:100%}
+.modal-box textarea{width:100%;height:220px;border:1px solid var(--linha-forte);border-radius:var(--r-s);padding:10px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;margin:12px 0;background:var(--bege)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--bordo);color:var(--bege);padding:10px 18px;border-radius:var(--pill);font-size:13.5px;z-index:60;max-width:calc(100vw - 32px)}
+
+@media (max-width:960px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.grid3{grid-template-columns:1fr}.apoio{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){
+  .grid2{grid-template-columns:1fr}
+  td.prev,th.prev,td.ah,th.ah{display:none}
+  td.cur{width:104px} td.av{width:58px} tbody th{padding-left:12px;padding-right:4px} tbody td{padding-left:4px;padding-right:10px} thead th{padding-left:4px;padding-right:10px;letter-spacing:.06em}
+  .vin{padding-left:4px;padding-right:6px} table{font-size:13.5px}
+  .op{width:16px} .kpi-num{font-size:32px}
+  .nav{gap:8px} .tabs{width:100%} .tab{flex:1;padding:0 8px}
+  .acao{grid-template-columns:1fr;padding:16px} .acao-n{font-size:34px;margin-bottom:6px}
+  .top-acoes .btn{min-height:32px;padding:0 11px;font-size:9.5px}
+}
+@media (max-width:420px){.kpis{gap:8px}.kpi{padding:12px}.kpi-num{font-size:28px}.wf-row{grid-template-columns:104px minmax(0,1fr) 84px;gap:8px;font-size:12.5px}.wf-val small,.so-largo{display:none!important}.cem-row{grid-template-columns:104px minmax(0,1fr) 64px;font-size:12.5px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{
+  body{background:#fff;font-size:12px} body::after{display:none}
+  .wrap{max-width:none;padding:0} .no-print,.nav,.q{display:none!important}
+  .pagina{display:block!important} #pg-dash{break-before:page}
+  .card,.kpi,.acao,.tabela,.achado{break-inside:avoid}
+  .vin{border-color:transparent!important}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <div class="top">
+    <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2277 198" role="img" aria-label="Manual de Donos"><title>Manual de Donos</title><path fill="currentColor" fill-rule="evenodd" d="M519 63 520 77 537 77 541 80 544 85 543 92 545 99 545 144 543 158 545 161 545 168 547 174 557 189 568 195 573 195 576 197 591 197 594 195 599 195 605 193 613 187 620 178 622 173 626 170 628 193 680 192 679 178 662 178 655 174 652 170 651 62 643 60 606 60 597 63 598 77 617 77 625 83 627 89 627 96 625 99 625 128 627 131 627 142 625 145 625 152 619 165 610 174 601 178 586 178 582 176 574 169 570 160 570 62 566 62 563 60 532 60ZM1965 58 1953 62 1944 68 1932 85 1932 92 1930 95 1930 106 1932 109 1932 114 1941 127 1955 135 1961 137 1972 137 1975 139 1992 139 1995 141 2002 141 2006 143 2014 151 2016 157 2016 166 2010 177 2002 184 1996 186 1977 186 1967 182 1958 176 1949 164 1941 148 1941 145 1933 144 1930 147 1930 154 1936 196 1944 197 1949 189 1967 195 1972 195 1975 197 1996 197 1999 195 2004 195 2014 191 2022 185 2033 170 2033 165 2035 162 2035 141 2029 129 2022 122 2008 116 1999 116 1996 114 1983 114 1980 112 1969 112 1966 110 1961 110 1951 100 1951 95 1949 91 1951 88 1951 83 1956 75 1967 69 1974 69 1978 67 1981 69 1992 71 1999 75 2008 84 2014 93 2018 104 2020 105 2023 103 2028 103 2029 99 2027 96 2027 81 2025 78 2023 59 2017 58 2012 66 2007 66 1996 60 1991 60 1988 58ZM1854 58 1846 60 1835 60 1829 62 1808 74 1798 84 1786 105 1783 125 1784 142 1788 154 1798 171 1808 181 1817 187 1837 195 1847 196 1868 195 1890 185 1900 177 1903 172 1907 169 1915 156 1919 144 1919 135 1921 132 1921 119 1919 116 1919 111 1915 99 1901 78 1880 64 1868 60 1857 60ZM1843 69 1860 69 1874 78 1882 91 1886 103 1886 114 1888 117 1888 140 1886 143 1886 152 1880 165 1880 168 1873 178 1864 184 1858 186 1845 186 1836 182 1825 170 1821 162 1819 151 1817 148 1817 133 1815 130 1815 125 1817 122 1817 105 1821 93 1829 79ZM1743 66 1726 58 1707 58 1690 66 1682 74 1678 82 1674 84 1672 78 1673 63 1671 61 1636 60 1633 62 1628 61 1622 63 1622 75 1624 77 1639 77 1643 79 1647 85 1647 170 1639 178 1622 178 1622 193 1693 192 1693 179 1683 178 1674 172 1674 139 1672 136 1672 117 1674 114 1674 105 1677 102 1681 90 1690 81 1699 77 1714 77 1726 85 1730 93 1730 170 1726 176 1722 178 1712 179 1712 192 1781 192 1780 178 1765 178 1757 172 1757 135 1755 132 1755 85 1749 73ZM1557 58 1553 60 1534 60 1521 66 1518 66 1509 72 1493 89 1483 111 1483 120 1481 123 1483 127 1483 144 1491 162 1497 171 1512 185 1528 193 1533 193 1536 195 1565 195 1568 193 1573 193 1585 187 1594 181 1606 169 1616 150 1616 145 1618 142 1618 111 1612 98 1612 95 1606 86 1592 72 1579 64 1567 60 1560 60ZM1542 69 1559 69 1570 75 1575 81 1583 97 1583 102 1585 105 1587 134 1583 158 1575 173 1568 180 1557 186 1544 186 1538 184 1526 173 1518 158 1516 143 1514 140 1514 119 1516 116 1516 105 1518 102 1518 97 1530 76ZM1170 58 1167 60 1162 60 1146 68 1129 85 1121 101 1117 113 1117 148 1119 151 1121 162 1131 179 1141 187 1152 193 1163 195 1166 197 1187 197 1190 195 1195 195 1207 189 1220 177 1226 168 1232 154 1232 149 1234 146 1233 144 1222 142 1219 152 1213 161 1208 166 1197 172 1192 172 1189 174 1170 172 1157 164 1148 150 1144 138 1144 119 1147 117 1153 117 1156 119 1217 119 1220 117 1229 118 1232 116 1233 110 1232 95 1226 81 1220 72 1209 64 1193 58ZM1146 101 1152 87 1158 78 1172 69 1189 69 1199 77 1205 93 1205 106 1203 108 1148 108 1146 106ZM699 68 693 74 689 81 688 94 692 103 698 107 713 107 720 100 721 94 720 87 717 82 718 75 726 69 731 69 735 67 747 71 757 81 761 91 761 116 759 118 748 118 745 120 736 120 733 122 728 122 710 128 697 136 691 142 683 157 683 172 689 185 693 189 704 195 709 195 712 197 729 197 732 195 737 195 749 189 763 176 775 191 784 195 803 195 812 191 822 179 822 163 824 160 823 143 809 143 809 170 807 174 799 180 791 176 787 168 788 95 786 92 786 87 776 70 763 62 752 60 749 58 722 58 719 60 714 60ZM759 129 761 131 761 164 749 176 737 180 726 180 719 176 712 168 711 162 712 153 716 146 730 135 742 131ZM488 66 471 58 452 58 435 66 421 81 420 63 417 60 369 61 369 76 387 77 391 80 395 89 393 93 395 99 394 168 393 172 385 178 369 179 370 193 438 192 438 179 428 178 424 176 420 170 420 107 422 104 422 99 428 88 433 83 444 77 459 77 467 81 473 87 477 99 477 166 475 172 471 176 467 178 457 179 457 192 526 192 525 178 510 178 502 170 502 91 496 75ZM245 66 235 77 231 89 231 94 238 105 242 107 255 107 262 103 264 100 265 93 260 77 263 73 270 69 281 68 291 71 301 81 305 93 305 116 303 118 280 120 277 122 264 124 257 128 254 128 241 136 233 144 227 157 227 174 233 185 242 193 253 195 256 197 271 197 274 195 281 195 298 185 306 177 309 178 309 180 316 189 328 195 347 195 358 189 366 179 366 151 368 147 365 142 352 142 351 144 353 147 353 164 351 167 351 174 343 180 336 178 332 174 330 170 330 89 324 76 313 66 301 60 294 60 291 58 266 58 263 60 252 62ZM303 128 305 130 305 164 293 176 290 176 283 180 270 180 262 176 256 168 255 160 256 153 260 146 265 141 278 133 289 131 292 129ZM2167 8 2166 18 2168 21 2168 30 2170 33 2172 52 2174 55 2174 62 2176 65 2176 76 2172 80 2169 80 2158 72 2153 66 2146 62 2141 56 2134 52 2129 46 2117 37 2114 39 2096 71 2097 73 2111 79 2126 83 2133 87 2158 95 2162 102 2154 108 2145 110 2138 114 2129 116 2122 120 2097 128 2096 130 2110 156 2117 164 2125 159 2132 151 2149 139 2164 125 2172 121 2176 125 2176 136 2174 139 2174 148 2172 151 2172 158 2170 161 2170 170 2168 173 2166 192 2206 193 2207 189 2205 186 2205 179 2203 176 2203 167 2201 164 2199 145 2197 142 2197 131 2195 128 2197 123 2199 121 2202 121 2211 127 2216 133 2223 137 2228 143 2235 147 2255 165 2257 164 2276 130 2270 126 2261 124 2238 114 2223 110 2215 106 2211 102 2211 99 2219 93 2234 89 2241 85 2250 83 2276 72 2259 41 2255 38 2248 42 2231 58 2214 70 2209 76 2202 80 2199 80 2195 76 2195 73 2197 70 2197 61 2199 58 2199 49 2201 46 2201 39 2203 36 2203 25 2205 22 2205 13 2207 10 2206 8ZM1292 8 1292 23 1303 23 1306 25 1313 25 1319 33 1319 168 1317 172 1309 178 1292 178 1291 192 1395 193 1398 191 1411 189 1427 181 1444 169 1464 142 1464 139 1472 120 1473 108 1472 83 1470 80 1470 75 1460 53 1454 44 1438 28 1419 16 1401 10 1392 10 1389 8ZM1352 19 1356 21 1362 19 1377 19 1380 21 1391 21 1405 27 1414 33 1425 47 1433 63 1433 68 1437 79 1437 92 1439 99 1437 122 1435 125 1433 138 1427 152 1421 161 1412 170 1399 178 1388 180 1385 182 1348 182 1346 180 1346 23ZM0 9 1 23 18 23 22 25 28 33 28 168 26 172 18 178 1 178 1 193 68 192 68 179 50 178 46 176 40 164 40 63 43 48 47 49 57 69 61 82 71 101 77 118 85 133 91 150 95 158 99 160 113 153 116 150 126 128 126 125 134 110 138 97 158 54 158 51 163 46 167 49 167 168 165 172 157 178 140 178 139 192 222 192 221 178 204 178 200 176 194 168 194 33 200 25 221 25 221 8 166 8 163 11 153 33 153 36 147 47 147 50 139 65 135 78 121 107 121 110 113 124 110 124 106 118 106 115 100 104 100 101 94 90 94 87 88 76 88 73 82 62 78 49 60 9ZM1036 0 1035 14 1040 17 1055 17 1061 25 1061 77 1058 78 1043 64 1027 58 1008 58 996 62 983 70 971 82 959 105 959 110 957 113 957 142 959 145 959 150 967 166 973 175 981 183 990 189 1008 197 1025 197 1028 195 1033 195 1048 187 1059 176 1061 177 1062 193 1113 193 1113 178 1096 178 1092 176 1086 168 1086 1ZM1020 69 1027 69 1040 75 1047 82 1055 95 1057 106 1059 109 1059 116 1061 119 1059 148 1049 170 1042 178 1027 185 1014 184 1002 175 994 162 990 150 990 141 988 138 988 117 990 114 990 105 992 102 992 97 1002 80 1010 73ZM826 0 825 14 832 17 845 17 850 23 849 28 851 32 849 35 849 172 841 178 826 178 825 192 901 193 901 178 884 178 876 170 876 1Z"/></svg>
+    <div class="top-acoes no-print">
+      <span class="salvo" id="salvo" role="status"><i></i><span>Carregando</span></span>
+      <button class="btn contorno sm" id="bt-copiar" type="button" title="Copia os números do painel para você colar no Claude e pedir uma análise nova">Copiar para o Claude</button>
+      <button class="btn contorno sm" id="bt-csv" type="button">Baixar planilha</button>
+      <button class="btn contorno sm" id="bt-print" type="button">Imprimir</button>
+    </div>
+  </div>
+  <header class="head"><span class="fresta"></span>
+    <div>
+      <div class="eyebrow" id="h-eyebrow">DRE de Donos</div>
+      <h1 id="h-negocio">Seu negócio</h1>
+      <div class="sub" id="h-sub"></div>
+    </div>
+  </header>
+  <nav class="nav no-print" aria-label="Navegação do painel">
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" id="tab-dre" aria-controls="pg-dre" aria-selected="true" type="button">DRE e indicadores</button>
+      <button class="tab" role="tab" id="tab-dash" aria-controls="pg-dash" aria-selected="false" type="button">Dashboard do CFO</button>
+    </div>
+    <div class="meses" id="meses" aria-label="Período"></div>
+  </nav>
+  <main>
+    <section class="pagina" id="pg-dre" role="tabpanel" aria-labelledby="tab-dre"></section>
+    <section class="pagina" id="pg-dash" role="tabpanel" aria-labelledby="tab-dash" hidden></section>
+  </main>
+  <footer class="rodape">
+    <span>Manual de Donos · De quem fez, pra quem faz.</span>
+    <span id="rodape-info"></span>
+  </footer>
+</div>
+<div id="modal" class="modal no-print" hidden></div>
+<div id="toast" class="toast no-print" role="status" hidden></div>
+<script type="application/json" id="dados">{}</script>
+<script>
+(function(){
+'use strict';
+/* ============================================================
+   DRE de Donos · Manual de Donos
+   1. utilidades  2. linhas da DRE  3. cálculo  4. dados e salvamento
+   5. página 1 (DRE e indicadores)  6. página 2 (dashboard)  7. ações
+   ============================================================ */
+
+/* ---------- 1. utilidades ---------- */
+const $ = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const rich = s => esc(s).replace(/&lt;(\/?)(b|i|br)&gt;/g, '<$1$2>');
+const clone = o => JSON.parse(JSON.stringify(o));
+const num = v => (v == null || v === '' || isNaN(Number(v))) ? null : Number(v);
+const nf0 = new Intl.NumberFormat('pt-BR', {maximumFractionDigits: 0});
+const nf1 = new Intl.NumberFormat('pt-BR', {minimumFractionDigits: 1, maximumFractionDigits: 1});
+const nf2 = new Intl.NumberFormat('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const MENOS = '−';
+const sinal = v => v < 0 ? MENOS : '';
+const reais = v => v == null ? '—' : sinal(v) + 'R$ ' + nf0.format(Math.abs(Math.round(v)));
+const inteiro = v => v == null ? '—' : sinal(v) + nf0.format(Math.abs(Math.round(v)));
+const pct = (v, d) => v == null || !isFinite(v) ? '—' : sinal(v) + (d === 0 ? nf0 : nf1).format(Math.abs(v)) + '%';
+function curto(v){ // R$ 185 mil, R$ 1,2 mi
+  if (v == null || !isFinite(v)) return {n: '—', u: ''};
+  const a = Math.abs(v), s = sinal(v);
+  if (a >= 1e6) return {n: s + 'R$ ' + (a >= 1e7 ? nf1 : nf2).format(a / 1e6), u: 'mi'};
+  if (a >= 1e4) return {n: s + 'R$ ' + (a >= 1e5 ? nf0 : nf1).format(a / 1e3), u: 'mil'};
+  return {n: s + 'R$ ' + nf0.format(Math.round(a)), u: ''};
+}
+const curtoTxt = v => { const c = curto(v); return c.n + (c.u ? ' ' + c.u : ''); };
+function lerNumero(txt){ // aceita 185000 · 185.000,50 · 185k · 1,2 mi · R$ 3.200
+  let s = String(txt == null ? '' : txt).toLowerCase().replace(/r\$/g, '').replace(/\s+/g, '');
+  if (!s || s === '—' || s === '-') return null;
+  let mult = 1;
+  if (/(mi|mm|milh[õo]es|milh[ãa]o)$/.test(s)) { mult = 1e6; s = s.replace(/(mi|mm|milh[õo]es|milh[ãa]o)$/, ''); }
+  else if (/(mil|k)$/.test(s)) { mult = 1e3; s = s.replace(/(mil|k)$/, ''); }
+  s = s.replace(/−/g, '-').replace(/[^0-9.,-]/g, '');
+  if (s.includes(',')) s = s.replace(/\./g, '').replace(',', '.');
+  else if (/^-?\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, '');
+  const v = parseFloat(s);
+  return isNaN(v) ? undefined : Math.round(v * mult);
+}
+const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const mesNome = m => MESES[Number(m.slice(5, 7)) - 1] + '/' + m.slice(0, 4);
+const mesCurto = m => MESES[Number(m.slice(5, 7)) - 1].slice(0, 3) + '/' + m.slice(2, 4);
+function mesMais(m, d){ let y = Number(m.slice(0, 4)), k = Number(m.slice(5, 7)) - 1 + d; y += Math.floor(k / 12); k = ((k % 12) + 12) % 12; return y + '-' + String(k + 1).padStart(2, '0'); }
+const slug = s => String(s || 'dre').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'dre';
+function toast(msg, ms){ const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => { t.hidden = true; }, ms || 2800); }
+
+/* ---------- 2. linhas da DRE ----------
+   tipo: in (número digitado, sempre positivo) | sub (calculado)
+   cat:  receita, ded, custo, var, fixa, da, finp, finn, ir
+   est:  estágios em que a linha aparece (1 começando · 2 crescendo · 3 consolidado).
+         Linha fora do estágio aparece mesmo assim se tiver valor. */
+const LINHAS = [
+  {id:'receita_bruta', tipo:'in', cat:'receita', est:[1,2,3], nome:'Receita bruta', op:'+',
+   ajuda:'Tudo o que você vendeu no mês, pelo valor cheio da nota ou do pedido. Vale a data da venda, não a data em que o dinheiro entrou: venda parcelada ou a prazo entra inteira aqui. Empréstimo e dinheiro que o sócio colocou na empresa não são receita.'},
+  {id:'impostos_vendas', tipo:'in', cat:'ded', est:[1,2,3], nome:'Impostos sobre as vendas', op:MENOS,
+   ajuda:'O que vai para o governo por vender. No Simples Nacional é a guia do DAS do mês. No Lucro Presumido ou Real é a soma de ISS, ICMS, PIS e Cofins.'},
+  {id:'devolucoes', tipo:'in', cat:'ded', est:[2,3], nome:'Devoluções e descontos', op:MENOS,
+   ajuda:'Vendas canceladas ou devolvidas e descontos dados depois da nota. Se a receita bruta que você informou já veio sem isso, deixe zero.'},
+  {id:'receita_liquida', tipo:'sub', est:[1,2,3], nome:'Receita líquida', op:'=',
+   ajuda:'O que de fato fica com a empresa depois de impostos e devoluções. Todas as margens do painel são calculadas sobre este número.'},
+  {id:'custo_direto', tipo:'in', cat:'custo', est:[1,2,3], nome:'Custo direto', op:MENOS,
+   ajuda:'O que você gastou para entregar exatamente o que vendeu. No comércio é o custo da mercadoria que saiu, não o que você comprou no mês. No serviço é quem executa a entrega. Na indústria é matéria-prima, mão de obra da produção e custos de fábrica.'},
+  {id:'lucro_bruto', tipo:'sub', est:[1,2,3], nome:'Lucro bruto', op:'=',
+   ajuda:'Receita líquida menos o custo direto. É o que sobra para pagar toda a estrutura da empresa e ainda dar lucro.'},
+  {id:'despesas_variaveis', tipo:'in', cat:'var', est:[1,2], nome:'Despesas que variam com a venda', op:MENOS,
+   ajuda:'Só existem porque a venda aconteceu: taxa da maquininha e de marketplace, comissão de vendedor, frete, embalagem. Vendeu mais, paga mais.'},
+  {id:'comissoes', tipo:'in', cat:'var', est:[3], nome:'Comissões de venda', op:MENOS,
+   ajuda:'Comissão de vendedores, representantes e parceiros, com encargos.'},
+  {id:'taxas_pagamento', tipo:'in', cat:'var', est:[3], nome:'Taxas de cartão e marketplace', op:MENOS,
+   ajuda:'Taxa da maquininha, do gateway, do marketplace e da antecipação automática embutida na taxa.'},
+  {id:'fretes', tipo:'in', cat:'var', est:[3], nome:'Fretes e entregas', op:MENOS,
+   ajuda:'Frete de venda pago pela empresa, motoboy, embalagem de envio.'},
+  {id:'outras_variaveis', tipo:'in', cat:'var', est:[3], nome:'Outras despesas variáveis', op:MENOS,
+   ajuda:'Qualquer outro gasto que cresce junto com a venda: royalties, bonificações, insumos de atendimento.'},
+  {id:'margem_contribuicao', tipo:'sub', est:[1,2,3], nome:'Margem de contribuição', op:'=',
+   ajuda:'O que as vendas deixam para pagar os custos fixos e gerar lucro. Se ela for baixa, vender mais não resolve: o problema está no preço ou no custo de cada venda.'},
+  {id:'pessoal', tipo:'in', cat:'fixa', est:[1,2,3], nome:'Pessoal (salários, encargos e benefícios)', op:MENOS,
+   ajuda:'Custo total da equipe, não só o salário: INSS, FGTS, férias, 13º, vale-transporte, vale-refeição e plano de saúde. Não repita aqui quem já está no custo direto.'},
+  {id:'pro_labore', tipo:'in', cat:'fixa', est:[2,3], nome:'Pró-labore dos sócios', op:MENOS,
+   ajuda:'A sua remuneração por trabalhar na empresa, como um salário. É diferente de distribuição de lucro, que não entra na DRE. Se você não lança pró-labore, o lucro parece maior do que é.'},
+  {id:'ocupacao', tipo:'in', cat:'fixa', est:[1,2,3], nome:'Aluguel e estrutura', op:MENOS,
+   ajuda:'Aluguel, condomínio, IPTU, energia, água, internet, limpeza e manutenção do ponto.'},
+  {id:'marketing', tipo:'in', cat:'fixa', est:[1,2,3], nome:'Marketing e vendas', op:MENOS,
+   ajuda:'Anúncios, agência, influenciadores, eventos, brindes e ferramentas de venda. Comissão não entra aqui: ela é despesa variável.'},
+  {id:'tecnologia', tipo:'in', cat:'fixa', est:[3], nome:'Tecnologia e sistemas', op:MENOS,
+   ajuda:'Sistemas de gestão, licenças, hospedagem e suporte de TI que não fazem parte do custo direto.'},
+  {id:'administrativas', tipo:'in', cat:'fixa', est:[2,3], nome:'Administrativas', op:MENOS,
+   ajuda:'Contador, advogado, sistemas, telefone, material de escritório, seguros e taxas.'},
+  {id:'outras_fixas', tipo:'in', cat:'fixa', est:[1,2,3], nome:'Outras despesas', op:MENOS,
+   ajuda:'O que não coube nas linhas de cima. Se esta linha passar de 5% da receita, vale abrir o que tem dentro.'},
+  {id:'ebitda', tipo:'sub', est:[2,3], nome:'EBITDA (lucro da operação)', op:'=',
+   ajuda:'Lucro da operação antes de juros, imposto sobre o lucro, depreciação e amortização. Mostra se o negócio em si dá dinheiro, sem o efeito de dívida e de investimento.'},
+  {id:'depreciacao', tipo:'in', cat:'da', est:[2,3], nome:'Depreciação e amortização', op:MENOS,
+   ajuda:'O desgaste de máquinas, veículos, equipamentos e reformas, dividido pelos meses de vida útil. Não sai do caixa no mês, mas é custo: um dia você vai ter que trocar.'},
+  {id:'ebit', tipo:'sub', est:[3], nome:'EBIT (resultado operacional)', op:'=',
+   ajuda:'EBITDA menos depreciação e amortização. É o lucro da operação já contando o desgaste dos ativos.'},
+  {id:'receitas_financeiras', tipo:'in', cat:'finp', est:[3], nome:'Receitas financeiras', op:'+',
+   ajuda:'Rendimento de aplicações e juros recebidos de clientes.'},
+  {id:'despesas_financeiras', tipo:'in', cat:'finn', est:[2,3], nome:'Despesas financeiras (juros e tarifas)', op:MENOS,
+   ajuda:'Juros de empréstimo, antecipação de recebíveis, cheque especial, tarifas bancárias e multas. A parcela do empréstimo não entra inteira: só a parte de juros.'},
+  {id:'lair', tipo:'sub', est:[3], nome:'Lucro antes do IR', op:'=',
+   ajuda:'Resultado depois de juros e antes do imposto sobre o lucro.'},
+  {id:'ir_csll', tipo:'in', cat:'ir', est:[2,3], nome:'IR e CSLL', op:MENOS,
+   ajuda:'Imposto sobre o lucro. No Simples Nacional ele já está dentro do DAS, então aqui fica zero.'},
+  {id:'lucro_liquido', tipo:'sub', est:[1,2,3], nome:'Lucro líquido', op:'=',
+   ajuda:'O que sobrou no mês depois de tudo. Lucro não é caixa: dá para ter lucro e estar sem dinheiro se você vendeu a prazo, encheu o estoque ou pagou parcela de empréstimo.'}
+];
+const NOME_E1 = {pessoal:'Pessoal (equipe e sua retirada)', outras_fixas:'Demais despesas', lucro_liquido:'Lucro líquido (resultado do mês)'};
+const AJUDA_E1 = {
+  pessoal:'Custo total da equipe, não só o salário: encargos, férias, 13º e benefícios. Some aqui também a sua retirada mensal, como se fosse o seu salário. Não repita quem já está no custo direto.',
+  outras_fixas:'Contador, sistemas, telefone, tarifas e juros do banco, seguros e o que mais não coube nas linhas de cima.'
+};
+const POR_ID = {}; LINHAS.forEach(l => { POR_ID[l.id] = l; });
+const ENTRADAS = LINHAS.filter(l => l.tipo === 'in').map(l => l.id);
+const EXTRAS = [
+  {id:'funcionarios', nome:'Pessoas na equipe', dica:'Todo mundo que trabalha no negócio, contando sócios que operam.'},
+  {id:'clientes_novos', nome:'Clientes novos no mês', dica:'Quem comprou pela primeira vez. Serve para calcular o CAC.'},
+  {id:'num_vendas', nome:'Número de vendas', dica:'Pedidos, notas ou atendimentos. Serve para o ticket médio.'},
+  {id:'caixa_final', nome:'Caixa no fim do mês (R$)', dica:'Saldo em banco e aplicações no último dia. Serve para o fôlego de caixa.'}
+];
+
+/* ---------- 3. cálculo ---------- */
+function calc(v, x){
+  v = v || {}; x = x || {};
+  const n = id => Number(v[id]) || 0;
+  const soma = cat => LINHAS.reduce((a, l) => a + (l.cat === cat ? n(l.id) : 0), 0);
+  const r = {v: v, x: x};
+  r.receita_bruta = n('receita_bruta');
+  r.deducoes = soma('ded');
+  r.receita_liquida = r.receita_bruta - r.deducoes;
+  r.custo_direto = soma('custo');
+  r.lucro_bruto = r.receita_liquida - r.custo_direto;
+  r.variaveis = soma('var');
+  r.margem_contribuicao = r.lucro_bruto - r.variaveis;
+  r.fixas = soma('fixa');
+  r.ebitda = r.margem_contribuicao - r.fixas;
+  r.depreciacao = n('depreciacao');
+  r.ebit = r.ebitda - r.depreciacao;
+  r.fin = n('receitas_financeiras') - n('despesas_financeiras');
+  r.lair = r.ebit + r.fin;
+  r.ir = n('ir_csll');
+  r.lucro_liquido = r.lair - r.ir;
+  r.pessoal_total = n('pessoal') + n('pro_labore');
+  r.estrutura = n('ocupacao') + n('tecnologia') + n('administrativas') + n('outras_fixas');
+  r.depois = r.depreciacao - r.fin + r.ir; // desgaste, banco e IR
+  const RL = r.receita_liquida, p = a => RL > 0 ? a / RL * 100 : null;
+  r.p = {
+    margem_bruta: p(r.lucro_bruto), margem_contribuicao: p(r.margem_contribuicao), margem_ebitda: p(r.ebitda),
+    margem_liquida: p(r.lucro_liquido), custo_direto: p(r.custo_direto), folha: p(r.pessoal_total),
+    ocupacao: p(n('ocupacao')), marketing: p(n('marketing')), financeiras: p(n('despesas_financeiras')),
+    impostos: r.receita_bruta > 0 ? (n('impostos_vendas') + r.ir) / r.receita_bruta * 100 : null
+  };
+  // ponto de equilíbrio: receita líquida que zera o resultado (antes do IR)
+  r.fixas_totais = r.fixas + r.depreciacao - r.fin;
+  const mc = r.p.margem_contribuicao;
+  r.pe = (mc != null && mc > 0) ? r.fixas_totais / (mc / 100) : null;
+  r.seguranca = (r.pe != null && RL > 0) ? (RL - r.pe) / RL * 100 : null;
+  const f = num(x.funcionarios), cn = num(x.clientes_novos), nv = num(x.num_vendas), cx = num(x.caixa_final);
+  r.receita_por_pessoa = f > 0 && RL > 0 ? RL / f : null;
+  r.cac = cn > 0 ? (n('marketing') + n('comissoes')) / cn : null;
+  r.ticket = nv > 0 ? r.receita_bruta / nv : null;
+  const saidas = r.receita_bruta - r.lucro_liquido - r.depreciacao + n('receitas_financeiras');
+  r.dias_caixa = (cx != null && saidas > 0) ? cx / (saidas / (x._meses ? 30 * x._meses : 30)) : null;
+  r.val = id => (id in r && typeof r[id] === 'number') ? r[id] : (v[id] == null ? null : Number(v[id]));
+  return r;
+}
+
+/* direção do benchmark: 1 = quanto maior melhor · -1 = quanto menor melhor · 0 = dentro da faixa é o certo */
+const DIRECAO = {margem_bruta:1, margem_contribuicao:1, margem_ebitda:1, margem_liquida:1, custo_direto:-1, folha:-1, ocupacao:-1, marketing:0, impostos:-1, receita_por_pessoa:1, cac:-1};
+function julgar(chave, val){
+  const b = (D.benchmarks || {})[chave];
+  if (!b || val == null || !isFinite(val) || b.min == null || b.max == null) return null;
+  const dir = DIRECAO[chave] == null ? 0 : DIRECAO[chave];
+  let st = 'ok', txt = 'dentro da faixa';
+  if (val > b.max){
+    if (dir === 1) txt = 'acima da faixa';
+    else { txt = 'acima da faixa'; st = (dir === -1 && (val - b.max) / Math.abs(b.max || 1) > .2) ? 'bad' : 'warn'; }
+  } else if (val < b.min){
+    if (dir === -1) txt = 'abaixo da faixa';
+    else { txt = 'abaixo da faixa'; st = (dir === 1 && (val < 0 || (b.min - val) / Math.abs(b.min || 1) > .25)) ? 'bad' : 'warn'; }
+  }
+  return {st: st, txt: txt, b: b, dir: dir};
+}
+
+/* ---------- 4. dados e salvamento ---------- */
+let SEED = null, D = null;
+const S = {mes: null, aba: 'dre', sim: {preco: 0, volume: 0, custo: 0, fixas: 0}, modo: 'memoria', db: null, salvoEm: null, pronto: false};
+
+function normalizar(src){
+  const d = clone(src || {});
+  d.negocio = d.negocio || 'Seu negócio';
+  d.estagio = [1, 2, 3].includes(Number(d.estagio)) ? Number(d.estagio) : 1;
+  d.meses = d.meses || {};
+  Object.keys(d.meses).forEach(m => {
+    if (!/^\d{4}-\d{2}$/.test(m)) { delete d.meses[m]; return; }
+    const M = d.meses[m] = d.meses[m] || {};
+    M.valores = M.valores || {}; M.extras = M.extras || {};
+    if (Array.isArray(M.estimados)) { const o = {}; M.estimados.forEach(id => { o[id] = ''; }); M.estimados = o; }
+    M.estimados = M.estimados || {};
+    ENTRADAS.forEach(id => { M.valores[id] = num(M.valores[id]); });
+    EXTRAS.forEach(e => { M.extras[e.id] = num(M.extras[e.id]); });
+  });
+  d.ordemMeses = Object.keys(d.meses).sort();
+  if (!d.meses[d.mesAtual]) d.mesAtual = d.ordemMeses[d.ordemMeses.length - 1] || null;
+  ['rotulos', 'ajudas', 'benchmarks'].forEach(k => { d[k] = d[k] || {}; });
+  ['achados', 'acoes', 'depois', 'premissas', 'contador'].forEach(k => { d[k] = Array.isArray(d[k]) ? d[k] : []; });
+  return d;
+}
+function pacote(){
+  const meses = {};
+  D.ordemMeses.forEach(m => { const M = D.meses[m]; if (M.editadoEm) meses[m] = {valores: M.valores, extras: M.extras, estimados: M.estimados, editadoEm: M.editadoEm}; });
+  return {v: 1, base: SEED.geradoEm || '', salvoEm: new Date().toISOString(), meses: meses};
+}
+function aplicar(p){ // edições do dono por cima dos números gerados; edição mais antiga que a geração é descartada
+  D = normalizar(SEED);
+  if (p && p.meses) Object.keys(p.meses).forEach(m => {
+    const e = p.meses[m], base = D.meses[m];
+    if (!e || !e.valores || !/^\d{4}-\d{2}$/.test(m)) return;
+    if (base && !(String(e.editadoEm || '') > String(SEED.geradoEm || ''))) return;
+    const M = base || {valores: {}, extras: {}, estimados: {}, novo: true};
+    ENTRADAS.forEach(id => { M.valores[id] = num(e.valores[id]); });
+    EXTRAS.forEach(x => { M.extras[x.id] = num((e.extras || {})[x.id]); });
+    M.estimados = e.estimados || {}; M.editadoEm = e.editadoEm || new Date().toISOString();
+    D.meses[m] = M;
+  });
+  D.ordemMeses = Object.keys(D.meses).sort();
+  if (S.mes !== 'acum' && !D.meses[S.mes]) S.mes = D.mesAtual;
+}
+const chaveLS = () => 'dre-de-donos:' + slug(SEED.negocio);
+function lerLS(){ try { const t = localStorage.getItem(chaveLS()); return t ? JSON.parse(t) : null; } catch (e) { return undefined; } }
+function setSalvo(){
+  const el = $('#salvo'), editou = D.ordemMeses.some(m => D.meses[m].editadoEm);
+  const txt = S.modo === 'db' ? (editou ? 'Edições salvas na sua página' : 'Salva na sua página')
+    : S.modo === 'local' ? (editou ? 'Edições salvas neste navegador' : 'Salva neste navegador')
+    : 'Edições valem só com a página aberta';
+  el.className = 'salvo ' + (S.modo === 'memoria' ? 'warn' : 'ok');
+  el.lastElementChild.textContent = S.pronto ? txt : 'Carregando';
+}
+let tSalvar = null;
+function salvar(){
+  clearTimeout(tSalvar);
+  tSalvar = setTimeout(async () => {
+    const p = pacote(); S.salvoEm = p.salvoEm;
+    if (S.modo === 'db' && S.db) {
+      try { await S.db.doc('dre/edicoes').set(p); setSalvo(); return; }
+      catch (e) { S.modo = 'local'; }
+    }
+    if (S.modo !== 'memoria') {
+      try { localStorage.setItem(chaveLS(), JSON.stringify(p)); } catch (e) { S.modo = 'memoria'; }
+    }
+    setSalvo();
+  }, 600);
+}
+async function iniciarSalvamento(){
+  const local = lerLS();
+  S.modo = local === undefined ? 'memoria' : 'local';
+  if (local) { aplicar(local); tudo(); }
+  let db = null;
+  try { db = await Promise.race([Promise.resolve(window.claude && window.claude.use ? window.claude.use('db') : null), new Promise(r => setTimeout(() => r(null), 10000))]); } catch (e) { db = null; }
+  if (db) {
+    S.db = db; let primeira = true;
+    const fim = setTimeout(() => { if (primeira) { primeira = false; S.pronto = true; setSalvo(); } }, 10000);
+    try {
+      db.doc('dre/edicoes').onSnapshot(s => {
+        const p = s && s.exists ? s.data() : null;
+        if (primeira) { primeira = false; clearTimeout(fim); S.modo = 'db'; S.pronto = true; if (p) { aplicar(p); tudo(); } setSalvo(); return; }
+        if (p && p.salvoEm && p.salvoEm !== S.salvoEm && !document.activeElement.classList.contains('vin')) { S.salvoEm = p.salvoEm; aplicar(p); tudo(); }
+      }, () => { if (primeira) { primeira = false; clearTimeout(fim); S.pronto = true; setSalvo(); } });
+    } catch (e) { S.pronto = true; setSalvo(); }
+  } else { S.pronto = true; setSalvo(); }
+}
+
+/* período em foco */
+function periodo(){
+  if (S.mes === 'acum') {
+    const v = {}, x = {_meses: D.ordemMeses.length}; let f = 0, fn = 0;
+    ENTRADAS.forEach(id => { let t = null; D.ordemMeses.forEach(m => { const a = D.meses[m].valores[id]; if (a != null) t = (t || 0) + a; }); v[id] = t; });
+    D.ordemMeses.forEach(m => { const e = D.meses[m].extras;
+      if (e.funcionarios != null) { f += e.funcionarios; fn++; }
+      ['clientes_novos', 'num_vendas'].forEach(k => { if (e[k] != null) x[k] = (x[k] || 0) + e[k]; });
+      if (e.caixa_final != null) x.caixa_final = e.caixa_final; });
+    x.funcionarios = fn ? f / fn : null;
+    const r = calc(v, x); if (r.receita_por_pessoa != null) r.receita_por_pessoa /= D.ordemMeses.length;
+    return {acum: true, nome: 'Acumulado de ' + D.ordemMeses.length + ' meses', curto: 'acumulado', M: {valores: v, extras: x, estimados: {}}, r: r, ant: null, rAnt: null};
+  }
+  const M = D.meses[S.mes], i = D.ordemMeses.indexOf(S.mes), ant = i > 0 ? D.ordemMeses[i - 1] : null;
+  return {acum: false, mes: S.mes, nome: mesNome(S.mes), curto: mesCurto(S.mes), M: M, r: calc(M.valores, M.extras), ant: ant, rAnt: ant ? calc(D.meses[ant].valores, D.meses[ant].extras) : null};
+}
+const rotulo = id => D.rotulos[id] || (D.estagio === 1 && NOME_E1[id]) || POR_ID[id].nome;
+const ajuda = id => D.ajudas[id] || (D.estagio === 1 && AJUDA_E1[id]) || POR_ID[id].ajuda;
+const temValor = id => D.ordemMeses.some(m => Number(D.meses[m].valores[id]));
+function linhasVisiveis(){
+  const e = D.estagio;
+  return LINHAS.filter(l => {
+    if (l.tipo === 'in') return l.est.includes(e) || temValor(l.id);
+    if (l.est.includes(e)) return true;
+    if (l.id === 'ebitda') return ['depreciacao', 'despesas_financeiras', 'receitas_financeiras', 'ir_csll'].some(temValor);
+    return false;
+  });
+}
+
+/* ---------- 5. página 1: DRE e indicadores ---------- */
+const AJUDA_KPI = {
+  receita_liquida: 'É a receita bruta menos os impostos sobre a venda e as devoluções. É o dinheiro que de fato fica com a empresa para pagar custos e gerar lucro, e a base de todas as margens.',
+  lucro_bruto: 'É o que sobra da receita líquida depois do custo direto. A margem bruta é esse valor em %: de cada R$ 100 vendidos, quanto fica depois de entregar o produto ou serviço.',
+  margem_contribuicao: 'É o lucro bruto menos as despesas que variam com a venda (taxas, comissões, frete). Mostra quanto cada R$ 100 vendido deixa para pagar os custos fixos. É a base do ponto de equilíbrio.',
+  ebitda: 'Lucro da operação antes de juros, imposto sobre o lucro, depreciação e amortização. Mostra se o negócio em si dá dinheiro, sem o efeito de dívida e de investimento.',
+  lucro_liquido: 'O que sobrou depois de tudo. A margem líquida diz quantos reais de lucro ficam de cada R$ 100 de receita líquida. Lucro não é caixa: venda a prazo, estoque e parcela de empréstimo mexem no caixa sem passar por aqui.',
+  folha: 'Quanto da receita líquida vai para salários, encargos, benefícios e pró-labore. Em serviço costuma ser a maior linha; em comércio, bem menor. Acima da faixa, ou a equipe está grande para a venda, ou a venda está pequena para a equipe.',
+  receita_por_pessoa: 'Receita líquida do mês dividida pelo número de pessoas. Mede a produtividade do time: se a equipe cresce mais rápido do que este número, a margem cai.',
+  cac: 'Custo de aquisição de cliente: o que você investiu em marketing e vendas no mês dividido pelos clientes novos. Só faz sentido comparado com quanto cada cliente deixa de margem ao longo do tempo.',
+  pe: 'Quanto você precisa vender de receita líquida para pagar todos os custos e ficar no zero a zero. Conta: custos fixos ÷ margem de contribuição em %. Abaixo dele é prejuízo; acima, lucro.',
+  ticket: 'Receita bruta dividida pelo número de vendas. Subir o ticket costuma ser o caminho mais barato para crescer: o custo de atender quase não muda.'
+};
+function delta(cur, prev, tipo, bomSubir, ref){
+  if (cur == null || prev == null || !isFinite(cur) || !isFinite(prev)) return '';
+  const d = tipo === 'pp' ? cur - prev : (prev !== 0 ? (cur - prev) / Math.abs(prev) * 100 : null);
+  if (d == null) return '';
+  if (Math.abs(d) < 0.05) return '<span class="mudo">→ igual a ' + esc(ref) + '</span>';
+  const sobe = d > 0, cls = bomSubir == null ? 'mudo' : (sobe === bomSubir ? 'pos' : 'neg');
+  return '<span class="' + cls + '">' + (sobe ? '↑' : '↓') + ' ' + nf1.format(Math.abs(d)) + (tipo === 'pp' ? ' p.p.' : '%') + '</span> <span class="mudo">vs ' + esc(ref) + '</span>';
+}
+function faixaHTML(j, val, unidade){
+  if (!j) return '';
+  const b = j.b, lo = Math.min(0, val, b.min), hi = Math.max(val, b.max) * 1.18 || 1, w = hi - lo || 1;
+  const pos = x => Math.max(0, Math.min(100, (x - lo) / w * 100));
+  const f = unidade === 'R$' ? (x => curtoTxt(x)) : (x => pct(x, 0));
+  return '<div class="faixa" aria-hidden="true"><b style="left:' + pos(b.min) + '%;width:' + (pos(b.max) - pos(b.min)) + '%"></b><i class="' + j.st + '" style="left:' + pos(val) + '%"></i></div>' +
+    '<div class="kpi-pe"><span class="chip ' + j.st + '">' + j.txt + '</span><span>faixa ' + f(b.min) + ' a ' + f(b.max) + '</span></div>';
+}
+function listaKpis(P){
+  const r = P.r, a = P.rAnt, ref = P.ant ? mesCurto(P.ant).toLowerCase() : '', x = P.M.extras, K = [];
+  const big = v => curto(v), bigP = v => v == null ? {n: '—', u: ''} : {n: sinal(v) + nf1.format(Math.abs(v)), u: '%'};
+  const tem = r.receita_bruta > 0;
+  K.push({id: 'receita_liquida', nome: 'Receita líquida', big: big(tem ? r.receita_liquida : null), sec: 'Receita bruta de ' + curtoTxt(tem ? r.receita_bruta : null),
+    d: a && delta(r.receita_liquida, a.receita_liquida, 'pct', true, ref)});
+  K.push({id: 'lucro_bruto', nome: 'Lucro bruto', big: big(tem ? r.lucro_bruto : null), sec: 'Margem bruta de <b>' + pct(r.p.margem_bruta) + '</b>',
+    j: julgar('margem_bruta', r.p.margem_bruta), jv: r.p.margem_bruta, d: a && delta(r.p.margem_bruta, a.p.margem_bruta, 'pp', true, ref)});
+  K.push({id: 'margem_contribuicao', nome: 'Margem de contribuição', big: big(tem ? r.margem_contribuicao : null), sec: '<b>' + pct(r.p.margem_contribuicao) + '</b> da receita líquida',
+    j: julgar('margem_contribuicao', r.p.margem_contribuicao), jv: r.p.margem_contribuicao, d: a && delta(r.p.margem_contribuicao, a.p.margem_contribuicao, 'pp', true, ref)});
+  K.push({id: 'lucro_liquido', nome: 'Lucro líquido', destaque: true, big: big(tem ? r.lucro_liquido : null), sec: 'Margem líquida de <b>' + pct(r.p.margem_liquida) + '</b>',
+    j: julgar('margem_liquida', r.p.margem_liquida), jv: r.p.margem_liquida, d: a && delta(r.p.margem_liquida, a.p.margem_liquida, 'pp', true, ref)});
+  if (linhasVisiveis().some(l => l.id === 'ebitda'))
+    K.push({id: 'ebitda', nome: 'EBITDA', big: big(tem ? r.ebitda : null), sec: 'Margem EBITDA de <b>' + pct(r.p.margem_ebitda) + '</b>',
+      j: julgar('margem_ebitda', r.p.margem_ebitda), jv: r.p.margem_ebitda, d: a && delta(r.p.margem_ebitda, a.p.margem_ebitda, 'pp', true, ref)});
+  K.push({id: 'folha', nome: 'Peso da folha', big: bigP(r.p.folha), sec: curtoTxt(r.pessoal_total) + ' em pessoal' + (r.v.pro_labore ? ' e pró-labore' : ''),
+    j: julgar('folha', r.p.folha), jv: r.p.folha, d: a && delta(r.p.folha, a.p.folha, 'pp', false, ref)});
+  K.push({id: 'receita_por_pessoa', nome: 'Receita por funcionário', big: big(r.receita_por_pessoa),
+    sec: r.receita_por_pessoa != null ? nf0.format(Math.round(x.funcionarios)) + ' pessoas na equipe' + (P.acum ? ' · média por mês' : '') : 'Informe as pessoas na equipe em Dados de apoio, abaixo da DRE.',
+    j: julgar('receita_por_pessoa', r.receita_por_pessoa), jv: r.receita_por_pessoa, ju: 'R$', d: a && delta(r.receita_por_pessoa, a.receita_por_pessoa, 'pct', true, ref)});
+  K.push({id: 'cac', nome: 'CAC · custo por cliente novo', big: big(r.cac),
+    sec: r.cac != null ? nf0.format(x.clientes_novos) + ' clientes novos · ' + curtoTxt((Number(r.v.marketing) || 0) + (Number(r.v.comissoes) || 0)) + ' em marketing e vendas' : 'Informe os clientes novos em Dados de apoio, abaixo da DRE.',
+    j: julgar('cac', r.cac), jv: r.cac, ju: 'R$', d: a && delta(r.cac, a.cac, 'pct', false, ref)});
+  let peSec, peChip = '';
+  if (!tem) peSec = 'Preencha a DRE para calcular.';
+  else if (r.pe == null) { peSec = 'A margem de contribuição está zerada ou negativa: do jeito que está, vender mais não paga os custos fixos.'; peChip = '<span class="chip bad">sem equilíbrio</span>'; }
+  else if (r.seguranca >= 0) { peSec = 'Você vendeu <b>' + pct(r.seguranca) + '</b> acima dele. É a sua margem de segurança.'; peChip = '<span class="chip ' + (r.seguranca < 10 ? 'warn' : 'ok') + '">' + (r.seguranca < 10 ? 'folga curta' : 'acima do equilíbrio') + '</span>'; }
+  else { peSec = 'Faltaram <b>' + reais(r.pe - r.receita_liquida) + '</b> de receita líquida para empatar.'; peChip = '<span class="chip bad">abaixo do equilíbrio</span>'; }
+  K.push({id: 'pe', nome: 'Ponto de equilíbrio', big: big(tem ? r.pe : null), sec: peSec, extra: peChip ? '<div class="kpi-pe">' + peChip + '</div>' : ''});
+  if (r.ticket != null) K.push({id: 'ticket', nome: 'Ticket médio', big: big(r.ticket), sec: nf0.format(x.num_vendas) + ' vendas no período', d: a && delta(r.ticket, a.ticket, 'pct', true, ref)});
+  return K;
+}
+function renderKpis(P){
+  $('#blk-kpis').innerHTML = listaKpis(P).map(k =>
+    '<article class="kpi' + (k.destaque ? ' destaque' : '') + '">' +
+      '<div class="kpi-top"><span class="label">' + esc(k.nome) + '</span><button class="q no-print" type="button" aria-expanded="false" aria-label="O que é ' + esc(k.nome) + '">?</button></div>' +
+      '<div class="ajuda" hidden>' + esc(AJUDA_KPI[k.id]) + '</div>' +
+      '<div class="kpi-num">' + k.big.n + (k.big.u ? '<small>' + k.big.u + '</small>' : '') + '</div>' +
+      '<div class="kpi-sec">' + k.sec + '</div>' +
+      (k.j ? faixaHTML(k.j, k.jv, k.ju) : '') + (k.extra || '') +
+      (k.d ? '<div class="kpi-pe">' + k.d + '</div>' : '') +
+    '</article>').join('');
+}
+function leituraAuto(P){
+  const r = P.r;
+  if (!(r.receita_bruta > 0)) return 'Preencha a receita bruta e os custos na tabela abaixo: o painel calcula o resultado na hora.';
+  const quando = P.acum ? 'No acumulado' : 'Em ' + MESES[Number(P.mes.slice(5, 7)) - 1].toLowerCase();
+  const saidas = [['o custo direto', r.custo_direto], ['a folha', r.pessoal_total], ['as despesas variáveis', r.variaveis], ['a estrutura', r.estrutura], ['os impostos sobre a venda', r.deducoes]].sort((a, b) => b[1] - a[1])[0];
+  const maior = saidas[1] > 0 ? ' A maior saída foi ' + saidas[0] + ': ' + pct(saidas[1] / r.receita_liquida * 100, 0) + ' da receita líquida.' : '';
+  if (r.lucro_liquido >= 0) return quando + ', de cada R$ 100 de receita líquida sobraram R$ ' + nf2.format(r.p.margem_liquida) + ' de lucro: ' + reais(r.lucro_liquido) + ' no total.' + maior;
+  return quando + ' o resultado ficou negativo em ' + reais(Math.abs(r.lucro_liquido)) + '.' + (r.pe != null ? ' Para empatar, a receita líquida precisava chegar a ' + reais(r.pe) + '.' : ' A margem de contribuição não cobre os custos fixos.') + maior;
+}
+function renderLeitura(P){
+  const escrita = !P.acum && !P.M.editadoEm && (P.M.leitura || (P.mes === D.mesAtual && D.leitura));
+  const nota = P.acum ? 'Leitura automática do período acumulado.' : P.M.editadoEm && !P.M.novo ? 'Leitura automática: você editou os números depois da análise do CFO. Para uma análise nova, use "Copiar para o Claude" no topo.' : !escrita ? 'Leitura automática, calculada a partir dos números da tabela.' : '';
+  $('#blk-leitura').innerHTML = '<div class="frase"><div class="label"><span class="ast" aria-hidden="true"></span>Leitura do CFO · ' + esc(P.nome) + '</div><p>' + (escrita ? rich(escrita) : esc(leituraAuto(P))) + '</p>' + (nota ? '<small>' + nota + '</small>' : '') + '</div>';
+}
+function celulas(P){
+  const r = P.r, a = P.rAnt, RL = r.receita_liquida, out = {};
+  linhasVisiveis().forEach(l => {
+    const sub = l.tipo === 'sub';
+    const cur = sub ? (r.receita_bruta > 0 || l.id === 'receita_liquida' ? r[l.id] : null) : P.M.valores[l.id];
+    const prev = a ? (sub ? a[l.id] : D.meses[P.ant].valores[l.id]) : null;
+    let ah = '—';
+    if (cur != null && prev != null && prev !== 0) {
+      const d = (cur - prev) / Math.abs(prev) * 100, julga = sub || l.cat === 'receita';
+      ah = Math.abs(d) < 0.05 ? '→ 0%' : '<span class="' + (julga ? (d > 0 ? 'pos' : 'neg') : '') + '">' + (d > 0 ? '↑' : '↓') + ' ' + nf1.format(Math.abs(d)) + '%</span>';
+    }
+    out[l.id] = {cur: cur, curTxt: sub ? '<span class="' + (cur < 0 ? 'neg' : '') + '">' + inteiro(cur) + '</span>' : null,
+      av: cur != null && RL > 0 ? pct(cur / RL * 100) : '—', prev: inteiro(prev), ah: ah};
+  });
+  return out;
+}
+function renderTabela(P){
+  const C = celulas(P), est = P.M.estimados || {}, temAnt = !!P.ant;
+  const nEst = Object.keys(est).length, falta = linhasVisiveis().filter(l => l.tipo === 'in' && P.M.valores[l.id] == null).length;
+  let h = '<div class="tabela"><div class="tabela-topo"><span>' +
+    (P.acum ? 'Soma de todos os meses. Para editar, escolha um mês.' : 'Clique em qualquer número para corrigir. O painel recalcula tudo na hora.') + '</span><span>' +
+    (nEst ? '<span class="chip warn">' + nEst + (nEst > 1 ? ' estimativas' : ' estimativa') + '</span> ' : '') + (falta ? '<span class="chip neutro">' + falta + ' a informar</span> ' : '') +
+    (P.M.editadoEm && !P.acum ? '<button class="btn contorno sm no-print" id="bt-reset" type="button">' + (P.M.novo ? 'Excluir este mês' : 'Voltar aos números originais') + '</button>' : '') + '</span></div>';
+  h += '<table><thead><tr><th scope="col">Valores em R$</th>' + (temAnt ? '<th scope="col" class="prev">' + esc(mesCurto(P.ant)) + '</th>' : '') +
+    '<th scope="col">' + esc(P.acum ? 'Acumulado' : mesCurto(P.mes)) + '</th><th scope="col">% rec. líq.</th>' + (temAnt ? '<th scope="col" class="ah">Variação</th>' : '') + '</tr></thead><tbody>';
+  linhasVisiveis().forEach(l => {
+    const c = C[l.id], sub = l.tipo === 'sub', e = !sub && (l.id in est);
+    h += '<tr class="' + (sub ? (l.id === 'lucro_liquido' ? 'total' : 'sub') : 'in') + '" data-id="' + l.id + '"><th scope="row"><div class="nome"><span class="op" aria-hidden="true">' + (sub ? '=' : '(' + l.op + ')') + '</span><span>' + esc(rotulo(l.id)) + (e ? '<span class="chip warn est-chip">estimativa</span>' : '') + '</span>' +
+      '<button class="q no-print" type="button" aria-expanded="false" aria-label="O que é ' + esc(rotulo(l.id)) + '">?</button></div>' +
+      '<div class="ajuda" hidden>' + esc(ajuda(l.id)) + (e && est[l.id] ? '<br><b>Estimativa:</b> ' + esc(est[l.id]) : '') + '</div></th>' +
+      (temAnt ? '<td class="prev" data-c="prev">' + c.prev + '</td>' : '') +
+      '<td class="cur">' + (sub ? '<span data-c="cur">' + c.curTxt + '</span>' :
+        '<input class="vin' + (e ? ' est' : '') + '" data-k="v" data-id="' + l.id + '" inputmode="decimal" autocomplete="off" aria-label="' + esc(rotulo(l.id)) + '" placeholder="informar" value="' + (c.cur == null ? '' : nf0.format(c.cur)) + '"' + (P.acum ? ' disabled' : '') + '>') + '</td>' +
+      '<td class="av" data-c="av">' + c.av + '</td>' + (temAnt ? '<td class="ah" data-c="ah">' + c.ah + '</td>' : '') + '</tr>';
+  });
+  $('#blk-tabela').innerHTML = h + '</tbody></table></div>';
+}
+function refrescarTabela(P){
+  const C = celulas(P);
+  $$('#blk-tabela tbody tr').forEach(tr => { const c = C[tr.dataset.id]; if (!c) return;
+    $$('[data-c]', tr).forEach(el => { const k = el.dataset.c; el.innerHTML = k === 'cur' ? c.curTxt : c[k]; }); });
+}
+function renderApoio(P){
+  $('#blk-apoio').innerHTML = EXTRAS.map(e => { const v = P.M.extras[e.id];
+    return '<label><span>' + esc(e.nome) + '</span><input class="vin" data-k="x" data-id="' + e.id + '" inputmode="decimal" autocomplete="off" placeholder="informar" value="' + (v == null ? '' : nf0.format(Math.round(v))) + '"' + (P.acum ? ' disabled' : '') + '><small>' + esc(e.dica) + '</small></label>'; }).join('');
+}
+function renderPremissas(P){
+  const est = P.M.estimados || {}, itens = Object.keys(est).filter(id => POR_ID[id]).map(id => '<li><b>' + esc(rotulo(id)) + ':</b> ' + esc(est[id] || 'valor estimado; troque pelo número real quando tiver.') + '</li>')
+    .concat(D.premissas.map(t => '<li>' + rich(t) + '</li>'));
+  $('#blk-prem').innerHTML = itens.length ? '<section class="sec"><h2>Premissas e estimativas</h2><p class="sec-sub">O que entrou no painel sem ser um número exato seu. Vale conferir e trocar pelo valor real.</p><div class="card"><ul class="lista">' + itens.join('') + '</ul></div></section>' : '';
+}
+function renderDRE(){
+  const P = periodo();
+  $('#pg-dre').innerHTML = '<div id="blk-leitura"></div>' +
+    '<section class="sec"><h2>Indicadores ' + (P.acum ? 'do período' : 'do mês') + '</h2><p class="sec-sub">Os números que resumem a DRE. Toque no "?" de cada um para ver o que significa.</p><div class="kpis" id="blk-kpis"></div></section>' +
+    '<section class="sec"><h2>DRE de ' + esc(P.acum ? D.ordemMeses.length + ' meses acumulados' : P.nome) + '</h2><p class="sec-sub">Da venda ao lucro, linha por linha. Os valores de custo e despesa entram sempre positivos: o painel já sabe que eles subtraem.</p><div id="blk-tabela"></div>' +
+    '<h3 style="margin:22px 0 2px">Dados de apoio</h3><p class="sec-sub" style="margin-bottom:0">Não entram na DRE, mas destravam indicadores.</p><div class="apoio" id="blk-apoio"></div></section><div id="blk-prem"></div>';
+  renderLeitura(P); renderKpis(P); renderTabela(P); renderApoio(P); renderPremissas(P);
+}
+
+/* ---------- 6. página 2: dashboard do CFO ---------- */
+const NOME_REF = {margem_bruta: 'Margem bruta', margem_contribuicao: 'Margem de contribuição', margem_ebitda: 'Margem EBITDA', margem_liquida: 'Margem líquida', custo_direto: 'Custo direto', folha: 'Folha (pessoal e pró-labore)', ocupacao: 'Aluguel e estrutura', marketing: 'Marketing e vendas', impostos: 'Impostos (% da receita bruta)'};
+const nomeRef = k => k === 'custo_direto' && D.rotulos.custo_direto ? D.rotulos.custo_direto : NOME_REF[k];
+function passos(r){
+  const n = id => Number(r.v[id]) || 0, L = [];
+  L.push(['tot', 'Receita bruta', r.receita_bruta]);
+  if (r.deducoes) L.push(['sub', 'Impostos e devoluções', r.deducoes]);
+  L.push(['tot', 'Receita líquida', r.receita_liquida]);
+  if (r.custo_direto) L.push(['sub', D.rotulos.custo_direto || 'Custo direto', r.custo_direto]);
+  L.push(['tot', 'Lucro bruto', r.lucro_bruto]);
+  if (r.variaveis) { L.push(['sub', 'Despesas variáveis', r.variaveis]); L.push(['tot', 'Margem de contribuição', r.margem_contribuicao]); }
+  if (r.pessoal_total) L.push(['sub', n('pro_labore') ? 'Pessoal e pró-labore' : 'Pessoal', r.pessoal_total]);
+  if (r.estrutura) L.push(['sub', 'Estrutura e administrativo', r.estrutura]);
+  if (n('marketing')) L.push(['sub', 'Marketing e vendas', n('marketing')]);
+  if (r.depois) { L.push(['tot', 'EBITDA', r.ebitda]); L.push(['sub', 'Desgaste, juros e IR', r.depois]); }
+  L.push(['tot', 'Lucro líquido', r.lucro_liquido]);
+  return L;
+}
+function cascataHTML(r){
+  const L = passos(r); let nivel = 0; const niveis = [0];
+  L.forEach(p => { nivel = p[0] === 'tot' ? p[2] : nivel - p[2]; niveis.push(nivel); });
+  const lo = Math.min.apply(null, niveis), hi = Math.max.apply(null, niveis), w = hi - lo || 1, pos = x => (x - lo) / w * 100;
+  nivel = 0;
+  return '<div class="wf" role="img" aria-label="Cascata da receita bruta até o lucro líquido">' + L.map(p => {
+    const tot = p[0] === 'tot', v = p[2]; let a, b;
+    if (tot) { a = Math.min(0, v); b = Math.max(0, v); nivel = v; } else { a = Math.min(nivel, nivel - v); b = Math.max(nivel, nivel - v); nivel -= v; }
+    const share = r.receita_liquida > 0 ? pct(v / r.receita_liquida * 100, 0) : '';
+    return '<div class="wf-row ' + p[0] + '"><span>' + esc(p[1]) + '</span><div class="wf-track" title="' + esc(p[1]) + ': ' + reais(tot ? v : -v) + ' · ' + share + ' da receita líquida"><span class="wf-zero" style="left:' + pos(0) + '%"></span>' +
+      '<span class="wf-bar ' + (tot ? (v < 0 ? 'negat' : 'tot') : 'sub') + '" style="left:' + pos(a) + '%;width:' + Math.max(0, pos(b) - pos(a)) + '%"></span></div>' +
+      '<span class="wf-val">' + (tot ? '<span class="' + (v < 0 ? 'neg' : '') + '">' + reais(v) + '</span>' : reais(-v)) + '<small>' + share + '</small></span></div>';
+  }).join('') + '</div><div class="legenda"><span><i style="background:var(--bordo)"></i>O que ficou até ali</span><span><i style="background:var(--salmao)"></i>O que saiu</span><span class="mudo so-largo">% = parte da receita líquida</span></div>';
+}
+function cemHTML(r){
+  const RB = r.receita_bruta; if (!(RB > 0)) return '<p class="mudo">Preencha a receita bruta para ver a divisão.</p>';
+  const g = [['Impostos e devoluções', r.deducoes], [D.rotulos.custo_direto || 'Custo direto', r.custo_direto], ['Despesas variáveis', r.variaveis], ['Pessoal', r.pessoal_total], ['Estrutura e administrativo', r.estrutura], ['Marketing e vendas', Number(r.v.marketing) || 0], ['Desgaste, juros e IR', r.depois]]
+    .filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
+  const max = Math.max.apply(null, g.map(x => x[1]).concat([Math.abs(r.lucro_liquido)])) || 1;
+  const row = (nome, val, cls) => '<div class="cem-row ' + (cls || '') + '"><span>' + esc(nome) + '</span><div class="cem-track" title="' + esc(nome) + ': ' + reais(val) + '"><span class="cem-bar" style="width:' + Math.abs(val) / max * 100 + '%"></span></div><span class="cem-val">' + (val < 0 ? MENOS : '') + 'R$ ' + nf2.format(Math.abs(val) / RB * 100) + '</span></div>';
+  return '<div class="cem">' + g.map(x => row(x[0], x[1])).join('') + (r.lucro_liquido >= 0 ? row('Sobra como lucro', r.lucro_liquido, 'lucro') : row('Falta para fechar a conta', r.lucro_liquido, 'preju')) + '</div>';
+}
+function refHTML(r){
+  const chaves = ['margem_bruta', 'margem_contribuicao', 'margem_ebitda', 'margem_liquida', 'custo_direto', 'folha', 'ocupacao', 'marketing', 'impostos'].filter(k => D.benchmarks[k] && r.p[k] != null && (k !== 'margem_ebitda' || linhasVisiveis().some(l => l.id === 'ebitda')));
+  if (!chaves.length) return '<p class="mudo">Sem faixa de referência cadastrada para este segmento. Peça ao Claude para incluir.</p>';
+  return '<div class="ref">' + chaves.map(k => {
+    const v = r.p[k], j = julgar(k, v), b = j.b, hi = Math.max(v, b.max) * 1.18 || 1, lo = Math.min(0, v), w = hi - lo, pos = x => Math.max(0, Math.min(100, (x - lo) / w * 100));
+    const base = k === 'impostos' ? r.receita_bruta : r.receita_liquida;
+    let vale = '';
+    if (j.st !== 'ok' && j.dir === -1) vale = ' · os ' + nf1.format(v - b.max) + ' p.p. acima valem ' + reais((v - b.max) / 100 * base);
+    if (j.st !== 'ok' && j.dir === 1) vale = ' · chegar ao piso da faixa vale ' + reais((b.min - v) / 100 * base);
+    return '<div><div class="ref-top"><span>' + esc(nomeRef(k)) + '</span><span><b>' + pct(v) + '</b> <span class="chip ' + j.st + '">' + j.txt + '</span></span></div>' +
+      '<div class="faixa" title="Faixa de referência: ' + pct(b.min, 0) + ' a ' + pct(b.max, 0) + '"><b style="left:' + pos(b.min) + '%;width:' + (pos(b.max) - pos(b.min)) + '%"></b><i class="' + j.st + '" style="left:' + pos(v) + '%"></i></div>' +
+      '<small>faixa ' + pct(b.min, 0) + ' a ' + pct(b.max, 0) + (b.fonte ? ' · ' + esc(b.fonte) : '') + vale + '</small></div>';
+  }).join('') + '</div>';
+}
+function peHTML(P){
+  const r = P.r, RL = r.receita_liquida;
+  if (!(r.receita_bruta > 0)) return '<p class="mudo">Preencha a DRE para calcular.</p>';
+  if (r.pe == null) return '<div class="big neg">Sem equilíbrio</div><p>A margem de contribuição está em ' + pct(r.p.margem_contribuicao) + '. Enquanto ela não for positiva, não existe volume de venda que pague os custos fixos: o ajuste é em preço, custo direto ou taxas.</p>';
+  const max = Math.max(RL, r.pe) * 1.12, pp = r.pe / max * 100, pv = RL / max * 100, dias = P.acum ? 30 * D.ordemMeses.length : 30;
+  return '<div class="big">' + curtoTxt(r.pe) + '</div><div class="mudo" style="font-size:13px">de receita líquida ' + (P.acum ? 'no período' : 'no mês') + ' para empatar · cerca de ' + reais(r.pe / dias) + ' por dia</div>' +
+    '<div class="pe-track" role="img" aria-label="Receita líquida de ' + reais(RL) + ' contra ponto de equilíbrio de ' + reais(r.pe) + '"><span class="pe-bar" style="width:' + pv + '%"></span>' +
+    '<span class="pe-mark' + (pp > 80 ? ' fim' : pp < 20 ? ' ini' : '') + '" style="left:' + pp + '%"><span>equilíbrio</span></span><span class="pe-leg" style="left:0">você vendeu ' + curtoTxt(RL) + '</span></div>' +
+    '<p style="margin:0;font-size:14px">' + (r.seguranca >= 0 ? 'Você vendeu <b>' + pct(r.seguranca) + ' acima</b> do equilíbrio. As vendas podem cair até esse tanto antes de o resultado virar prejuízo.' : 'Faltaram <b>' + reais(r.pe - RL) + '</b> de receita líquida (' + pct(-r.seguranca) + ' a mais) para pagar todos os custos.') + '</p>' +
+    '<p class="mudo" style="font-size:12.5px;margin:8px 0 0">Conta: custos fixos de ' + reais(r.fixas_totais) + ' ÷ margem de contribuição de ' + pct(r.p.margem_contribuicao) + '.' + (r.dias_caixa != null ? ' Fôlego de caixa: <b>' + nf0.format(Math.floor(r.dias_caixa)) + ' dias</b> de operação.' : '') + '</p>';
+}
+const SIM = [['preco', 'Preço', -10, 20], ['volume', 'Volume de vendas', -30, 50], ['custo', 'Custo direto', -20, 20], ['fixas', 'Custos fixos', -30, 20]];
+function simular(r){
+  const s = S.sim, fp = 1 + s.preco / 100, fv = 1 + s.volume / 100;
+  const RL = (r.receita_bruta - r.deducoes) * fp * fv;
+  const lair = RL - r.custo_direto * fv * (1 + s.custo / 100) - r.variaveis * fp * fv - r.fixas * (1 + s.fixas / 100) - r.depreciacao + r.fin;
+  // IR: no Presumido acompanha a receita; no Real acompanha o lucro; nos demais fica como está
+  const taxa = r.lair > 0 ? r.ir / r.lair : 0;
+  const ir = D.regime === 'presumido' ? r.ir * fp * fv : (D.regime === 'real' && taxa > 0 && taxa <= .45) ? Math.max(0, lair) * taxa : r.ir;
+  return {RL: RL, LL: lair - ir, ml: RL > 0 ? (lair - ir) / RL * 100 : null};
+}
+function simSaida(r){
+  const z = simular(r), d = z.LL - r.lucro_liquido, mexeu = SIM.some(x => S.sim[x[0]] !== 0), el = $('#sim-out'); if (!el) return;
+  el.innerHTML = '<div><span class="label">Lucro líquido simulado</span><span class="big ' + (z.LL < 0 ? 'neg' : '') + '">' + curtoTxt(z.LL) + '</span></div>' +
+    '<div>hoje<b>' + reais(r.lucro_liquido) + '</b></div><div>diferença<b class="' + (d > 0 ? 'pos' : d < 0 ? 'neg' : '') + '">' + (d > 0 ? '+' : '') + reais(d) + (mexeu ? ' · ' + (d > 0 ? '+' : '') + curtoTxt(d * 12) + ' em 12 meses' : '') + '</b></div><div>margem líquida<b>' + pct(z.ml) + '</b></div>';
+  SIM.forEach(x => { const o = $('#sim-o-' + x[0]); if (o) o.textContent = (S.sim[x[0]] > 0 ? '+' : '') + S.sim[x[0]] + '%'; });
+}
+function simHTML(){
+  return SIM.map(x => '<div class="sim-row"><label for="sim-' + x[0] + '">' + x[1] + '</label><input type="range" id="sim-' + x[0] + '" data-sim="' + x[0] + '" min="' + x[2] + '" max="' + x[3] + '" step="1" value="' + S.sim[x[0]] + '"><output id="sim-o-' + x[0] + '"></output></div>').join('') +
+    '<div class="sim-out" id="sim-out" aria-live="polite"></div><button class="btn contorno sm no-print" id="sim-zero" type="button" style="margin-top:12px">Zerar simulação</button>';
+}
+/* gráficos pequenos em SVG: um eixo por gráfico, barras de até 24px, ponta arredondada */
+function barrasSVG(vals, rots, fmt){
+  const W = 340, H = 168, pl = 4, pr = 4, pt = 22, pb = 22, n = vals.length, band = (W - pl - pr) / n, bw = Math.min(24, band * .56);
+  const lo = Math.min(0, Math.min.apply(null, vals)), hi = Math.max(0, Math.max.apply(null, vals)) || 1, y = v => pt + (hi - v) / (hi - lo || 1) * (H - pt - pb), y0 = y(0);
+  const todos = n <= 6, iMax = vals.indexOf(Math.max.apply(null, vals)), passo = n > 8 ? 2 : 1;
+  let s = '<line x1="' + pl + '" x2="' + (W - pr) + '" y1="' + y0 + '" y2="' + y0 + '" stroke="var(--linha-forte)" stroke-width="1"/>';
+  vals.forEach((v, i) => {
+    const x = pl + band * i + (band - bw) / 2, yy = y(v), h = Math.abs(yy - y0), q = Math.min(4, h), neg = v < 0;
+    const d = neg ? 'M' + x + ',' + y0 + 'V' + (yy - q) + 'Q' + x + ',' + yy + ' ' + (x + q) + ',' + yy + 'H' + (x + bw - q) + 'Q' + (x + bw) + ',' + yy + ' ' + (x + bw) + ',' + (yy - q) + 'V' + y0 + 'Z'
+      : 'M' + x + ',' + y0 + 'V' + (yy + q) + 'Q' + x + ',' + yy + ' ' + (x + q) + ',' + yy + 'H' + (x + bw - q) + 'Q' + (x + bw) + ',' + yy + ' ' + (x + bw) + ',' + (yy + q) + 'V' + y0 + 'Z';
+    s += '<path d="' + d + '" fill="' + (neg ? 'var(--salmao-texto)' : 'var(--bordo)') + '"><title>' + esc(rots[i]) + ': ' + reais(v) + '</title></path>';
+    if (todos || i === n - 1 || i === iMax) s += '<text class="v" x="' + (x + bw / 2) + '" y="' + (neg ? yy + 13 : yy - 6) + '" text-anchor="middle">' + fmt(v) + '</text>';
+    if (i % passo === 0 || i === n - 1) s += '<text x="' + (x + bw / 2) + '" y="' + (H - 6) + '" text-anchor="middle">' + esc(rots[i]) + '</text>';
+  });
+  return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img">' + s + '</svg>';
+}
+function linhasSVG(series, rots){
+  const W = 340, H = 168, pl = 8, pr = 52, pt = 14, pb = 22, n = rots.length, all = [].concat.apply([], series.map(z => z.vals)).filter(v => v != null);
+  const lo = Math.min(0, Math.min.apply(null, all)), hi = Math.max.apply(null, all) * 1.1 || 1, x = i => pl + (W - pl - pr) * (n === 1 ? .5 : i / (n - 1)), y = v => pt + (hi - v) / (hi - lo || 1) * (H - pt - pb);
+  let s = '<line x1="' + pl + '" x2="' + (W - pr) + '" y1="' + y(0) + '" y2="' + y(0) + '" stroke="var(--linha-forte)" stroke-width="1"/>';
+  const fins = series.map(z => y(z.vals[n - 1] == null ? 0 : z.vals[n - 1]));
+  if (fins.length === 2 && Math.abs(fins[0] - fins[1]) < 13) { const m = (fins[0] + fins[1]) / 2, c = fins[0] <= fins[1] ? -1 : 1; fins[0] = m + c * 6.5; fins[1] = m - c * 6.5; }
+  series.forEach((z, k) => {
+    const pts = z.vals.map((v, i) => v == null ? null : [x(i), y(v)]).filter(Boolean);
+    s += '<polyline fill="none" stroke="' + z.cor + '" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="' + pts.map(p => p.join(',')).join(' ') + '"/>';
+    z.vals.forEach((v, i) => { if (v != null) s += '<circle cx="' + x(i) + '" cy="' + y(v) + '" r="' + (i === n - 1 ? 4.5 : 3) + '" fill="' + z.cor + '" stroke="var(--papel)" stroke-width="2"><title>' + esc(z.nome) + ' · ' + esc(rots[i]) + ': ' + pct(v) + '</title></circle>'; });
+    if (z.vals[n - 1] != null) s += '<text class="v" x="' + (x(n - 1) + 9) + '" y="' + (fins[k] + 4) + '">' + pct(z.vals[n - 1]) + '</text>';
+  });
+  const passo = n > 8 ? 2 : 1;
+  rots.forEach((t, i) => { if (i % passo === 0 || i === n - 1) s += '<text x="' + x(i) + '" y="' + (H - 6) + '" text-anchor="middle">' + esc(t) + '</text>'; });
+  return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img">' + s + '</svg><div class="legenda" style="margin-top:6px">' + series.map(z => '<span><i style="background:' + z.cor + '"></i>' + esc(z.nome) + '</span>').join('') + '</div>';
+}
+function evolucaoHTML(P){
+  if (D.ordemMeses.length < 2) return '';
+  const rs = D.ordemMeses.map(m => calc(D.meses[m].valores, D.meses[m].extras)), rots = D.ordemMeses.map(m => MESES[Number(m.slice(5, 7)) - 1].slice(0, 3).toLowerCase() + (D.ordemMeses.length > 12 || m.slice(0, 4) !== D.ordemMeses[D.ordemMeses.length - 1].slice(0, 4) ? '/' + m.slice(2, 4) : ''));
+  const fm = v => { const c = curto(v); return c.n.replace('R$ ', '') + (c.u ? ' ' + c.u : ''); };
+  let h = '<section class="sec"><h2>Evolução mês a mês</h2><p class="sec-sub">Um mês sozinho é uma foto. A sequência mostra a direção: receita, lucro e margens, cada um na sua escala.</p><div class="grid3">' +
+    '<div class="card mini"><h3>Receita líquida (R$)</h3>' + barrasSVG(rs.map(r => r.receita_liquida), rots, fm) + '</div>' +
+    '<div class="card mini"><h3>Lucro líquido (R$)</h3>' + barrasSVG(rs.map(r => r.lucro_liquido), rots, fm) + '</div>' +
+    '<div class="card mini"><h3>Margens (% da receita líquida)</h3>' + linhasSVG([{nome: 'Margem bruta', cor: 'var(--bordo)', vals: rs.map(r => r.p.margem_bruta)}, {nome: 'Margem líquida', cor: 'var(--salmao)', vals: rs.map(r => r.p.margem_liquida)}], rots) + '</div></div>';
+  if (P.ant) {
+    const va = D.meses[P.ant].valores, vc = P.M.valores;
+    const dif = ENTRADAS.filter(id => vc[id] != null && va[id] != null && vc[id] !== va[id]).map(id => ({id: id, a: va[id], c: vc[id], d: vc[id] - va[id]})).sort((p, q) => Math.abs(q.d) - Math.abs(p.d)).slice(0, 5);
+    if (dif.length) h += '<div class="tabela" style="margin-top:16px"><div class="tabela-topo"><span>O que mais mudou de ' + esc(mesCurto(P.ant)) + ' para ' + esc(mesCurto(P.mes)) + ', em reais</span></div><table class="var"><thead><tr><th scope="col">Linha</th><th scope="col" class="prev">' + esc(mesCurto(P.ant)) + '</th><th scope="col">' + esc(mesCurto(P.mes)) + '</th><th scope="col">Diferença</th><th scope="col" class="ah">Em %</th></tr></thead><tbody>' +
+      dif.map(x => '<tr><th scope="row">' + esc(rotulo(x.id)) + '</th><td class="prev">' + inteiro(x.a) + '</td><td>' + inteiro(x.c) + '</td><td>' + (x.d > 0 ? '+' : '') + inteiro(x.d) + '</td><td class="ah">' + (x.a ? (x.d > 0 ? '↑ ' : '↓ ') + nf1.format(Math.abs(x.d / x.a * 100)) + '%' : '—') + '</td></tr>').join('') + '</tbody></table></div>';
+  }
+  return h + '</section>';
+}
+function alertas(P){
+  const r = P.r, RL = r.receita_liquida, A = [], add = (st, t, d, peso) => A.push({st: st, t: t, d: d, peso: peso || 0});
+  if (!(r.receita_bruta > 0)) return [{st: 'neutro', t: 'Sem receita informada.', d: 'Preencha a receita bruta na aba "DRE e indicadores" para o painel calcular.', peso: 0}];
+  if (r.lucro_liquido < 0) add('bad', 'O período fechou no prejuízo: ' + reais(r.lucro_liquido) + '.', r.pe != null ? 'Para empatar, a receita líquida precisava ser de ' + reais(r.pe) + ', ou seja, ' + reais(r.pe - RL) + ' a mais. Ou ' + reais(-r.lucro_liquido) + ' a menos de custo.' : 'E a margem de contribuição não cobre os custos fixos.', 1e12);
+  if (r.margem_contribuicao <= 0) add('bad', 'Cada venda aumenta o prejuízo.', 'A margem de contribuição está em ' + pct(r.p.margem_contribuicao) + '. Preço, custo direto ou taxas precisam mudar antes de pensar em vender mais.', 1e11);
+  else if (r.seguranca != null && r.seguranca >= 0 && r.seguranca < 10) add('warn', 'Folga curta sobre o ponto de equilíbrio.', 'Uma queda de ' + pct(r.seguranca) + ' nas vendas já zera o lucro.', r.lucro_liquido);
+  else if (r.seguranca >= 25) add('ok', 'Folga de ' + pct(r.seguranca, 0) + ' sobre o ponto de equilíbrio.', 'As vendas podem cair até esse tanto antes de o resultado virar prejuízo.');
+  Object.keys(D.benchmarks).forEach(k => {
+    if (!(k in r.p) || r.p[k] == null) return;
+    const v = r.p[k], j = julgar(k, v); if (!j) return;
+    const b = j.b, base = k === 'impostos' ? r.receita_bruta : RL, nome = nomeRef(k);
+    if (j.st === 'ok') { if (j.dir === 1 && v > b.max) add('ok', nome + ' acima da faixa do segmento: ' + pct(v) + '.', 'A faixa de referência vai de ' + pct(b.min, 0) + ' a ' + pct(b.max, 0) + '. É uma vantagem: proteja.'); return; }
+    if (j.dir === -1) add(j.st, nome + ' acima da faixa: ' + pct(v) + ' contra até ' + pct(b.max, 0) + '.', 'Os ' + nf1.format(v - b.max) + ' p.p. a mais valem ' + reais((v - b.max) / 100 * base) + (P.acum ? ' no período.' : ' por mês.'), (v - b.max) / 100 * base);
+    else if (j.dir === 1) add(j.st, nome + ' abaixo da faixa: ' + pct(v) + ' contra pelo menos ' + pct(b.min, 0) + '.', 'Chegar ao piso da faixa significa ' + reais((b.min - v) / 100 * base) + ' a mais' + (P.acum ? ' no período.' : ' por mês.'), (b.min - v) / 100 * base);
+    else add('warn', nome + ' fora da faixa: ' + pct(v) + '.', 'A faixa de referência do segmento vai de ' + pct(b.min, 0) + ' a ' + pct(b.max, 0) + '.', Math.abs(v - (v > b.max ? b.max : b.min)) / 100 * base);
+  });
+  if (r.p.financeiras > 3) add(r.p.financeiras > 6 ? 'bad' : 'warn', 'Juros e tarifas levam ' + pct(r.p.financeiras) + ' da receita líquida.', 'São ' + reais(Number(r.v.despesas_financeiras)) + '. Acima de 3%, a dívida já pesa na margem: vale renegociar prazo e taxa.', Number(r.v.despesas_financeiras));
+  if (D.estagio >= 2 && !Number(r.v.pro_labore)) add('warn', 'Sem pró-labore lançado.', 'O lucro parece maior do que é, porque o seu trabalho não está na conta. Lance o valor que você pagaria a alguém para fazer a sua função.');
+  if ((D.regime === 'presumido' || D.regime === 'real') && !r.ir && r.lair > 0) add('warn', 'IR e CSLL zerados com lucro.', 'No Lucro Presumido ou Real existe imposto sobre o lucro. Confirme o valor do mês com o contador.');
+  const of = Number(r.v.outras_fixas) || 0;
+  if (RL > 0 && of / RL > .05) add('warn', (D.estagio === 1 ? 'Demais despesas' : 'Outras despesas') + ' somam ' + pct(of / RL * 100) + ' da receita líquida.', 'Linha genérica grande esconde desperdício. Abra o que tem dentro: são ' + reais(of) + '.', of * .1);
+  if (r.dias_caixa != null && r.dias_caixa < 30) add(r.dias_caixa < 15 ? 'bad' : 'warn', 'O caixa cobre ' + nf0.format(Math.floor(r.dias_caixa)) + ' dias de operação.', 'Menos de 30 dias de fôlego deixa a empresa refém de qualquer atraso de cliente.', 1e9);
+  const est = Object.keys(P.M.estimados || {}).filter(id => POR_ID[id]);
+  if (est.length) add('warn', est.length + (est.length > 1 ? ' números são estimativas.' : ' número é estimativa.'), est.map(rotulo).join(', ') + '. Troque pelo valor real para confiar nas margens.');
+  const falta = P.acum ? [] : linhasVisiveis().filter(l => l.tipo === 'in' && P.M.valores[l.id] == null);
+  if (falta.length) add('neutro', falta.length + (falta.length > 1 ? ' linhas ainda sem número.' : ' linha ainda sem número.'), falta.map(l => rotulo(l.id)).join(', ') + '. Enquanto estiverem vazias, contam como zero.');
+  if (!A.some(a => a.st === 'bad' || a.st === 'warn')) add('ok', 'Nenhum alerta neste período.', 'Margens e despesas dentro do esperado. O trabalho agora é manter e crescer.');
+  const ordem = {bad: 0, warn: 1, neutro: 2, ok: 3};
+  return A.sort((a, b) => ordem[a.st] - ordem[b.st] || b.peso - a.peso);
+}
+const CHIP_TXT = {bad: 'crítico', warn: 'atenção', ok: 'bom', neutro: 'pendente'};
+function acoesHTML(){
+  const max = Math.max.apply(null, D.acoes.map(a => Number(a.ganhoMensal) || 0).concat([0]));
+  return D.acoes.map((a, i) => '<article class="acao' + (i < 3 ? ' top' : '') + '"><div class="acao-n">' + (i + 1) + '</div><div><h3>' + rich(a.titulo) + '</h3>' +
+    (a.oque ? '<p>' + rich(a.oque) + '</p>' : '') + (a.porque ? '<p><b>Por quê:</b> ' + rich(a.porque) + '</p>' : '') +
+    (a.ganho ? '<div class="impacto">' + (max > 0 && Number(a.ganhoMensal) > 0 ? '<span class="impacto-track" aria-hidden="true"><i style="width:' + Number(a.ganhoMensal) / max * 100 + '%"></i></span>' : '') + '<span><b>Ganho estimado:</b> ' + rich(a.ganho) + '</span></div>' : '') +
+    '<div class="acao-meta">' + (a.esforco ? '<span><b>Esforço</b>' + rich(a.esforco) + '</span>' : '') + (a.prazo ? '<span><b>Prazo</b>' + rich(a.prazo) + '</span>' : '') + (a.metrica ? '<span><b>Deu certo se</b>' + rich(a.metrica) + '</span>' : '') + '</div>' +
+    (a.passo ? '<div class="passo"><b>Primeiro passo, hoje</b>' + rich(a.passo) + '</div>' : '') + '</div></article>').join('');
+}
+function renderDash(){
+  const P = periodo(), r = P.r, doMes = !P.acum && P.mes === D.mesAtual, editado = doMes && P.M.editadoEm, temAnalise = D.achados.length || D.acoes.length;
+  const tom = {bom: 'ok', atencao: 'warn', critico: 'bad'}, tomTxt = {bom: 'ponto forte', atencao: 'atenção', critico: 'crítico'};
+  let h = '';
+  if (temAnalise && !doMes) h += '<div class="aviso"><span>O diagnóstico e o plano de ação do CFO foram escritos para ' + esc(mesNome(D.mesAtual)) + '. Para ' + esc(P.acum ? 'o acumulado' : P.nome) + ', o painel mostra os cálculos e os alertas automáticos.</span></div>';
+  if (temAnalise && editado) h += '<div class="aviso"><span>Você editou os números depois da análise do CFO. Gráficos e alertas já estão atualizados; o diagnóstico e o plano abaixo ainda são os originais.</span><button class="btn sm no-print" data-copiar type="button">Copiar para o Claude</button></div>';
+  if (doMes && D.achados.length) h += '<section class="sec"><h2>Diagnóstico do CFO</h2><p class="sec-sub">O que os números de ' + esc(P.nome) + ' dizem' + (D.segmentoNome ? ', lidos por quem conhece ' + esc(D.segmentoNome) : '') + '.</p><div class="grid3">' +
+    D.achados.map(a => '<article class="card achado ' + esc(a.tom || '') + '"><span class="chip ' + (tom[a.tom] || 'neutro') + '">' + (tomTxt[a.tom] || 'achado') + '</span><h3>' + rich(a.titulo) + '</h3><p>' + rich(a.texto) + '</p></article>').join('') + '</div></section>';
+  h += '<section class="sec"><h2>Da venda ao lucro</h2><p class="sec-sub">Cada degrau mostra o que saiu e o que ficou. Leia de cima para baixo: é a DRE em uma imagem.</p><div class="card">' + cascataHTML(r) + '</div></section>';
+  if (doMes && D.acoes.length) h += '<section class="sec"><h2>Plano de ação, por ordem de impacto</h2><p class="sec-sub">Comece pela primeira. Cada ação tem o ganho estimado com a conta aberta, o esforço e o primeiro passo de hoje.</p>' + acoesHTML() + '</section>';
+  h += '<section class="sec"><div class="grid2"><div class="card"><h2>Para onde vai cada R$ 100 que você vende</h2><p class="sec-sub">Da receita bruta, do maior destino para o menor.</p>' + cemHTML(r) + '</div>' +
+    '<div class="card"><h2>Você e a faixa do segmento</h2><p class="sec-sub">A barra clara é a faixa de referência' + (D.segmentoNome ? ' de ' + esc(D.segmentoNome) : '') + '; o ponto é o seu número. É ordem de grandeza, não meta.</p>' + refHTML(r) + '</div></div></section>';
+  h += '<section class="sec"><div class="grid2"><div class="card"><h2>Ponto de equilíbrio</h2><p class="sec-sub">Quanto precisa vender para não ter prejuízo.</p>' + peHTML(P) + '</div>' +
+    '<div class="card"><h2>E se...</h2><p class="sec-sub">Mexa nos controles e veja o efeito no lucro. Não altera a sua DRE.</p>' + simHTML() + '</div></div></section>';
+  h += evolucaoHTML(P);
+  h += '<section class="sec"><h2>Alertas do painel</h2><p class="sec-sub">Calculados na hora a partir dos números da DRE. Mudou um número, mudam os alertas.</p><div class="card">' +
+    alertas(P).map(a => '<div class="alerta"><span class="chip ' + a.st + '">' + CHIP_TXT[a.st] + '</span><b>' + esc(a.t) + '</b><p>' + esc(a.d) + '</p></div>').join('') + '</div></section>';
+  const fim = [];
+  if (doMes && D.depois.length) fim.push('<div class="card"><h2>Para depois</h2><p class="sec-sub">Vale fazer, mas não agora.</p><ul class="lista">' + D.depois.map(x => '<li><b>' + rich(x.titulo) + '.</b> ' + rich(x.porque || '') + '</li>').join('') + '</ul></div>');
+  if (D.contador.length) fim.push('<div class="card"><h2>Para levar ao contador</h2><p class="sec-sub">Perguntas que fecham as dúvidas deste painel.</p><ul class="lista">' + D.contador.map(t => '<li>' + rich(t) + '</li>').join('') + '</ul></div>');
+  h += '<section class="sec">' + (fim.length ? '<div class="grid2">' + fim.join('') + '</div>' : '') +
+    '<p class="sec-sub" style="margin-top:16px;max-width:none">' + rich(D.limites || 'Esta é uma DRE gerencial: serve para decidir, não substitui a contabilidade oficial. As faixas de referência são ordem de grandeza do segmento. Decisões tributárias e societárias passam pelo seu contador.') + '</p></section>';
+  $('#pg-dash').innerHTML = h;
+  simSaida(r);
+}
+
+/* ---------- 7. cabeçalho, ações e partida ---------- */
+const REGIME = {simples: 'Simples Nacional', presumido: 'Lucro Presumido', real: 'Lucro Real', mei: 'MEI'};
+const ESTAGIO = {1: 'DRE simples', 2: 'DRE gerencial', 3: 'DRE completa'};
+function renderHead(){
+  const P = periodo();
+  $('#h-eyebrow').textContent = 'DRE de Donos · ' + P.nome;
+  $('#h-negocio').textContent = D.negocio;
+  $('#h-sub').textContent = D.subtitulo || [D.segmentoNome, REGIME[D.regime]].filter(Boolean).join(' · ');
+  const n = D.ordemMeses.length, ult = D.ordemMeses[n - 1], pri = D.ordemMeses[0];
+  $('#meses').innerHTML = D.ordemMeses.map(m => '<button class="mes" type="button" data-m="' + m + '" aria-pressed="' + (S.mes === m) + '">' + esc(mesCurto(m)) + '</button>').join('') +
+    (n > 1 ? '<button class="mes" type="button" data-m="acum" aria-pressed="' + (S.mes === 'acum') + '">Acumulado</button>' : '') +
+    (n < 24 ? '<span class="menu"><button class="mes add" type="button" id="bt-add" aria-haspopup="true" aria-expanded="false">+ mês</button><span class="menu-pop" id="menu-add" hidden>' +
+      '<button type="button" data-add="' + mesMais(ult, 1) + '">Adicionar ' + esc(mesNome(mesMais(ult, 1))) + '</button><button type="button" data-add="' + mesMais(pri, -1) + '">Adicionar ' + esc(mesNome(mesMais(pri, -1))) + '</button></span></span>' : '');
+  const g = SEED.geradoEm ? new Date(SEED.geradoEm) : null;
+  $('#rodape-info').textContent = [ESTAGIO[D.estagio], g && !isNaN(g) ? 'análise de ' + g.toLocaleDateString('pt-BR') : '', 'valores em R$'].filter(Boolean).join(' · ');
+  document.title = 'DRE de Donos · ' + D.negocio;
+}
+function mostrarAba(){
+  $('#pg-dre').hidden = S.aba !== 'dre'; $('#pg-dash').hidden = S.aba !== 'dash';
+  $('#tab-dre').setAttribute('aria-selected', S.aba === 'dre'); $('#tab-dash').setAttribute('aria-selected', S.aba === 'dash');
+}
+function tudo(){ renderHead(); renderDRE(); renderDash(); mostrarAba(); setSalvo(); }
+function refrescar(){
+  const P = periodo();
+  renderLeitura(P); renderKpis(P); refrescarTabela(P); renderPremissas(P); renderDash(); setSalvo();
+  const topo = $('#blk-tabela .tabela-topo');
+  if (topo && !$('#bt-reset') && P.M.editadoEm) topo.lastElementChild.insertAdjacentHTML('beforeend', '<button class="btn contorno sm no-print" id="bt-reset" type="button">' + (P.M.novo ? 'Excluir este mês' : 'Voltar aos números originais') + '</button>');
+}
+function confirmar(inp){
+  if (S.mes === 'acum' || inp.disabled) return;
+  const M = D.meses[S.mes], id = inp.dataset.id, alvo = inp.dataset.k === 'x' ? M.extras : M.valores, atual = alvo[id];
+  const mostra = v => v == null ? '' : nf0.format(v);
+  const v = lerNumero(inp.value);
+  if (v === undefined) { inp.value = mostra(atual); toast('Não entendi esse número. Use só algarismos, como 18500 ou 18,5 mil.'); return; }
+  inp.value = mostra(v);
+  if (v === atual) return;
+  alvo[id] = v; M.editadoEm = new Date().toISOString();
+  if (inp.dataset.k === 'v' && M.estimados && id in M.estimados) {
+    delete M.estimados[id]; inp.classList.remove('est');
+    const chip = $('.est-chip', inp.closest('tr')); if (chip) chip.remove();
+  }
+  salvar(); refrescar();
+}
+function textoParaClaude(){
+  const meses = {};
+  D.ordemMeses.forEach(m => { const M = D.meses[m], v = {}, x = {};
+    ENTRADAS.forEach(id => { if (M.valores[id] != null) v[id] = M.valores[id]; });
+    EXTRAS.forEach(e => { if (M.extras[e.id] != null) x[e.id] = M.extras[e.id]; });
+    meses[m] = {valores: v, extras: x, estimados: Object.keys(M.estimados || {}), editado: !!M.editadoEm}; });
+  return 'Atualize a minha DRE de Donos com os números abaixo, que estão no meu painel agora, e refaça a análise do CFO (leitura, diagnóstico e plano de ação).\n\n' +
+    'Negócio: ' + D.negocio + (D.subtitulo ? ' · ' + D.subtitulo : '') + '\nEstágio da DRE: ' + D.estagio + ' · Regime: ' + (REGIME[D.regime] || 'não informado') + ' · Mês em foco: ' + (S.mes === 'acum' ? D.mesAtual : S.mes) + '\n\n' +
+    JSON.stringify({segmento: D.segmento || '', meses: meses}, null, 1);
+}
+async function copiar(){
+  const t = textoParaClaude();
+  try { await navigator.clipboard.writeText(t); toast('Copiado. Cole no chat com o Claude para receber a análise nova.', 4000); }
+  catch (e) {
+    const m = $('#modal');
+    m.innerHTML = '<div class="modal-box" role="dialog" aria-modal="true" aria-label="Copiar números"><h2>Copie e cole no chat com o Claude</h2><p class="sec-sub" style="margin:0">Selecione tudo, copie e cole na conversa. O Claude refaz a análise com os números do painel.</p><textarea readonly></textarea><button class="btn" type="button" data-fechar>Fechar</button></div>';
+    m.hidden = false; const ta = $('textarea', m); ta.value = t; ta.focus(); ta.select();
+  }
+}
+async function baixarCSV(){
+  const q = s => '"' + String(s).replace(/"/g, '""') + '"', L = [];
+  const rs = D.ordemMeses.map(m => calc(D.meses[m].valores, D.meses[m].extras));
+  L.push(['DRE de Donos', D.negocio].map(q).join(';'));
+  L.push(['Linha'].concat(D.ordemMeses.map(mesNome)).map(q).join(';'));
+  linhasVisiveis().forEach(l => L.push([q((l.tipo === 'sub' ? '= ' : '(' + l.op + ') ') + rotulo(l.id))].concat(D.ordemMeses.map((m, i) => { const v = l.tipo === 'sub' ? rs[i][l.id] : D.meses[m].valores[l.id]; return v == null ? '' : Math.round(v); })).join(';')));
+  L.push('');
+  [['Margem bruta (%)', r => r.p.margem_bruta], ['Margem de contribuição (%)', r => r.p.margem_contribuicao], ['Margem líquida (%)', r => r.p.margem_liquida], ['Peso da folha (%)', r => r.p.folha], ['Ponto de equilíbrio (R$)', r => r.pe], ['Receita por funcionário (R$)', r => r.receita_por_pessoa], ['CAC (R$)', r => r.cac], ['Ticket médio (R$)', r => r.ticket]]
+    .forEach(k => L.push([q(k[0])].concat(rs.map(r => { const v = k[1](r); return v == null ? '' : String(Math.round(v * 10) / 10).replace('.', ','); })).join(';')));
+  const blob = new Blob(['﻿' + L.join('\r\n')], {type: 'text/csv;charset=utf-8'}), nome = 'dre-de-donos-' + slug(D.negocio) + '.csv';
+  try {
+    const dl = window.claude && window.claude.use ? await Promise.race([window.claude.use('downloads'), new Promise(r => setTimeout(() => r(null), 3000))]) : null;
+    if (dl) { await dl.save({filename: nome, data: blob}); return; }
+    if (EMBUTIDO) { toast('Aqui o download depende da página publicada com a função de baixar. Use "Copiar para o Claude" e peça a planilha no chat.', 5000); return; }
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = nome; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  } catch (e) { toast('Não consegui baixar a planilha aqui. Use "Copiar para o Claude" e peça o arquivo no chat.', 4500); }
+}
+let EMBUTIDO = false; try { EMBUTIDO = window.self !== window.top; } catch (e) { EMBUTIDO = true; }
+function ligar(){
+  if (EMBUTIDO) $('#bt-print').hidden = true; // dentro do Claude a impressão é bloqueada; no arquivo aberto no navegador, funciona
+  window.addEventListener('hashchange', () => { const a = /dash/.test(location.hash) ? 'dash' : 'dre'; if (a !== S.aba) { S.aba = a; mostrarAba(); } });
+  document.addEventListener('click', ev => {
+    const t = ev.target.closest('button, [data-fechar]'); const menu = $('#menu-add');
+    if (menu && !menu.hidden && !(t && t.id === 'bt-add')) { menu.hidden = true; $('#bt-add').setAttribute('aria-expanded', 'false'); }
+    if (!t) { if (ev.target.id === 'modal') ev.target.hidden = true; return; }
+    if (t.classList.contains('tab')) { S.aba = t.id === 'tab-dash' ? 'dash' : 'dre'; mostrarAba(); window.scrollTo({top: 0}); try { location.hash = S.aba; } catch (e) {} }
+    else if (t.dataset.m) { S.mes = t.dataset.m; tudo(); }
+    else if (t.id === 'bt-add') { menu.hidden = !menu.hidden; t.setAttribute('aria-expanded', String(!menu.hidden)); }
+    else if (t.dataset.add) {
+      const m = t.dataset.add, perto = D.meses[D.ordemMeses[m > D.ordemMeses[0] ? D.ordemMeses.length - 1 : 0]];
+      const v = {}, x = {}; ENTRADAS.forEach(id => { v[id] = null; }); EXTRAS.forEach(e => { x[e.id] = null; }); x.funcionarios = perto.extras.funcionarios;
+      D.meses[m] = {valores: v, extras: x, estimados: {}, novo: true, editadoEm: new Date().toISOString()};
+      D.ordemMeses = Object.keys(D.meses).sort(); S.mes = m; S.aba = 'dre'; salvar(); tudo();
+      toast(mesNome(m) + ' criado. Preencha os números na tabela.', 3500);
+    }
+    else if (t.classList.contains('q')) { const box = t.closest('th, .kpi'), a = box && $('.ajuda', box); if (a) { a.hidden = !a.hidden; t.setAttribute('aria-expanded', String(!a.hidden)); } }
+    else if (t.id === 'bt-reset') {
+      const M = D.meses[S.mes];
+      if (M.novo) { delete D.meses[S.mes]; D.ordemMeses = Object.keys(D.meses).sort(); S.mes = D.mesAtual; }
+      else D.meses[S.mes] = normalizar(SEED).meses[S.mes];
+      salvar(); tudo(); toast(M.novo ? 'Mês excluído.' : 'Números originais de volta.');
+    }
+    else if (t.id === 'bt-copiar' || 'copiar' in t.dataset) copiar();
+    else if (t.id === 'bt-csv') baixarCSV();
+    else if (t.id === 'bt-print') window.print();
+    else if (t.id === 'sim-zero') { SIM.forEach(x => { S.sim[x[0]] = 0; const i = $('#sim-' + x[0]); if (i) i.value = 0; }); simSaida(periodo().r); }
+    else if ('fechar' in t.dataset) $('#modal').hidden = true;
+  });
+  document.addEventListener('focusin', ev => { if (ev.target.classList && ev.target.classList.contains('vin')) { ev.target.dataset.antes = ev.target.value; setTimeout(() => { try { ev.target.select(); } catch (e) {} }, 0); } });
+  document.addEventListener('focusout', ev => { if (ev.target.classList && ev.target.classList.contains('vin')) confirmar(ev.target); });
+  document.addEventListener('keydown', ev => {
+    const t = ev.target;
+    if (ev.key === 'Escape') { if (!$('#modal').hidden) $('#modal').hidden = true; if (t.classList && t.classList.contains('vin')) { t.value = t.dataset.antes || ''; t.blur(); } return; }
+    if (ev.key === 'Enter' && t.classList && t.classList.contains('vin')) {
+      ev.preventDefault(); const todos = $$('#pg-dre .vin:not(:disabled)'), i = todos.indexOf(t);
+      if (todos[i + 1]) todos[i + 1].focus(); else t.blur();
+    }
+  });
+  document.addEventListener('input', ev => { const k = ev.target.dataset && ev.target.dataset.sim; if (k) { S.sim[k] = Number(ev.target.value); simSaida(periodo().r); } });
+}
+function iniciar(){
+  try { SEED = JSON.parse($('#dados').textContent); } catch (e) { SEED = null; }
+  if (SEED) { D = normalizar(SEED); S.mes = D.mesAtual; }
+  if (!SEED || !S.mes) {
+    $('main').innerHTML = '<div class="card"><h2>Os números deste painel não carregaram</h2><p class="sec-sub" style="margin:6px 0 0">Volte ao chat e peça ao Claude: "monta minha DRE de novo". Se você abriu o arquivo de modelo, ele ainda está sem dados.</p></div>';
+    $('#salvo').hidden = true; $$('.top-acoes .btn, .nav').forEach(b => { b.hidden = true; }); return;
+  }
+  if (/dash/.test(location.hash)) S.aba = 'dash';
+  ligar(); tudo(); iniciarSalvamento();
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciar); else iniciar();
+})();
+</script>
+</body>
+</html>

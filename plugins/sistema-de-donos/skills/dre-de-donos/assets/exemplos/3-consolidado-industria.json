@@ -1,0 +1,346 @@
+{
+ "negocio": "Doce Serra Alimentos",
+ "subtitulo": "Indústria de doces e geleias · 86 pessoas · Lucro Real · Bento Gonçalves/RS",
+ "segmento": "industria-alimentos",
+ "segmentoNome": "indústrias de alimentos de médio porte",
+ "estagio": 3,
+ "regime": "real",
+ "mesAtual": "2026-10",
+ "rotulos": {
+  "custo_direto": "CPV (custo do produto vendido)",
+  "pessoal": "Pessoal (administrativo, comercial e logística)"
+ },
+ "ajudas": {
+  "custo_direto": "Tudo o que entra no produto que saiu da fábrica no mês: fruta, açúcar, embalagem, mão de obra da produção, energia e manutenção da fábrica. O que foi produzido e ainda está no estoque não entra."
+ },
+ "meses": {
+  "2026-05": {
+   "valores": {
+    "receita_bruta": 1740000,
+    "impostos_vendas": 295500,
+    "devolucoes": 26100,
+    "custo_direto": 851000,
+    "comissoes": 41800,
+    "taxas_pagamento": 5900,
+    "fretes": 55300,
+    "outras_variaveis": 8200,
+    "pessoal": 136000,
+    "pro_labore": 38000,
+    "ocupacao": 31000,
+    "marketing": 20800,
+    "tecnologia": 12500,
+    "administrativas": 34400,
+    "outras_fixas": 18000,
+    "depreciacao": 42000,
+    "receitas_financeiras": 5100,
+    "despesas_financeiras": 38000,
+    "ir_csll": 30800
+   },
+   "extras": {
+    "funcionarios": 82,
+    "clientes_novos": 9,
+    "num_vendas": 600,
+    "caixa_final": 655000
+   },
+   "estimados": {
+    "ir_csll": "34% do lucro antes do IR do mês. A apuração oficial é trimestral, pelo lucro real."
+   }
+  },
+  "2026-06": {
+   "valores": {
+    "receita_bruta": 1690000,
+    "impostos_vendas": 287000,
+    "devolucoes": 25400,
+    "custo_direto": 832100,
+    "comissoes": 40600,
+    "taxas_pagamento": 5700,
+    "fretes": 55100,
+    "outras_variaveis": 7900,
+    "pessoal": 136000,
+    "pro_labore": 38000,
+    "ocupacao": 31000,
+    "marketing": 20000,
+    "tecnologia": 12500,
+    "administrativas": 34000,
+    "outras_fixas": 18000,
+    "depreciacao": 42000,
+    "receitas_financeiras": 4800,
+    "despesas_financeiras": 40500,
+    "ir_csll": 23500
+   },
+   "extras": {
+    "funcionarios": 82,
+    "clientes_novos": 7,
+    "num_vendas": 600,
+    "caixa_final": 610000
+   },
+   "estimados": {
+    "ir_csll": "34% do lucro antes do IR do mês. A apuração oficial é trimestral, pelo lucro real."
+   }
+  },
+  "2026-07": {
+   "valores": {
+    "receita_bruta": 1810000,
+    "impostos_vendas": 307300,
+    "devolucoes": 27200,
+    "custo_direto": 898600,
+    "comissoes": 43400,
+    "taxas_pagamento": 6200,
+    "fretes": 60500,
+    "outras_variaveis": 8500,
+    "pessoal": 138500,
+    "pro_labore": 38000,
+    "ocupacao": 31000,
+    "marketing": 22000,
+    "tecnologia": 12500,
+    "administrativas": 35100,
+    "outras_fixas": 18000,
+    "depreciacao": 42000,
+    "receitas_financeiras": 4400,
+    "despesas_financeiras": 42000,
+    "ir_csll": 28400
+   },
+   "extras": {
+    "funcionarios": 84,
+    "clientes_novos": 11,
+    "num_vendas": 600,
+    "caixa_final": 560000
+   },
+   "estimados": {
+    "ir_csll": "34% do lucro antes do IR do mês. A apuração oficial é trimestral, pelo lucro real."
+   }
+  },
+  "2026-08": {
+   "valores": {
+    "receita_bruta": 1860000,
+    "impostos_vendas": 315800,
+    "devolucoes": 27900,
+    "custo_direto": 929500,
+    "comissoes": 44600,
+    "taxas_pagamento": 6300,
+    "fretes": 65200,
+    "outras_variaveis": 8700,
+    "pessoal": 140000,
+    "pro_labore": 38000,
+    "ocupacao": 31000,
+    "marketing": 22900,
+    "tecnologia": 12500,
+    "administrativas": 35500,
+    "outras_fixas": 18000,
+    "depreciacao": 42000,
+    "receitas_financeiras": 3900,
+    "despesas_financeiras": 45500,
+    "ir_csll": 27400
+   },
+   "extras": {
+    "funcionarios": 85,
+    "clientes_novos": 10,
+    "num_vendas": 600,
+    "caixa_final": 505000
+   },
+   "estimados": {
+    "ir_csll": "34% do lucro antes do IR do mês. A apuração oficial é trimestral, pelo lucro real."
+   }
+  },
+  "2026-09": {
+   "valores": {
+    "receita_bruta": 1890000,
+    "impostos_vendas": 320900,
+    "devolucoes": 28400,
+    "custo_direto": 949100,
+    "comissoes": 45400,
+    "taxas_pagamento": 6400,
+    "fretes": 67800,
+    "outras_variaveis": 8900,
+    "pessoal": 142000,
+    "pro_labore": 38000,
+    "ocupacao": 31000,
+    "marketing": 23400,
+    "tecnologia": 12500,
+    "administrativas": 35800,
+    "outras_fixas": 18000,
+    "depreciacao": 42000,
+    "receitas_financeiras": 3500,
+    "despesas_financeiras": 48000,
+    "ir_csll": 25800
+   },
+   "extras": {
+    "funcionarios": 86,
+    "clientes_novos": 13,
+    "num_vendas": 600,
+    "caixa_final": 452000
+   },
+   "estimados": {
+    "ir_csll": "34% do lucro antes do IR do mês. A apuração oficial é trimestral, pelo lucro real."
+   }
+  },
+  "2026-10": {
+   "valores": {
+    "receita_bruta": 1920000,
+    "impostos_vendas": 326000,
+    "devolucoes": 28800,
+    "custo_direto": 970000,
+    "comissoes": 46100,
+    "taxas_pagamento": 6500,
+    "fretes": 71100,
+    "outras_variaveis": 9000,
+    "pessoal": 142000,
+    "pro_labore": 38000,
+    "ocupacao": 31000,
+    "marketing": 23900,
+    "tecnologia": 12500,
+    "administrativas": 36100,
+    "outras_fixas": 18000,
+    "depreciacao": 42000,
+    "receitas_financeiras": 3200,
+    "despesas_financeiras": 51000,
+    "ir_csll": 24200
+   },
+   "extras": {
+    "funcionarios": 86,
+    "clientes_novos": 12,
+    "num_vendas": 600,
+    "caixa_final": 410000
+   },
+   "estimados": {
+    "ir_csll": "34% do lucro antes do IR do mês. A apuração oficial é trimestral, pelo lucro real."
+   }
+  }
+ },
+ "benchmarks": {
+  "margem_bruta": {
+   "min": 30,
+   "max": 40,
+   "fonte": "indústria de alimentos de médio porte"
+  },
+  "margem_contribuicao": {
+   "min": 22,
+   "max": 32,
+   "fonte": "indústria de alimentos de médio porte"
+  },
+  "margem_ebitda": {
+   "min": 10,
+   "max": 16,
+   "fonte": "indústria de alimentos de médio porte"
+  },
+  "margem_liquida": {
+   "min": 4,
+   "max": 8,
+   "fonte": "indústria de alimentos de médio porte"
+  },
+  "custo_direto": {
+   "min": 58,
+   "max": 68,
+   "fonte": "indústria de alimentos"
+  },
+  "folha": {
+   "min": 8,
+   "max": 12,
+   "fonte": "folha fora da produção"
+  },
+  "ocupacao": {
+   "min": 1.5,
+   "max": 3,
+   "fonte": "indústria com planta própria ou alugada"
+  },
+  "marketing": {
+   "min": 1,
+   "max": 3,
+   "fonte": "indústria que vende para o varejo"
+  },
+  "impostos": {
+   "min": 15,
+   "max": 22,
+   "fonte": "indústria no Lucro Real"
+  },
+  "receita_por_pessoa": {
+   "min": 15000,
+   "max": 25000,
+   "fonte": "indústria de alimentos"
+  }
+ },
+ "leitura": "Em outubro a Doce Serra bateu o recorde de receita, R$ 1,92 milhão, e teve o menor lucro do semestre: R$ 47 mil, 3,0% da receita líquida. Desde maio a venda cresceu 10% e o lucro caiu 21%. O custo do produto e os juros andaram mais rápido que o preço.",
+ "achados": [
+  {
+   "tom": "critico",
+   "titulo": "A margem bruta perdeu 2 pontos em seis meses",
+   "texto": "O CPV foi de 60,0% para 62,0% da receita líquida. Cada ponto vale R$ 15,7 mil por mês: são R$ 31,3 mil de lucro bruto a menos em outubro, com a mesma venda. A tabela de preços não acompanhou a matéria-prima."
+  },
+  {
+   "tom": "critico",
+   "titulo": "Lucro no papel, caixa encolhendo",
+   "texto": "O semestre deu R$ 311 mil de lucro e o caixa caiu R$ 245 mil. O dinheiro está parado em estoque e em prazo para cliente. Os juros subiram de R$ 38 mil para R$ 51 mil por mês, 3,3% da receita líquida."
+  },
+  {
+   "tom": "bom",
+   "titulo": "A estrutura está sob controle",
+   "texto": "Os custos fixos cresceram 3,7% enquanto a receita cresceu 10%. A folha fora da produção está em 11,5% da receita líquida, dentro da faixa de 8% a 12%. O problema não é o tamanho da empresa."
+  }
+ ],
+ "acoes": [
+  {
+   "titulo": "Reajuste a tabela em 2,5% para os 20 maiores clientes",
+   "oque": "Aplique o reajuste na virada do mês, com aviso de 15 dias e a planilha de custo da matéria-prima na mão do vendedor.",
+   "porque": "A matéria-prima subiu e o preço ficou. Recuperar a margem só pelo custo leva meses; pelo preço, leva um pedido.",
+   "ganho": "R$ 27 mil por mês. Conta: os 20 maiores são 70% de R$ 1,92 milhão; 2,5% de reajuste dá R$ 33,6 mil, menos 19,4% de impostos e comissão.",
+   "ganhoMensal": 27000,
+   "esforco": "médio",
+   "prazo": "30 dias",
+   "metrica": "margem bruta de 38,0% virar 39,5% em dezembro",
+   "passo": "Peça ao comercial a lista dos 20 maiores clientes com a data do último reajuste de cada um."
+  },
+  {
+   "titulo": "Renegocie os 3 insumos que mais pesam no CPV",
+   "oque": "Cotação com dois fornecedores alternativos para açúcar, fruta e embalagem, e contrato de volume de 6 meses com o vencedor.",
+   "porque": "O CPV subiu 2 pontos sem mudança de produto. Recuperar um deles já devolve a margem ao nível de agosto.",
+   "ganho": "R$ 15,7 mil por mês. Conta: 1 ponto × R$ 1.565.200 de receita líquida.",
+   "ganhoMensal": 15700,
+   "esforco": "médio",
+   "prazo": "60 dias",
+   "metrica": "CPV abaixo de 61% da receita líquida em janeiro",
+   "passo": "Tire do sistema o gasto de outubro por insumo e marque os três maiores."
+  },
+  {
+   "titulo": "Solte o caixa preso em estoque e prazo",
+   "oque": "Corte o estoque de produto acabado para 20 dias de venda e ofereça 1% de desconto para pagamento em 14 dias aos clientes de 45 dias.",
+   "porque": "O caixa caiu R$ 245 mil no semestre com lucro positivo. Cada real preso em estoque e prazo é financiado a juro de banco.",
+   "ganho": "R$ 13 mil por mês. Conta: despesa financeira de R$ 51 mil voltando ao nível de maio, R$ 38 mil.",
+   "ganhoMensal": 13000,
+   "esforco": "alto",
+   "prazo": "90 dias",
+   "metrica": "despesa financeira abaixo de R$ 40 mil e caixa acima de R$ 600 mil em janeiro",
+   "passo": "Peça o relatório de estoque de produto acabado por dias de venda."
+  },
+  {
+   "titulo": "Pedido mínimo e rota fixa para segurar o frete",
+   "oque": "Pedido mínimo por região e entrega em dias fixos, para encher o caminhão.",
+   "porque": "O frete foi de 3,9% para 4,5% da receita líquida. Pedido pequeno e urgente é o que encarece.",
+   "ganho": "R$ 10 mil por mês. Conta: 0,6 ponto × R$ 1.565.200 de receita líquida.",
+   "ganhoMensal": 10000,
+   "esforco": "médio",
+   "prazo": "45 dias",
+   "metrica": "frete abaixo de 4% da receita líquida em dezembro",
+   "passo": "Liste os pedidos de outubro abaixo de R$ 1.500 e a região de cada um."
+  }
+ ],
+ "depois": [
+  {
+   "titulo": "Nova linha de produção",
+   "porque": "Com 6 dias de caixa e juros subindo, investir agora é aumentar a dívida cara. Reavalie quando a margem bruta voltar a 40%."
+  },
+  {
+   "titulo": "Ampliar o time de vendas",
+   "porque": "O CAC está em R$ 5,8 mil e a receita por funcionário, em R$ 18,2 mil, dentro da faixa. Primeiro recupere margem nos clientes que já compram."
+  }
+ ],
+ "premissas": [
+  "A mão de obra da fábrica está dentro do CPV. Pessoal traz só administrativo, comercial e logística.",
+  "Receita por funcionário usa as 86 pessoas, produção incluída.",
+  "Número de vendas é a quantidade de pedidos faturados."
+ ],
+ "contador": [
+  "Os créditos de PIS, Cofins e ICMS sobre insumos e frete estão sendo todos aproveitados?",
+  "IR e CSLL: o painel usa 34% do lucro antes do IR. Qual é o valor da apuração real do trimestre, com adições e exclusões?",
+  "A depreciação de R$ 42 mil segue a taxa fiscal ou a vida útil real das máquinas?"
+ ]
+}
